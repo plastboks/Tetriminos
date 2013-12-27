@@ -5,26 +5,26 @@ Tetriminos is a small C and ncurses implementation of the Tetris game.
 
 About
 =====
-This small game gets a lot of inspiration from the Ctris game at http://www.hackl.dhs.org/ctris/
-Tetriminos will try to stay as true to the original game as possible.
+This small game gets a lot of inspiration from the Ctris game at http://www.hackl.dhs.org/ctris/.
+Tetriminos will try to stay as true to the original game as possible (meaning Alexey Pajitnovs 1984 Tetris).
 
 
 Features
 ========
 Part of this applications purpose is to teach the author some best practices in writing a C ncurses app. Therefor this app might have some unnecessary features just for the heck of it.
 A short list of features follows:
-    * Fully configurable trough config files.
-    * High scores saved in a SQL database (SQLite).
-    * Pause and stop game, continue upon start.
+  * Fully configurable trough config files.
+  * High scores saved in a SQL database (SQLite).
+  * Pause and stop game, continue upon start.
 
 
 Game play
 =========
 Small list of game play features follows:
-    * Level increment as score increments.
-    * Gravity with chain reactions (see section four one the wiki page).
-    * Configurable start level (easy, medium, hard).
-    * Small box indicating next block.
+  * Level increment as score increments.
+  * Gravity with chain reactions (see section four one the wiki page).
+  * Configurable start level (easy, medium, hard).
+  * Small box indicating next block.
 
 
 Compiling
