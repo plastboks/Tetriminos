@@ -17,3 +17,6 @@
 
 # Editor files
 *.swp
+
+# Binary files
+tetriminos
