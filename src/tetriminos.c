@@ -26,7 +26,14 @@
  *
  */
 
+#include "screens.h"
 
 int main(int argc, char *argv[]) 
 {
+    /* setup screen and colors */
+    screen_setup();
+    screen_colors();
+
+    screen_end();
+    return 0;
 }

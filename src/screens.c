@@ -29,3 +29,42 @@
 #include "colors.h"
 #include "screens.h"
 
+/**
+ * Setup function for ncurses.
+ *
+ * Returns nothing.
+ */
+void screen_setup()
+{
+    initscr();
+    curs_set(0);
+    cbreak();
+    nodelay(stdscr, true);
+}
+
+/**
+ * ncurses color setup.
+ *
+ * Returns nothing.
+ */
+void screen_colors()
+{
+    if (has_colors() == FALSE) {
+        endwin();
+        printf("Your terminal does not support colors\n");
+        exit(1);
+    }
+    start_color();
+}
+
+
+/**
+ * ncurses cleanup
+ *
+ * Returns nothing
+ */
+void screen_end()
+{
+    /* Clean up and end program, end routine */
+    endwin();
+}

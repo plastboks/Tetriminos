@@ -26,3 +26,12 @@
  *
  */
 
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ncurses.h>
+#include <fcntl.h>
+
+void screen_setup();
+void screen_colors();
+void screen_end();

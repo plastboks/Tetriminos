@@ -30,3 +30,5 @@
 #define VERSION 0.01
 
 #include "screens.h"
+
+int main(int, char *[]);
