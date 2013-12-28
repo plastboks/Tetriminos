@@ -29,6 +29,7 @@
 #include "colors.h"
 #include "screens.h"
 
+
 /**
  * Setup function for ncurses.
  *
@@ -57,7 +58,6 @@ void screen_colors()
     start_color();
 }
 
-
 /**
  * ncurses cleanup
  *
@@ -66,5 +66,7 @@ void screen_colors()
 void screen_end()
 {
     /* Clean up and end program, end routine */
+    clear();
+    curs_set(1);
     endwin();
 }
