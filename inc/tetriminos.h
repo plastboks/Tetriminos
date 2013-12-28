@@ -29,6 +29,9 @@
 #define _BSD_SOURCE
 #define VERSION 0.01
 
-#include "screens.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 int main(int, char *[]);

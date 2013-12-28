@@ -35,3 +35,5 @@
 void screen_setup();
 void screen_colors();
 void screen_end();
+void screen_init();
+WINDOW *screen_newwin(int height, int width, int starty, int startx);

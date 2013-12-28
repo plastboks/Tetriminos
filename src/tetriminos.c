@@ -30,9 +30,26 @@
 
 int main(int argc, char *argv[]) 
 {
+    char ch;
+    int life = 1;
+
     /* setup screen and colors */
     screen_setup();
     screen_colors();
+
+    /* init screen */
+    screen_init();
+
+    do {
+
+        ch = getch();
+        switch(ch) {
+            case 'q':
+                life = 0;
+                break;
+        }
+
+    } while (life == 1);
 
     screen_end();
     return 0;
