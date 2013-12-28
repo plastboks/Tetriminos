@@ -1,13 +1,13 @@
 /*
- * Tetriminos main source file.
+ * Tetriminos screen source file.
  *
- * @filename: tetriminos.c
+ * @filename: screens.c
  *
  * @version: 0.0.1
  *
  * @date: 2013-12-26
  *
- * @description: Tetriminos main program file
+ * @description: Tetriminos screen source code file.
  *
  * This file is part of Tetriminos.
  *
@@ -26,11 +26,6 @@
  *
  */
 
-#define _BSD_SOURCE
-#define VERSION 0.01
-
+#include "colors.h"
 #include "screens.h"
 
-int main(int argc, char *argv[]) 
-{
-}

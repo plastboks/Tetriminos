@@ -4,7 +4,7 @@ LFLAGS=-lncurses
 
 ODIR=obj
 
-_OBJ = tetriminos.o
+_OBJ = tetriminos.o screens.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 tetriminos: $(OBJ)
