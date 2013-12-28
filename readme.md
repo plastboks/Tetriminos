@@ -54,4 +54,5 @@ I will strive to make sure the master branch will be stable at all times.
 
 Sources
 =======
-    * Wikipage https://en.wikipedia.org/wiki/Tetris
+    * Wikipage: https://en.wikipedia.org/wiki/Tetris
+    * ncurses tutorial: http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html
