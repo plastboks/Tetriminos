@@ -26,3 +26,7 @@
  *
  */
 
+#define _BSD_SOURCE
+#define VERSION 0.01
+
+#include "screens.h"
