@@ -29,6 +29,27 @@
 #include "colors.h"
 #include "screens.h"
 
+/**
+ * Create ncurses window.
+ *
+ * @height      int height.
+ * @width       int width.
+ * @startx      int start x pos.
+ * @starty      int start y pos.
+ *
+ * Returns WINDOW.
+ */
+WINDOW *screen_newwin(int height, int width, int starty, int startx)
+{
+    WINDOW *local_win;
+
+    local_win = newwin(height, width, starty, startx);
+    box(local_win, 0, 0);
+    wrefresh(local_win);
+
+    return local_win;
+}
+
 
 /**
  * Setup function for ncurses.
@@ -72,46 +93,18 @@ void screen_end()
 }
 
 /**
- * Create ncurses window.
+ * Destroy window.
  *
- * @height      int height.
- * @width       int width.
- * @startx      int start x pos.
- * @starty      int start y pos.
- *
- * Returns WINDOW.
- */
-WINDOW *screen_newwin(int height, int width, int starty, int startx)
-{
-    WINDOW *local_win;
-
-    local_win = newwin(height, width, starty, startx);
-    box(local_win, 0, 0);
-
-    wrefresh(local_win);
-
-    return local_win;
-}
-
-
-/**
- * Screen init.
- *
- * This functions is only coded temporally. On a final stage this function
- * is meant to only initialize a screen based on global configs.
+ * @local_win       pointer to WINDOW.
  *
  * Returns nothing.
  */
-void screen_init()
+void screen_destroy(WINDOW *local_win)
 {
-    int startx, starty, width, height;
-
-    WINDOW *base_win;
-
-    height = 3;
-    width = 10;
-    starty = (LINES - height) / 2;
-    startx = (COLS - width) / 2;
-
-    base_win = screen_newwin(height, width, starty, startx);
+    wborder(local_win, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+    wrefresh(local_win);
+    delwin(local_win);
+    endwin();
+    refresh();
 }
+

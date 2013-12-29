@@ -30,15 +30,22 @@
 
 int main(int argc, char *argv[]) 
 {
+    WINDOW *base_win;
     char ch;
     int life = 1;
+    int startx, starty, width, height;
 
     /* setup screen and colors */
     screen_setup();
     screen_colors();
 
-    /* init screen */
-    screen_init();
+    height = 24;
+    width = 80;
+    starty = (LINES - height) / 2;
+    startx = (COLS - width) / 2;
+
+    refresh();
+    base_win = screen_newwin(height, width, starty, startx);
 
     do {
 
@@ -51,6 +58,7 @@ int main(int argc, char *argv[])
 
     } while (life == 1);
 
+    screen_destroy(base_win);
     screen_end();
     return 0;
 }
