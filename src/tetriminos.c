@@ -33,7 +33,8 @@ int main(int argc, char *argv[])
     WINDOW *base_win;
     char ch;
     int life = 1;
-    int startx, starty, width, height;
+    int width, height;
+    int coords[2];
 
     /* setup screen and colors */
     screen_setup();
@@ -41,11 +42,10 @@ int main(int argc, char *argv[])
 
     height = 24;
     width = 80;
-    starty = (LINES - height) / 2;
-    startx = (COLS - width) / 2;
 
     refresh();
-    base_win = screen_newwin(height, width, starty, startx);
+    coord_update(coords);
+    base_win = screen_newwin(height, width, coords);
 
     screen_welcome();
 

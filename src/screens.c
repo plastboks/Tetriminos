@@ -36,16 +36,15 @@
  *
  * @height      int height.
  * @width       int width.
- * @startx      int start x pos.
- * @starty      int start y pos.
+ * @coords      int coords array
  *
  * Returns WINDOW.
  */
-WINDOW *screen_newwin(int height, int width, int starty, int startx)
+WINDOW *screen_newwin(int height, int width, int coords[])
 {
     WINDOW *local_win;
 
-    local_win = newwin(height, width, starty, startx);
+    local_win = newwin(height, width, coords[1], coords[1]);
     box(local_win, 0, 0);
     wrefresh(local_win);
 
@@ -79,6 +78,19 @@ void screen_colors()
         exit(1);
     }
     start_color();
+}
+
+/**
+ * Update screen coords
+ *
+ * @cords       int array box coordinates.
+ * 
+ * Returns nothing.
+ */
+void coord_update(int coords[])
+{
+    coords[0] = (COLS) / 2;
+    coords[1] = (LINES) / 2; 
 }
 
 /**
