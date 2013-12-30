@@ -26,6 +26,7 @@
  *
  */
 
+#include "config.h"
 #include "screens.h"
 
 int main(int argc, char *argv[]) 
@@ -35,6 +36,9 @@ int main(int argc, char *argv[])
     int life = 1;
     int coords[2];
     int box_size[2] = {10, 78};
+
+    /* run config */
+    config_setup();
 
     /* setup screen and colors */
     screen_setup();
