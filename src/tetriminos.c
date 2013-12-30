@@ -44,7 +44,6 @@ int main(int argc, char *argv[])
     screen_setup();
     screen_colors();
 
-    refresh();
     screen_coord_update(box_size, coords);
     base_win = screen_newwin(box_size, coords);
 

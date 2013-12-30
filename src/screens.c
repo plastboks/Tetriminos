@@ -43,6 +43,7 @@ WINDOW *screen_newwin(int box_size[], int coords[])
 {
     WINDOW *local_win;
 
+    refresh();
     local_win = newwin(box_size[0], box_size[1], coords[1], coords[0]);
    
     /**
