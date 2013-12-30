@@ -28,6 +28,8 @@
 
 #include "colors.h"
 #include "screens.h"
+#include "logos.h"
+
 
 /**
  * Create ncurses window.
@@ -108,3 +110,15 @@ void screen_destroy(WINDOW *local_win)
     refresh();
 }
 
+
+/**
+ * Welcome screen
+ *
+ * Returns nothing
+ */
+void screen_welcome()
+{
+    for (int i = 0; i <=6; i++) {
+        mvprintw(26+i, 57, tetriminos_logo[i]);
+    }
+}

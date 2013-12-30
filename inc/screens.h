@@ -37,3 +37,5 @@ void screen_destroy(WINDOW *local_win);
 void screen_setup();
 void screen_colors();
 void screen_end();
+
+void screen_welcome();

@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
     refresh();
     base_win = screen_newwin(height, width, starty, startx);
 
+    screen_welcome();
+
     do {
 
         ch = getch();
