@@ -30,7 +30,6 @@
 #include "screens.h"
 #include "logos.h"
 
-
 /**
  * Create ncurses window.
  *
@@ -40,17 +39,30 @@
  *
  * Returns WINDOW.
  */
-WINDOW *screen_newwin(int height, int width, int coords[])
+WINDOW *screen_newwin(int box_size[], int coords[])
 {
     WINDOW *local_win;
 
-    local_win = newwin(height, width, coords[1], coords[1]);
+    local_win = newwin(box_size[0], box_size[1], coords[1], coords[0]);
+   
+    /**
+     * Set color and draw box.
+     */
+    wattron(local_win,COLOR_PAIR(2));
     box(local_win, 0, 0);
+    wattroff(local_win,COLOR_PAIR(2));
+
     wrefresh(local_win);
 
     return local_win;
 }
 
+
+/***********************************
+ * Some functions for controlling  *
+ * the screen, setup, colors, end, *
+ * destroy and such.               *
+ ***********************************/
 
 /**
  * Setup function for ncurses.
@@ -78,6 +90,10 @@ void screen_colors()
         exit(1);
     }
     start_color();
+
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_CYAN, COLOR_BLACK);
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
 }
 
 /**
@@ -87,10 +103,10 @@ void screen_colors()
  * 
  * Returns nothing.
  */
-void coord_update(int coords[])
+void screen_coord_update(int box_size[], int coords[])
 {
-    coords[0] = (COLS) / 2;
-    coords[1] = (LINES) / 2; 
+    coords[0] = (COLS - box_size[1]) / 2;
+    coords[1] = (LINES - box_size[0]) / 2; 
 }
 
 /**
@@ -123,14 +139,21 @@ void screen_destroy(WINDOW *local_win)
 }
 
 
+/**********************************
+ * Below follows functions which  *
+ * purpose is to print to screen.  *
+ **********************************/
+
 /**
  * Welcome screen
  *
  * Returns nothing
  */
-void screen_welcome()
+void screen_welcome(int coords[])
 {
+    attron(COLOR_PAIR(3));
     for (int i = 0; i <=6; i++) {
-        mvprintw(26+i, 57, tetriminos_logo[i]);
+        mvprintw(coords[1]+i+1, coords[0]+2, tetriminos_logo[i]);
     }
+    attroff(COLOR_PAIR(3));
 }

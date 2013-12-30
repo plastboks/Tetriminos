@@ -33,21 +33,18 @@ int main(int argc, char *argv[])
     WINDOW *base_win;
     char ch;
     int life = 1;
-    int width, height;
     int coords[2];
+    int box_size[2] = {10, 78};
 
     /* setup screen and colors */
     screen_setup();
     screen_colors();
 
-    height = 24;
-    width = 80;
-
     refresh();
-    coord_update(coords);
-    base_win = screen_newwin(height, width, coords);
+    screen_coord_update(box_size, coords);
+    base_win = screen_newwin(box_size, coords);
 
-    screen_welcome();
+    screen_welcome(coords);
 
     do {
 

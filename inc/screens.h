@@ -32,11 +32,11 @@
 #include <ncurses.h>
 #include <fcntl.h>
 
-WINDOW *screen_newwin(int height, int width, int coords[]);
+WINDOW *screen_newwin(int box_size[], int coords[]);
 void screen_destroy(WINDOW *local_win);
 void screen_setup();
 void screen_colors();
-void coord_update(int coords[]);
+void screen_coord_update(int box_size[], int coords[]);
 void screen_end();
 
-void screen_welcome();
+void screen_welcome(int coords[]);
