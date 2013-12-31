@@ -208,5 +208,15 @@ void screen_welcome(int coords[], bool effect)
  */
 void screen_menu(int coords[])
 {
-    mvprintw(coords[1]+2, coords[0]+2, "Menu be here.");
+    attron(COLOR_PAIR(3));
+    for (int i = 1; i <=3; i++) {
+        mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_tiny[i-1]);
+    }
+    attroff(COLOR_PAIR(3));
+    mvprintw(coords[1]+5, coords[0]+7, "-Main menu-");
+
+    mvprintw(coords[1]+8, coords[0]+3, "New game");
+    mvprintw(coords[1]+9, coords[0]+3, "Highscores");
+    mvprintw(coords[1]+10, coords[0]+3, "About");
+    mvprintw(coords[1]+11, coords[0]+3, "Quit");
 }
