@@ -163,6 +163,9 @@ void screen_welcome(int coords[], bool effect)
     int effect_color = 2;
     int effect_sleep = 50000;
 
+    mvprintw(coords[1]+10, coords[0]+2, "A Tetris clone by Alexander Skjolden");
+    mvprintw(coords[1]+10 ,coords[0]+64, "Version: %s", VERSION);
+
     attron(COLOR_PAIR(main_color));
     for (int i = 1; i <=7; i++) {
         mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
@@ -170,8 +173,6 @@ void screen_welcome(int coords[], bool effect)
     attroff(COLOR_PAIR(main_color));
     refresh();
 
-    mvprintw(coords[1]+10, coords[0]+2, "A Tetris clone by Alexander Skjolden");
-    mvprintw(coords[1]+10 ,coords[0]+64, "Version: %s", VERSION);
     
     /**
      * Do some fancy effect if true.
