@@ -35,6 +35,6 @@ struct {
     int menu_box_size[2];       /* menu box dimensions */
 } c = {
     /* set value */
-    {10, 78},
+    {9, 54},
     {15, 25}
 };

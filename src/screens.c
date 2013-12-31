@@ -164,12 +164,12 @@ void screen_welcome(int coords[], bool effect)
     int effect_color = 2;
     int effect_sleep = 50000;
 
-    mvprintw(coords[1]+10, coords[0]+2, "A Tetris clone by Alexander Skjolden");
-    mvprintw(coords[1]+10 ,coords[0]+64, "Version: %s", VERSION);
+    mvprintw(coords[1]+9, coords[0]+2, "A Tetris clone by Alexander Skjolden");
+    mvprintw(coords[1]-1 ,coords[0]+41, "Version: %s", VERSION);
 
     attron(COLOR_PAIR(main_color));
     for (int i = 1; i <=7; i++) {
-        mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
+        mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_small[i-1]);
     }
     attroff(COLOR_PAIR(main_color));
     refresh();
@@ -183,7 +183,7 @@ void screen_welcome(int coords[], bool effect)
         /* Do the effect */
         for (int i = 1; i <=7; i++) {
             attron(COLOR_PAIR(effect_color));
-            mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
+            mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_small[i-1]);
             attroff(COLOR_PAIR(effect_color));
             /* sleep a bit, and refresh */
             usleep(effect_sleep);
@@ -192,7 +192,7 @@ void screen_welcome(int coords[], bool effect)
         /* Restore it to the original state */
         for (int i = 1; i <=7; i++) {
             attron(COLOR_PAIR(main_color));
-            mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
+            mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_small[i-1]);
             attroff(COLOR_PAIR(main_color));
             /* sleep a bit, and refresh */
             usleep(effect_sleep);
