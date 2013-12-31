@@ -31,6 +31,7 @@
  */
 
 #define VERSION "0.0"
+#define SPLASH true
 #define BORDER_COLOR 2
 
 #include <stdio.h>
