@@ -49,10 +49,16 @@ int main(int argc, char *argv[])
     screen_setup();
     screen_colors();
 
-    screen_coord_update(c.box_size, coords, old_coords);
-    base_win = screen_newwin(c.box_size, coords);
 
-    screen_welcome(coords, true);
+    if (SPLASH) {
+        screen_coord_update(c.splash_box_size, coords, old_coords);
+        base_win = screen_newwin(c.splash_box_size, coords);
+        screen_welcome(coords, true);
+    }
+
+    screen_coord_update(c.menu_box_size, coords, old_coords);
+    base_win = screen_newwin(c.menu_box_size, coords);
+    screen_menu(coords);
 
     do {
 
@@ -66,11 +72,13 @@ int main(int argc, char *argv[])
         /**
          * Redraw window if resized.
          */
+        /* This causes some problems as of now, leave it out for later.
         if ((old_coords[1] != LINES) || (old_coords[0] != COLS)) {
             screen_coord_update(c.box_size, coords, old_coords);
             screen_destroy(base_win);
             base_win = screen_newwin(c.box_size, coords);
         }
+        */
 
     } while (life == 1);
 

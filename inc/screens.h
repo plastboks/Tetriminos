@@ -45,3 +45,4 @@ void screen_coord_update(int box_size[], int coords[], int old_coords[]);
 void screen_end();
 
 void screen_welcome(int coords[], bool effect);
+void screen_menu(int coords[]);

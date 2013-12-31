@@ -48,6 +48,7 @@ WINDOW *screen_newwin(int box_size[], int coords[])
 {
     WINDOW *local_win;
 
+    erase();
     refresh();
     local_win = newwin(box_size[0], box_size[1], coords[1], coords[0]);
    
@@ -198,4 +199,14 @@ void screen_welcome(int coords[], bool effect)
             refresh();
         }
     }
+}
+
+/**
+ * Welcome screen
+ *
+ * Returns nothing
+ */
+void screen_menu(int coords[])
+{
+    mvprintw(coords[1]+2, coords[0]+2, "Menu be here.");
 }

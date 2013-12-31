@@ -31,8 +31,10 @@
  */
 
 struct {
-    int box_size[2];                /* box dimensions */
+    int splash_box_size[2];     /* splash box dimensions */
+    int menu_box_size[2];       /* menu box dimensions */
 } c = {
     /* set value */
     {10, 78},
+    {15, 25}
 };
