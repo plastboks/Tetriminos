@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     screen_coord_update(box_size, coords);
     base_win = screen_newwin(box_size, coords);
 
-    screen_welcome(coords);
+    screen_welcome(coords, true);
 
     do {
 

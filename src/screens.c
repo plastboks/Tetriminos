@@ -150,11 +150,42 @@ void screen_destroy(WINDOW *local_win)
  *
  * Returns nothing
  */
-void screen_welcome(int coords[])
+void screen_welcome(int coords[], bool effect)
 {
-    attron(COLOR_PAIR(3));
-    for (int i = 0; i <=6; i++) {
-        mvprintw(coords[1]+i+1, coords[0]+2, tetriminos_logo[i]);
+    int main_color = 3;
+    int effect_color = 2;
+    int effect_sleep = 50000;
+
+    attron(COLOR_PAIR(main_color));
+    for (int i = 1; i <=7; i++) {
+        mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
     }
-    attroff(COLOR_PAIR(3));
+    attroff(COLOR_PAIR(main_color));
+    refresh();
+    
+    /**
+     * Do some fancy effect if true.
+     */
+    if (effect) {
+        usleep(effect_sleep);
+        /* Do the effect */
+        for (int i = 1; i <=7; i++) {
+            attron(COLOR_PAIR(effect_color));
+            mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
+            attroff(COLOR_PAIR(effect_color));
+
+            usleep(effect_sleep);
+            refresh();
+        }
+        /* Restore it to the original state */
+        for (int i = 1; i <=7; i++) {
+            attron(COLOR_PAIR(main_color));
+            mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
+            attroff(COLOR_PAIR(main_color));
+
+            usleep(effect_sleep);
+            refresh();
+        }
+    }
+
 }

@@ -25,6 +25,7 @@
  * along with Tetriminos.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+#define _BSD_SOURCE
 
 #include <unistd.h>
 #include <stdio.h>
@@ -39,4 +40,4 @@ void screen_colors();
 void screen_coord_update(int box_size[], int coords[]);
 void screen_end();
 
-void screen_welcome(int coords[]);
+void screen_welcome(int coords[], bool effect);
