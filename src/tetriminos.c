@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
         screen_coord_update(c.splash_box_size, coords, old_coords);
         base_win = screen_newwin(c.splash_box_size, coords);
         screen_welcome(coords, true);
+        sleep(1);
     }
 
     screen_coord_update(c.menu_box_size, coords, old_coords);
