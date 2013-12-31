@@ -37,7 +37,7 @@ WINDOW *screen_newwin(int box_size[], int coords[]);
 void screen_destroy(WINDOW *local_win);
 void screen_setup();
 void screen_colors();
-void screen_coord_update(int box_size[], int coords[]);
+void screen_coord_update(int box_size[], int coords[], int old_coords[]);
 void screen_end();
 
 void screen_welcome(int coords[], bool effect);

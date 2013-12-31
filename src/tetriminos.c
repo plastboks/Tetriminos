@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     char ch;
     int life = 1;
     int coords[2];
+    int old_coords[2];
     int box_size[2] = {10, 78};
 
     /* run config */
@@ -44,7 +45,7 @@ int main(int argc, char *argv[])
     screen_setup();
     screen_colors();
 
-    screen_coord_update(box_size, coords);
+    screen_coord_update(box_size, coords, old_coords);
     base_win = screen_newwin(box_size, coords);
 
     screen_welcome(coords, true);
@@ -56,6 +57,15 @@ int main(int argc, char *argv[])
             case 'q':
                 life = 0;
                 break;
+        }
+
+        /**
+         * Redraw window if resized.
+         */
+        if ((old_coords[1] != LINES) || (old_coords[0] != COLS)) {
+            screen_coord_update(box_size, coords, old_coords);
+            screen_destroy(base_win);
+            base_win = screen_newwin(box_size, coords);
         }
 
     } while (life == 1);

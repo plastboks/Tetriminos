@@ -104,10 +104,12 @@ void screen_colors()
  * 
  * Returns nothing.
  */
-void screen_coord_update(int box_size[], int coords[])
+void screen_coord_update(int box_size[], int coords[], int old_coords[])
 {
     coords[0] = (COLS - box_size[1]) / 2;
     coords[1] = (LINES - box_size[0]) / 2; 
+    old_coords[0] = COLS;
+    old_coords[1] = LINES;
 }
 
 /**
