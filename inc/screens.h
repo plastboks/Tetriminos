@@ -9,6 +9,10 @@
  *
  * @description: Tetriminos main screen header file
  *
+ * @author: Alexander Skjolden
+ *
+ * @webpage: https://github.com/plastboks/Tetriminos
+ *
  * This file is part of Tetriminos.
  *
  * Tetriminos is free software: you can redistribute it and/or modify
