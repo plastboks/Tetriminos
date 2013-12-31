@@ -173,7 +173,7 @@ void screen_welcome(int coords[], bool effect)
             attron(COLOR_PAIR(effect_color));
             mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
             attroff(COLOR_PAIR(effect_color));
-
+            /* sleep a bit, and refresh */
             usleep(effect_sleep);
             refresh();
         }
@@ -182,10 +182,9 @@ void screen_welcome(int coords[], bool effect)
             attron(COLOR_PAIR(main_color));
             mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo[i-1]);
             attroff(COLOR_PAIR(main_color));
-
+            /* sleep a bit, and refresh */
             usleep(effect_sleep);
             refresh();
         }
     }
-
 }
