@@ -29,6 +29,7 @@
 #include "colors.h"
 #include "screens.h"
 #include "logos.h"
+#include "config.h"
 
 /**
  * Create ncurses window.
@@ -49,9 +50,9 @@ WINDOW *screen_newwin(int box_size[], int coords[])
     /**
      * Set color and draw box.
      */
-    wattron(local_win,COLOR_PAIR(2));
+    wattron(local_win,COLOR_PAIR(BORDER_COLOR));
     box(local_win, 0, 0);
-    wattroff(local_win,COLOR_PAIR(2));
+    wattroff(local_win,COLOR_PAIR(BORDER_COLOR));
 
     wrefresh(local_win);
 
@@ -164,6 +165,9 @@ void screen_welcome(int coords[], bool effect)
     }
     attroff(COLOR_PAIR(main_color));
     refresh();
+
+    mvprintw(coords[1]+10, coords[0]+2, "A Tetris clone by Alexander Skjolden");
+    mvprintw(coords[1]+10 ,coords[0]+64, "Version: %s", VERSION);
     
     /**
      * Do some fancy effect if true.

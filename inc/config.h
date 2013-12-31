@@ -26,6 +26,9 @@
  *
  */
 
+#define VERSION "0.0"
+#define BORDER_COLOR 2
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
