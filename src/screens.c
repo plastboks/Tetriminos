@@ -64,6 +64,50 @@ WINDOW *screen_newwin(int box_size[], int coords[])
     return local_win;
 }
 
+/**
+ * Draw the main menu.
+ *
+ * @coords      int array coordinates.
+ *
+ * Returns WINDOW
+ */
+WINDOW **draw_main_menu(int coords[])
+{
+    WINDOW **items;
+    items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
+
+    mvprintw(coords[1]+5, coords[0]+7, "-Main menu-");
+
+    items[0] = newwin(7, 21, coords[1]+6, coords[0]+2);
+    wbkgd(items[0], COLOR_PAIR(1));
+    box(items[0], ACS_VLINE, ACS_HLINE);
+
+    /* first item */
+    items[1]=subwin(items[0], 1, 15, coords[1]+7, coords[0]+3);
+    wprintw(items[1], "New game", 1);
+
+    /* second item */
+    items[2]=subwin(items[0], 1, 15, coords[1]+8, coords[0]+3);
+    wprintw(items[2], "Continue game", 1);
+
+    /* third item */
+    items[3]=subwin(items[0], 1, 15, coords[1]+9, coords[0]+3);
+    wprintw(items[3], "Highscores", 1);
+
+    /* fourth item */
+    items[4]=subwin(items[0], 1, 15, coords[1]+10, coords[0]+3);
+    wprintw(items[4], "About", 1);
+
+    /* fifth item */
+    items[5]=subwin(items[0], 1, 15, coords[1]+11, coords[0]+3);
+    wprintw(items[5], "Quit", 1);
+
+    wbkgd(items[1],COLOR_PAIR(0));
+    wrefresh(items[0]);
+
+    return items;
+}
+
 
 /***********************************
  * Some functions for controlling  *
@@ -208,15 +252,15 @@ void screen_welcome(int coords[], bool effect)
  */
 void screen_menu(int coords[])
 {
+    //WINDOW **menu;
+
     attron(COLOR_PAIR(3));
     for (int i = 1; i <=3; i++) {
         mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_tiny[i-1]);
     }
     attroff(COLOR_PAIR(3));
-    mvprintw(coords[1]+5, coords[0]+7, "-Main menu-");
+    refresh();
 
-    mvprintw(coords[1]+8, coords[0]+3, "New game");
-    mvprintw(coords[1]+9, coords[0]+3, "Highscores");
-    mvprintw(coords[1]+10, coords[0]+3, "About");
-    mvprintw(coords[1]+11, coords[0]+3, "Quit");
+    //menu = draw_main_menu(coords);
+    draw_main_menu(coords);
 }

@@ -38,6 +38,8 @@
 #include <fcntl.h>
 
 WINDOW *screen_newwin(int box_size[], int coords[]);
+WINDOW **draw_menu(int coords[]);
+
 void screen_destroy(WINDOW *local_win);
 void screen_setup();
 void screen_colors();
