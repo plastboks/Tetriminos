@@ -108,6 +108,71 @@ WINDOW **draw_main_menu(int coords[])
     return items;
 }
 
+/**
+ * Scroll main menu function. Returns chosen menu.
+ *
+ * @items           WINDOW items
+ * @count           int for using as modulus.
+ *
+ * Returns selected.
+ */
+int scroll_main_menu(WINDOW **items, int count)
+{
+    int selected = 0;
+
+    while (1) {
+        switch(wgetch(stdscr)) {
+            case KEY_DOWN:
+            case 'j':
+                selected = (selected +1) % count;
+                wbkgd(items[selected], COLOR_PAIR(1));
+                wnoutrefresh(items[selected]);
+                wbkgd(items[selected +1], COLOR_PAIR(0));
+                wnoutrefresh(items[selected +1]);
+                doupdate();
+                break;
+            case KEY_UP:
+            case 'k':
+                wbkgd(items[selected+1], COLOR_PAIR(1));
+                wnoutrefresh(items[selected+1]);
+                selected = (selected + count -1) % count;
+                wbkgd(items[selected +1],COLOR_PAIR(0));
+                wnoutrefresh(items[selected +1]);
+                doupdate();
+                break;
+            case KEY_ENTER:
+            case ' ':
+            case '\n':
+                return selected;
+        }
+        usleep(5000);
+    }
+}
+
+/**
+ * Welcome screen
+ *
+ * @coords          int array of coordinates.
+ *
+ * Returns nothing
+ */
+int screen_menu(int coords[])
+{
+    WINDOW **menu;
+    int selected_item;
+
+    attron(COLOR_PAIR(3));
+    for (int i = 1; i <=3; i++) {
+        mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_tiny[i-1]);
+    }
+    attroff(COLOR_PAIR(3));
+    refresh();
+
+    menu = draw_main_menu(coords);
+    selected_item = scroll_main_menu(menu, 5);
+
+    return selected_item;
+}
 
 /***********************************
  * Some functions for controlling  *
@@ -125,7 +190,9 @@ void screen_setup()
     initscr();
     curs_set(0);
     cbreak();
+    noecho();
     nodelay(stdscr, true);
+    keypad(stdscr, true);
 }
 
 /**
@@ -243,24 +310,4 @@ void screen_welcome(int coords[], bool effect)
             refresh();
         }
     }
-}
-
-/**
- * Welcome screen
- *
- * Returns nothing
- */
-void screen_menu(int coords[])
-{
-    //WINDOW **menu;
-
-    attron(COLOR_PAIR(3));
-    for (int i = 1; i <=3; i++) {
-        mvprintw(coords[1]+i, coords[0]+2, tetriminos_logo_tiny[i-1]);
-    }
-    attroff(COLOR_PAIR(3));
-    refresh();
-
-    //menu = draw_main_menu(coords);
-    draw_main_menu(coords);
 }
