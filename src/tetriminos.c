@@ -37,10 +37,10 @@
 int main(int argc, char *argv[]) 
 {
     WINDOW *base_win;
-    char ch;
     int life = 1;
     int coords[2];
     int old_coords[2];
+    int screen;
 
     /* run config */
     config_setup();
@@ -59,17 +59,17 @@ int main(int argc, char *argv[])
 
     screen_coord_update(c.menu_box_size, coords, old_coords);
     base_win = screen_newwin(c.menu_box_size, coords);
-    screen_menu(coords);
+
+    screen = screen_menu(coords);
 
     do {
 
-        ch = getch();
-        switch(ch) {
-            case 'q':
+        switch(screen) {
+            case 4:
                 life = 0;
                 break;
         }
-
+        
         /**
          * Redraw window if resized.
          */
