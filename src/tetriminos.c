@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     int life = 1;
     int coords[2];
     int old_coords[2];
-    int screen;
+    int screen = -1;
 
     /* run config */
     config_setup();
@@ -60,11 +60,17 @@ int main(int argc, char *argv[])
     screen_coord_update(c.menu_box_size, coords, old_coords);
     base_win = screen_newwin(c.menu_box_size, coords);
 
-    screen = screen_menu(coords);
-
     do {
 
         switch(screen) {
+            case -1:
+            /* Temporarily catching all results as of now */
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                screen = screen_menu(coords);
+                break;
             case 4:
                 life = 0;
                 break;
