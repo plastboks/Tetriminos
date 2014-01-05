@@ -156,10 +156,12 @@ int scroll_main_menu(WINDOW **items, int count)
  *
  * Returns nothing
  */
-int screen_menu(int coords[])
+int screen_menu(int box_size[], int coords[])
 {
     WINDOW **menu;
     int selected_item;
+
+    screen_newwin(box_size, coords);
 
     attron(COLOR_PAIR(3));
     for (int i = 1; i <=3; i++) {
@@ -174,11 +176,30 @@ int screen_menu(int coords[])
     return selected_item;
 }
 
-/***********************************
- * Some functions for controlling  *
- * the screen, setup, colors, end, *
- * destroy and such.               *
- ***********************************/
+/**
+ * About screen
+ *
+ * @box_size        int box size array.
+ * @coords          int box placement coords.
+ * @text            char text for about box.
+ *
+ * Returns -1 for main menu.
+ */
+int screen_about(int box_size[], int coords[], char text[][50])
+{
+    screen_newwin(box_size, coords);
+
+    for (int i = 1; i <= sizeof(text); i++) {
+        mvprintw(coords[1]+i, coords[0]+2, text[i-1]);
+    }
+
+    mvprintw(coords[1]+20, coords[0]+1, "Press 'q' to go back");
+    do {
+        usleep(5000);
+    } while (getch() != 'q');
+
+    return -1;
+}
 
 /**
  * Setup function for ncurses.
@@ -257,12 +278,6 @@ void screen_destroy(WINDOW *local_win)
     endwin();
     refresh();
 }
-
-
-/**********************************
- * Below follows functions which  *
- * purpose is to print to screen.  *
- **********************************/
 
 /**
  * Welcome screen

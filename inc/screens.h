@@ -40,8 +40,9 @@
 WINDOW *screen_newwin(int box_size[], int coords[]);
 WINDOW **draw_menu(int coords[]);
 
-int screen_menu(int coords[]);
 int scroll_main_menu(WINDOW **items, int count);
+int screen_menu(int box_size[], int coords[]);
+int screen_about(int box_size[], int coords[], char text[][50]);
 
 void screen_destroy(WINDOW *local_win);
 void screen_setup();
