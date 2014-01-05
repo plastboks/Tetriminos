@@ -57,8 +57,6 @@ int main(int argc, char *argv[])
         sleep(1);
     }
 
-    screen_coord_update(c.menu_box_size, coords, old_coords);
-    base_win = screen_newwin(c.menu_box_size, coords);
 
     do {
 
@@ -68,8 +66,12 @@ int main(int argc, char *argv[])
             case 0:
             case 1:
             case 2:
+                screen_coord_update(c.menu_box_size, coords, old_coords);
+                screen = screen_menu(c.menu_box_size, coords);
+                break;
             case 3:
-                screen = screen_menu(coords);
+                screen_coord_update(c.about_box_size, coords, old_coords);
+                screen = screen_about(c.about_box_size, coords, texts.about);
                 break;
             case 4:
                 life = 0;
