@@ -33,8 +33,25 @@
 struct {
     int splash_box_size[2];     /* splash box dimensions */
     int menu_box_size[2];       /* menu box dimensions */
+    int about_box_size[2];      /* about box dimensions */
 } c = {
     /* set value */
-    {9, 54},
-    {14, 25}
+    {9, 54},    /* splash box */
+    {14, 25},   /* menu box */
+    {20, 44}    /* about box */
+};
+
+struct {
+    char about[10][50];
+} texts = {
+    { /*about text */
+        {"Tetriminos."},
+        {""},
+        {"Tetriminos is a tetris clone made by"},
+        {"Plastboks."},
+        {"Tetriminos source code can be viewed"},
+        {"https://github.com/plastboks/Tetriminos"},
+        {""},
+        {"Tetriminos is licensed under GPL v3."}
+    }
 };
