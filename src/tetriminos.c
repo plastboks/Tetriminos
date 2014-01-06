@@ -32,6 +32,7 @@
 
 #include "config.h"
 #include "structs.h"
+#include "game.h"
 #include "screens.h"
 
 int main(int argc, char *argv[]) 
@@ -63,11 +64,14 @@ int main(int argc, char *argv[])
         switch(screen) {
             case -1:
             /* Temporarily catching all results as of now */
-            case 0:
             case 1:
             case 2:
                 screen_coord_update(c.menu_box_size, coords, old_coords);
                 screen = screen_menu(c.menu_box_size, coords);
+                break;
+            case 0:
+                screen_coord_update(c.game_box_size, coords, old_coords);
+                screen = game_play(c.game_box_size, coords);
                 break;
             case 3:
                 screen_coord_update(c.about_box_size, coords, old_coords);
