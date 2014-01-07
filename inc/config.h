@@ -38,6 +38,5 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <libconfig.h>
 
 void config_setup();
