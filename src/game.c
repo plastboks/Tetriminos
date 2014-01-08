@@ -71,18 +71,22 @@ WINDOW **draw_game_boxes(int coords[])
     refresh();
 
     items[0] = newwin(20, 34, coords[1], coords[0]);
-    wbkgd(items[0], COLOR_PAIR(1));
+    mvprintw(coords[1]-1, coords[0]+9, "- Tetriminos -");
+    wbkgd(items[0], COLOR_PAIR(BORDER_COLOR));
+    box(items[0], ACS_VLINE, ACS_HLINE);
 
     /* game window */
-    items[1]=subwin(items[0], 19, 20, coords[1]+1, coords[0]+1);
+    items[1]=subwin(items[0], 18, 20, coords[1]+1, coords[0]+1);
     box(items[1], ACS_VLINE, ACS_HLINE);
 
     /* next brick */
-    items[2]=subwin(items[0], 5, 10, coords[1]+1, coords[0]+22);
+    mvprintw(coords[1]+1, coords[0]+22, "Next");
+    items[2]=subwin(items[0], 5, 10, coords[1]+2, coords[0]+22);
     box(items[2], ACS_VLINE, ACS_HLINE);
 
     /* scores */
-    items[3]=subwin(items[0], 5, 10, coords[1]+10, coords[0]+22);
+    mvprintw(coords[1]+10, coords[0]+22, "Score");
+    items[3]=subwin(items[0], 5, 10, coords[1]+11, coords[0]+22);
     box(items[3], ACS_VLINE, ACS_HLINE);
 
     wbkgd(items[1],COLOR_PAIR(0));
