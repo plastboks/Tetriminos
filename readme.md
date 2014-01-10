@@ -55,7 +55,7 @@ I will strive to make sure the master branch will be stable at all times.
 
 Sources and inspiration
 =======================
-    * Wikipage: https://en.wikipedia.org/wiki/Tetris
-    * ncurses tutorial: http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html
-    * ctris: http://www.hackl.dhs.org/ctris/
-    * vitetris: http://www.victornils.net/tetris
+    * [Wikipage](https://en.wikipedia.org/wiki/Tetris)
+    * [ncurses tutorial](http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html)
+    * [ctris](http://www.hackl.dhs.org/ctris/)
+    * [vitetris](http://www.victornils.net/tetris)
