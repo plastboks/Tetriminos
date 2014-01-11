@@ -77,16 +77,19 @@ WINDOW **draw_game_boxes(int coords[])
 
     /* game window */
     items[1]=subwin(items[0], 18, 20, coords[1]+1, coords[0]+1);
+    wbkgd(items[1], COLOR_PAIR(4));
     box(items[1], ACS_VLINE, ACS_HLINE);
 
     /* next brick */
-    mvprintw(coords[1]+1, coords[0]+22, "Next");
+    mvprintw(coords[1]+1, coords[0]+22, "Next brick");
     items[2]=subwin(items[0], 5, 10, coords[1]+2, coords[0]+22);
+    wbkgd(items[2], COLOR_PAIR(5));
     box(items[2], ACS_VLINE, ACS_HLINE);
 
     /* scores */
     mvprintw(coords[1]+10, coords[0]+22, "Score");
     items[3]=subwin(items[0], 5, 10, coords[1]+11, coords[0]+22);
+    wbkgd(items[3], COLOR_PAIR(6));
     box(items[3], ACS_VLINE, ACS_HLINE);
 
     wbkgd(items[1],COLOR_PAIR(0));
