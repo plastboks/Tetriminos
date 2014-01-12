@@ -65,35 +65,52 @@ WINDOW *game_newwin(int box_size[], int coords[])
 WINDOW **draw_game_boxes(int coords[])
 {
     WINDOW **items;
-    items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
+    int main_window = 0;
+    int game_board = 1;
+    int next_brick = 2;
+    int high_score = 3;
 
+    /* main window size */
+    int mw_size[2] = {20, 34};
+    /* game board size */
+    int gb_size[2] = {18, 20};
+    /* next brick size */
+    int nb_size[2] = {5, 10};
+    /* high score size */
+    int hs_size[2] = {5, 10};
+
+    items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
     erase();
     refresh();
 
-    items[0] = newwin(20, 34, coords[1], coords[0]);
-    mvprintw(coords[1]-1, coords[0]+9, "- Tetriminos -");
-    wbkgd(items[0], COLOR_PAIR(BORDER_COLOR));
-    box(items[0], ACS_VLINE, ACS_HLINE);
+    items[main_window] = newwin(mw_size[0], mw_size[1], coords[1], coords[0]);
+    box(items[main_window], ACS_VLINE, ACS_HLINE);
 
     /* game window */
-    items[1]=subwin(items[0], 18, 20, coords[1]+1, coords[0]+1);
-    wbkgd(items[1], COLOR_PAIR(4));
-    box(items[1], ACS_VLINE, ACS_HLINE);
+    items[game_board]=subwin(items[main_window], gb_size[0], gb_size[1], coords[1]+1, coords[0]+1);
+    box(items[game_board], ACS_VLINE, ACS_HLINE);
 
     /* next brick */
-    mvprintw(coords[1]+1, coords[0]+22, "Next brick");
-    items[2]=subwin(items[0], 5, 10, coords[1]+2, coords[0]+22);
-    wbkgd(items[2], COLOR_PAIR(5));
-    box(items[2], ACS_VLINE, ACS_HLINE);
+    items[next_brick]=subwin(items[main_window], nb_size[0], nb_size[1], coords[1]+2, coords[0]+22);
+    box(items[next_brick], ACS_VLINE, ACS_HLINE);
 
     /* scores */
-    mvprintw(coords[1]+10, coords[0]+22, "Score");
-    items[3]=subwin(items[0], 5, 10, coords[1]+11, coords[0]+22);
-    wbkgd(items[3], COLOR_PAIR(6));
-    box(items[3], ACS_VLINE, ACS_HLINE);
+    items[high_score]=subwin(items[main_window], hs_size[0], hs_size[1], coords[1]+11, coords[0]+22);
+    box(items[high_score], ACS_VLINE, ACS_HLINE);
 
-    wbkgd(items[1],COLOR_PAIR(0));
-    wrefresh(items[0]);
+    /* colors */
+    wbkgd(items[main_window], COLOR_PAIR(BORDER_COLOR));
+    wbkgd(items[game_board], COLOR_PAIR(4));
+    wbkgd(items[next_brick], COLOR_PAIR(5));
+    wbkgd(items[high_score], COLOR_PAIR(6));
+
+    /* static texts */
+    mvprintw(coords[1]-1, coords[0]+9, "- Tetriminos -");
+    mvprintw(coords[1]+1, coords[0]+22, "Next brick");
+    mvprintw(coords[1]+10, coords[0]+22, "Score");
+
+    /* do one last refresh */
+    wrefresh(items[main_window]);
 
     return items;
 }
