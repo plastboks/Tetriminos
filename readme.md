@@ -59,3 +59,5 @@ Sources and inspiration
   * [ncurses tutorial](http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html)
   * [ctris](http://www.hackl.dhs.org/ctris/)
   * [vitetris](http://www.victornils.net/tetris)
+  * [libini](http://sourceforge.net/projects/libini/)
+  * [SO question regarding parsers](http://stackoverflow.com/questions/1417765/parse-config-file-in-c-c)
