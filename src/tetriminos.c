@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
     screen_setup();
     screen_colors();
 
-
     if (SPLASH) {
         screen_coord_update(c.splash_box_size, coords, old_coords);
         base_win = screen_newwin(c.splash_box_size, coords);
@@ -58,9 +57,7 @@ int main(int argc, char *argv[])
         sleep(1);
     }
 
-
     do {
-
         switch(screen) {
             case -1:
             /* Temporarily catching all results as of now */
@@ -81,7 +78,6 @@ int main(int argc, char *argv[])
                 life = 0;
                 break;
         }
-        
         /**
          * Redraw window if resized.
          */
@@ -92,7 +88,6 @@ int main(int argc, char *argv[])
             base_win = screen_newwin(c.box_size, coords);
         }
         */
-
     } while (life == 1);
 
     screen_destroy(base_win);
