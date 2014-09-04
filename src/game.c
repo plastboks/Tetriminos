@@ -120,7 +120,7 @@ WINDOW **draw_game_boxes(int coords[])
  *
  * @coords          int array of coordinates.
  *
- * Returns nothing
+ * Returns int
  */
 int game_play(int box_size[], int coords[])
 {

@@ -29,3 +29,7 @@
  * along with Tetriminos.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#include <stdbool.h>
+
+void rotate(int brick[4][4], bool dir);

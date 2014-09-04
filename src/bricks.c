@@ -35,8 +35,11 @@
 /**
  * Brick definitions.
  * Borrowed from Ctris http://www.hackl.dhs.org/ctris/
+ *
+ * 1: identifies environmental brick.
+ * 2: identifies gravity brick.
  */
-char brick_digit[7][4][4] =
+int brick_digit[7][4][4] =
 {
     {
         {0, 1, 0, 0},
@@ -82,3 +85,33 @@ char brick_digit[7][4][4] =
     }
 };
 
+/**
+ * Change direction for current brick
+ *
+ * @brick     char brick[4][4] - current brick
+ * @dir       bool dir - direction
+ *
+ * Returns nothing
+ */
+void rotate(int brick[4][4], bool dir) {
+
+    int x,y;
+    int new_brick[4][4];
+
+    for (y=0; y<4; y++) {
+        for (x=0; x<4; x++) {
+            if (dir) {
+                // clockwise
+                new_brick[y][x] = brick[3 - x][y]; 
+            } else { 
+                // counter clockwise
+                new_brick[y][x] = brick[x][3 - y]; 
+            }
+        }
+    }
+
+    /**
+     * This functions has now rotated the brick, but it has not
+     * taken account to the gravity point.
+     */
+}
