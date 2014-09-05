@@ -36,8 +36,8 @@
  * Brick definitions.
  * Borrowed from Ctris http://www.hackl.dhs.org/ctris/
  *
- * 1: identifies environmental brick.
- * 2: identifies gravity brick.
+ * 1: identifies the normal bricks.
+ * 2: identifies the gravity brick(s).
  */
 int brick_digit[7][4][4] =
 {
@@ -112,6 +112,20 @@ void rotate(int brick[4][4], bool dir) {
 
     /**
      * This functions has now rotated the brick, but it has not
-     * taken account to the gravity point.
+     * taken account to the gravity point so the brick is now 
+     * displaced.
      */
+    int foo[2] = {0,0};
+    shift_brick(new_brick, foo);
+}
+
+/**
+ * Shift the brick to fix the rotation error.
+ *
+ * @brick           int brick, pointer to the faulty brick.
+ * @old_gravity     int, [x,y] array identifying old gravity point.
+ *
+ * Returns nothing
+ */
+void shift_brick(int brick[4][4], int old_gravity[2]) {
 }
