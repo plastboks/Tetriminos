@@ -32,5 +32,6 @@
 
 #include <stdbool.h>
 
-void rotate(int brick[4][4], bool dir);
-void shift_brick(int brick[4][4], int old_gravity[2]);
+void rotate(char brick[4][4], bool dir);
+void find_gravity(char brick[4][4], char gravity_index[2]);
+void shift_brick(char brick[4][4], char old_gravity[2]);

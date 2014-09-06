@@ -39,7 +39,7 @@
  * 1: identifies the normal bricks.
  * 2: identifies the gravity brick(s).
  */
-int brick_digit[7][4][4] =
+char brick_digit[7][4][4] =
 {
     {
         {0, 1, 0, 0},
@@ -93,10 +93,10 @@ int brick_digit[7][4][4] =
  *
  * Returns nothing
  */
-void rotate(int brick[4][4], bool dir) {
+void rotate(char brick[4][4], bool dir) {
 
-    int x,y;
-    int new_brick[4][4];
+    unsigned char x,y;
+    char new_brick[4][4];
 
     for (y=0; y<4; y++) {
         for (x=0; x<4; x++) {
@@ -115,8 +115,31 @@ void rotate(int brick[4][4], bool dir) {
      * taken account to the gravity point so the brick is now 
      * displaced.
      */
-    int foo[2] = {0,0};
-    shift_brick(new_brick, foo);
+    char old_gravity[2];
+    find_gravity(brick, old_gravity);
+    shift_brick(new_brick, old_gravity);
+}
+
+/**
+ * Find gravity point of input brick. Place the coordinates in
+ * the gravity_index array.
+ *
+ * @brick           int brick, pointer to the faulty brick.
+ * @gravity_index   int, [x,y] array identifying gravity point.
+ *
+ * Returns nothing.
+ */
+void find_gravity(char brick[4][4], char gravity_index[2])
+{
+    unsigned char i,n;
+    for(i = 0; i < 4; i++) {
+        for(n = 0; n < 4 && brick[i][n] != 2; n++);
+        if(n < 4) {
+            gravity_index[0] = n;
+            gravity_index[1] = i;
+            return;
+        }
+    }
 }
 
 /**
@@ -127,5 +150,5 @@ void rotate(int brick[4][4], bool dir) {
  *
  * Returns nothing
  */
-void shift_brick(int brick[4][4], int old_gravity[2]) {
+void shift_brick(char brick[4][4], char old_gravity[2]) {
 }
