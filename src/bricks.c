@@ -31,6 +31,7 @@
  */
 
 #include "bricks.h"
+#include "tetriminos.h"
 
 /**
  * Brick definitions.
@@ -93,31 +94,36 @@ char brick_digit[7][4][4] =
  *
  * Returns nothing
  */
-void rotate(char brick[4][4], bool dir) {
+void brick_rotate(char brick[4][4], bool dir) {
 
     unsigned char x,y;
-    char new_brick[4][4];
+    char tmp_brick[4][4];
 
     for (y=0; y<4; y++) {
         for (x=0; x<4; x++) {
             if (dir) {
                 // clockwise
-                new_brick[y][x] = brick[3 - x][y]; 
+                tmp_brick[y][x] = brick[3 - x][y]; 
             } else { 
                 // counter clockwise
-                new_brick[y][x] = brick[x][3 - y]; 
+                tmp_brick[y][x] = brick[x][3 - y]; 
             }
         }
     }
+
+    /* get the old bricks gravity */
+    char old_gravity[2];
+    brick_gravity(brick, old_gravity);
+
+    /* copy tmp_brick over to brick */
+    memcpy(brick, tmp_brick, sizeof(char)*4*4);
 
     /**
      * This functions has now rotated the brick, but it has not
      * taken account to the gravity point so the brick is now 
      * displaced.
      */
-    char old_gravity[2];
-    find_gravity(brick, old_gravity);
-    shift_brick(new_brick, old_gravity);
+    brick_shift(brick, old_gravity);
 }
 
 /**
@@ -129,7 +135,7 @@ void rotate(char brick[4][4], bool dir) {
  *
  * Returns nothing.
  */
-void find_gravity(char brick[4][4], char gravity_index[2])
+void brick_gravity(char brick[4][4], char gravity_index[2])
 {
     unsigned char i,n;
     for(i = 0; i < 4; i++) {
@@ -150,5 +156,20 @@ void find_gravity(char brick[4][4], char gravity_index[2])
  *
  * Returns nothing
  */
-void shift_brick(char brick[4][4], char old_gravity[2]) {
+void brick_shift(char brick[4][4], char old_gravity[2]) {
+    char new_gravity[2];
+    brick_gravity(brick, new_gravity);
+
+    /**
+     * Just some debugging spam, soon to be gone.
+     */
+    printf("Old gravity: [%d, %d]\n", old_gravity[0], old_gravity[1]);
+    printf("New gravity: [%d, %d]\n", new_gravity[0], new_gravity[1]);
+
+    if (old_gravity[0] != new_gravity[0]) {
+        printf("of by %d on the x axis\n", new_gravity[0]-old_gravity[0]);
+    }
+    if (old_gravity[1] != new_gravity[1]) {
+        printf("of by %d on the y axis\n", new_gravity[1]-old_gravity[1]);
+    }
 }
