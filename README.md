@@ -29,7 +29,16 @@ Small list of game play features follows:
 
 Compiling
 =========
-Compiling this program is simply done by: `make`.
+Compiling this program is simply done by: 
+  * `make`
+  * `./tetriminos`
+
+
+Testing / Debugging
+===================
+Tetriminos does not fully integrate a test framework like [Check](http://check.sourceforge.net/) or [CuTest](http://cutest.sourceforge.net/). Hopefully this will get done in the future.
+For now some small ad hoc programs have been created for this purpose. They can be found in the Makefile file.
+  * `make brick_test` and run `brick_test`
 
 
 Install
