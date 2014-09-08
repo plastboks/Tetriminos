@@ -43,7 +43,7 @@ void label_printer()
     printf("\n#                                #");
     printf("\n# Commands:                      #");
     printf("\n# 'r' - rotate clockwise         #");
-    printf("\n# 'r' - rotate counter clockwise #");
+    printf("\n# 'c' - rotate counter clockwise #");
     printf("\n# 'n' - next brick               #");
     printf("\n# 'q' - exit                     #");
     printf("\n#                                #");
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
                 brick_rotate(cur_brick, true);
                 brick_printer(cur_brick);
                 break;
-            case 'e':
+            case 'c':
                 printf("Rotate Counter clockwise\n");
                 brick_rotate(cur_brick, false);
                 brick_printer(cur_brick);
