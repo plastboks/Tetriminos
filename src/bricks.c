@@ -123,7 +123,7 @@ void brick_rotate(char brick[4][4], bool dir) {
      * taken account to the gravity point so the brick is now 
      * displaced.
      */
-    brick_shift(brick, old_gravity);
+    brick_shift_check(brick, old_gravity);
 }
 
 /**
@@ -133,7 +133,7 @@ void brick_rotate(char brick[4][4], bool dir) {
  * @brick           int brick, pointer to the faulty brick.
  * @gravity_index   int, [x,y] array identifying gravity point.
  *
- * Returns nothing.
+ * Returns nothing, modifies gravity_index;
  */
 void brick_gravity(char brick[4][4], char gravity_index[2])
 {
@@ -154,22 +154,67 @@ void brick_gravity(char brick[4][4], char gravity_index[2])
  * @brick           int brick, pointer to the faulty brick.
  * @old_gravity     int, [x,y] array identifying old gravity point.
  *
- * Returns nothing
+ * Returns nothing, modifies brick array.
  */
-void brick_shift(char brick[4][4], char old_gravity[2]) {
+void brick_shift_check(char brick[4][4], char old_gravity[2]) {
     char new_gravity[2];
     brick_gravity(brick, new_gravity);
 
-    /**
-     * Just some debugging spam, soon to be gone.
-     */
-    printf("Old gravity: [%d, %d]\n", old_gravity[0], old_gravity[1]);
-    printf("New gravity: [%d, %d]\n", new_gravity[0], new_gravity[1]);
-
     if (old_gravity[0] != new_gravity[0]) {
-        printf("of by %d on the x axis\n", new_gravity[0]-old_gravity[0]);
+        /* x axis */
+        brick_shift_right(brick, new_gravity[0]-old_gravity[0]);
+    } else if (old_gravity[1] != new_gravity[1]) {
+        /* y axis */
+        brick_shift_up(brick, new_gravity[1]-old_gravity[1]);
     }
-    if (old_gravity[1] != new_gravity[1]) {
-        printf("of by %d on the y axis\n", new_gravity[1]-old_gravity[1]);
+}
+
+/**
+ * Shift the brick array matrix up count number of times on the
+ * x axis
+ *
+ * @brick           int brick, pointer to the faulty brick.
+ * @count           int count, number of shifts.
+ *
+ * Returns nothing, modifies brick array.
+ */
+void brick_shift_right(char brick[4][4], int count)
+{
+    /* number of iterations */
+    for (int n=0; n<count; n++) {
+        /* rows */
+        for (int y=0; y<4; y++) {
+            /* 3 replacements */
+            for (int x=0; x<3; x++) {
+                char tmp = brick[y][x];
+                brick[y][x] = brick[y][x+1];
+                brick[y][x+1] = tmp;
+            }
+        }
+    }
+}
+
+/**
+ * Shift the brick array matrix up count number of times on the
+ * y axis.
+ *
+ * @brick           int brick, pointer to the faulty brick.
+ * @count           int count, number of shifts.
+ *
+ * Returns nothing, modifies brick array.
+ */
+void brick_shift_up(char brick[4][4], int count)
+{
+    /* number of iterations */
+    for (int n=0; n<count; n++) {
+        /* columns */
+        for (int x=0; x<4; x++) {
+            /* 3 replacements */
+            for (int y=0; y<3; y++) {
+                char tmp = brick[y][x];
+                brick[y][x] = brick[y+1][x];
+                brick[y+1][x] = tmp;
+            }
+        }
     }
 }

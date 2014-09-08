@@ -35,6 +35,8 @@
 
 void brick_rotate(char brick[4][4], bool dir);
 void brick_gravity(char brick[4][4], char gravity_index[2]);
-void brick_shift(char brick[4][4], char old_gravity[2]);
+void brick_shift_check(char brick[4][4], char old_gravity[2]);
+void brick_shift_up(char brick[4][4], int count);
+void brick_shift_right(char brick[4][4], int count);
 
 char brick_digit[7][4][4];
