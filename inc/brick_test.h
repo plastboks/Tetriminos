@@ -13,4 +13,5 @@
 
 int getch(void);
 void brick_printer(char brick[][4]);
+void label_printer();
 int main(int argc, char *argv[]);

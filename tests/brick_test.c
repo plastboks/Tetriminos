@@ -9,17 +9,17 @@
 
 int getch(void)
 {
-  int ch;
-  struct termios origterm, tmpterm;
-  
-  tcgetattr ( STDIN_FILENO, &origterm );
-  tmpterm = origterm;
-  tmpterm.c_lflag &= ~( ICANON | ECHO );
-  tcsetattr ( STDIN_FILENO, TCSANOW, &tmpterm );
-  ch = getchar();
-  tcsetattr ( STDIN_FILENO, TCSANOW, &origterm );
-  
-  return ch;
+    int ch;
+    struct termios origterm, tmpterm;
+
+    tcgetattr(STDIN_FILENO, &origterm);
+    tmpterm = origterm;
+    tmpterm.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &tmpterm);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &origterm);
+
+    return ch;
 }
 
 void brick_printer(char brick[][4])
@@ -35,21 +35,35 @@ void brick_printer(char brick[][4])
     printf("\n");
 }
 
+void label_printer()
+{
+    printf("\n##################################");
+    printf("\n#                                #");
+    printf("\n#    BRICK TESTER                #");
+    printf("\n#                                #");
+    printf("\n# Commands:                      #");
+    printf("\n# 'r' - rotate clockwise         #");
+    printf("\n# 'r' - rotate counter clockwise #");
+    printf("\n# 'n' - next brick               #");
+    printf("\n# 'q' - exit                     #");
+    printf("\n#                                #");
+    printf("\n##################################\n\n");
+}
+
 int main(int argc, char *argv[]) 
 {
     char ch;
     int brick_type = 0;
-    printf("Press 'q' to exit, 'r' to rotate and 'n' for next brick.\n");
+
+    label_printer();
 
     /* pick a brick */
     char cur_brick[4][4];
     memcpy(cur_brick, brick_digit[brick_type], sizeof(char)*4*4);
-
     brick_printer(cur_brick);
 
     do {
         ch = getch();
-
         switch(ch) {
             case 'r':
                 printf("Rotate Clockwise\n");
@@ -63,13 +77,11 @@ int main(int argc, char *argv[])
                 break;
             case 'n':
                 printf("New brick\n");
-                memcpy(cur_brick, brick_digit[brick_type++ % 6], sizeof(char)*4*4);
+                memcpy(cur_brick, brick_digit[++brick_type % 6], sizeof(char)*4*4);
                 brick_printer(cur_brick);
                 break;
         }
-
     } while(ch != 'q');
-
 
     printf("Bye\n");
     return(0);
