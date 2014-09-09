@@ -71,9 +71,9 @@ WINDOW **draw_game_boxes(int coords[])
     int high_score = 3;
 
     /* main window size */
-    int mw_size[2] = {20, 34};
+    int mw_size[2] = {22, 34};
     /* game board size */
-    int gb_size[2] = {18, 20};
+    int gb_size[2] = {20, 20};
     /* next brick size */
     int nb_size[2] = {5, 10};
     /* high score size */
@@ -130,7 +130,7 @@ int game_play(int box_size[], int coords[])
 
     draw_game_boxes(coords);
 
-    mvprintw(coords[1]+20, coords[0]+1, "Press 'q' to go back");
+    mvprintw(coords[1]+22, coords[0]+1, "Press 'h' for help");
     do {
         usleep(5000);
     } while (getch() != 'q');
