@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
                 break;
             case 0:
                 screen_coord_update(c.game_box_size, coords, old_coords);
-                screen = game_play(c.game_box_size, coords);
+                screen = game_switch(c.game_box_size, coords);
                 break;
             case 3:
                 screen_coord_update(c.about_box_size, coords, old_coords);

@@ -37,7 +37,6 @@
 #include <ncurses.h>
 #include <fcntl.h>
 
-WINDOW *game_newwin(int box_size[], int coords[]);
 WINDOW **draw_game_boxes(int coords[]);
 
-int game_play(int box_size[], int coords[]);
+int game_switch(int box_size[], int coords[]);
