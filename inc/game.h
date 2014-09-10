@@ -39,4 +39,6 @@
 
 WINDOW **draw_game_boxes(int coords[]);
 
+int game_play(WINDOW *w, int play_pause);
+void empty_window(WINDOW *w, int x, int y);
 int game_switch(int box_size[], int coords[]);

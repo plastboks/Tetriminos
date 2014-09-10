@@ -54,9 +54,9 @@ WINDOW **draw_game_boxes(int coords[])
     WINDOW **items;
 
     /* main window size */
-    int mw_size[2] = {22, 34};
+    int mw_size[2] = {22, 36};
     /* game board size */
-    int gb_size[2] = {20, 20};
+    int gb_size[2] = {20, 22};
     /* next brick size */
     int nb_size[2] = {5, 10};
     /* high score size */
@@ -74,11 +74,11 @@ WINDOW **draw_game_boxes(int coords[])
     box(items[w.game_board], ACS_VLINE, ACS_HLINE);
 
     /* next brick */
-    items[w.next_brick]=subwin(items[w.main_window], nb_size[0], nb_size[1], coords[1]+2, coords[0]+22);
+    items[w.next_brick]=subwin(items[w.main_window], nb_size[0], nb_size[1], coords[1]+2, coords[0]+24);
     box(items[w.next_brick], ACS_VLINE, ACS_HLINE);
 
     /* scores */
-    items[w.score_board]=subwin(items[w.main_window], hs_size[0], hs_size[1], coords[1]+11, coords[0]+22);
+    items[w.score_board]=subwin(items[w.main_window], hs_size[0], hs_size[1], coords[1]+11, coords[0]+24);
     box(items[w.score_board], ACS_VLINE, ACS_HLINE);
 
     /* colors */
@@ -89,13 +89,40 @@ WINDOW **draw_game_boxes(int coords[])
 
     /* static texts */
     mvprintw(coords[1]-1, coords[0]+9, "- Tetriminos -");
-    mvprintw(coords[1]+1, coords[0]+22, "Next brick");
-    mvprintw(coords[1]+10, coords[0]+22, "Score");
+    mvprintw(coords[1]+1, coords[0]+24, "Next brick");
+    mvprintw(coords[1]+10, coords[0]+24, "Score");
 
     /* do one last refresh */
     wrefresh(items[w.main_window]);
 
     return items;
+}
+
+/**
+ * Empty game board with empty chars.
+ * Hopefully this function can be replaced when I find ncurses official
+ * box clear function...
+ */
+void empty_window(WINDOW *w, int x, int y)
+{
+    for (int r=1; r<=y; r++) {
+        for (int c=1; c<=x; c++) {
+            mvwprintw(w, r, c, "%s", " ");
+        }
+    }
+}
+
+/**
+ * Main game play function.
+ */
+int game_play(WINDOW *w, int play_pause)
+{
+    /* empty game board and reset border */
+    empty_window(w, 18, 18);
+
+    mvwprintw(w, 10, 2, "%s", "Running");
+    wrefresh(w);
+    return -1;
 }
 
 /**
@@ -118,7 +145,7 @@ int game_switch(int box_size[], int coords[])
     while(1) {
         switch(wgetch(stdscr)) {
             case 'p':
-                // play / pause
+                game_play(boxes[w.game_board], 1);
                 break;
             case 'q':
                 return -1;
