@@ -54,9 +54,9 @@ WINDOW **draw_game_boxes(int coords[])
     WINDOW **items;
 
     /* main window size */
-    int mw_size[2] = {20, 34};
+    int mw_size[2] = {22, 34};
     /* game board size */
-    int gb_size[2] = {18, 20};
+    int gb_size[2] = {20, 20};
     /* next brick size */
     int nb_size[2] = {5, 10};
     /* high score size */
@@ -110,10 +110,10 @@ int game_switch(int box_size[], int coords[])
 
     WINDOW **boxes = draw_game_boxes(coords);
 
-    mvwprintw(boxes[w.game_board], 8, 2, "%s", "Press p to play");
+    mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
     wrefresh(boxes[w.game_board]);
 
-    mvprintw(coords[1]+20, coords[0]+1, "Press q to go back");
+    mvprintw(coords[1]+22, coords[0]+1, "Press h for help");
 
     while(1) {
         switch(wgetch(stdscr)) {
