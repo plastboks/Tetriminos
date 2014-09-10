@@ -14,7 +14,7 @@ Features
 Part of this applications purpose is to teach the author some best practices in writing a C ncurses app. Therefor this app might have some unnecessary features just for the heck of it.
 A short list of features follows:
   * Fully configurable trough config files.
-  * High scores (saved in a SQL database (SQLite)).
+  * High scores (saved in a SQL database (SQLite), or possibly other structure).
   * Pause and stop game, continue upon start.
 
 
@@ -22,13 +22,13 @@ Game play
 =========
 Small list of game play features follows:
   * Level increment as score increments.
-  * Gravity with chain reactions (see section four one the wiki page).
+  * Gravity with chain reactions.
   * Configurable start level (easy, medium, hard).
   * Small box indicating next block.
 
 
-Compiling
-=========
+Compiling and running
+=====================
 Compiling this program is simply done by: 
   * `make`
   * `./tetriminos`
