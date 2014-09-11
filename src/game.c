@@ -213,6 +213,7 @@ int game_play(WINDOW **boxes, int play_pause)
             case 'k':
                 /* rotate brick upwards / counter clockwise */
                 break;
+            case 'q':
             case 'p':
                 /* pause game, return */
                 return -1;
