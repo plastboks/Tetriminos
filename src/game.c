@@ -43,9 +43,10 @@ struct {
 };
 
 /**
- * Draw the game window
+ * Draw the game window and boxes
  *
- * @coords      int array coordinates.
+ * int coords defines the center of the screens, set by the
+ * applications init functions.
  *
  * Returns WINDOW
  */
@@ -105,8 +106,6 @@ WINDOW **draw_game_boxes(int coords[])
 
 /**
  * Empty game board with empty chars.
- * Hopefully this function can be replaced when I find ncurses official
- * box clear function...
  */
 void empty_window(WINDOW *w, int x, int y)
 {
@@ -118,7 +117,9 @@ void empty_window(WINDOW *w, int x, int y)
 }
 
 /**
- * Main game play function.
+ * Game play state.
+ *
+ * Break out of this function returns to game play state.
  */
 int game_play(WINDOW *w, int play_pause)
 {
@@ -127,17 +128,38 @@ int game_play(WINDOW *w, int play_pause)
 
     mvwprintw(w, 10, 2, "%s", "Running");
     wrefresh(w);
+
+    while(1) {
+        switch(wgetch(stdscr)) {
+            case 'h':
+                /* move brick left */
+                break;
+            case 'l':
+                /* move brick right */
+                break;
+            case 'j':
+                /* rotate brick downwards / clockwise */
+                break;
+            case 'k':
+                /* rotate brick upwards / counter clockwise */
+                break;
+            case 'p':
+                /* pause game, return */
+                return -1;
+        }
+        usleep(5000);
+    }
     return -1;
 }
 
 /**
- * Welcome screen
+ * Game paused state
  *
- * @coords          int array of coordinates.
+ * Break out of this function returns to menu.
  *
  * Returns int
  */
-int game_switch(int box_size[], int coords[])
+int game_pause(int coords[])
 {
 
     WINDOW **boxes = draw_game_boxes(coords);
@@ -151,7 +173,11 @@ int game_switch(int box_size[], int coords[])
     while(1) {
         switch(wgetch(stdscr)) {
             case 'p':
+                /* enter game play state */
                 game_play(boxes[w.game_board], 1);
+                /* return from play state */
+                mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
+                wrefresh(boxes[w.game_board]);
                 break;
             case 'q':
                 return -1;
