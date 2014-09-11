@@ -34,6 +34,15 @@
 #define SPLASH true
 #define BORDER_COLOR 2
 
+/**
+ * Board dimensions is defined as follow:
+ * Two characters make a horizontal brick.
+ * Therefor width is (10*2) plus 2 for padding (border).
+ * Height is standard 20 char height plus 2 for padding (border).
+ */
+#define BOARD_WIDTH 22
+#define BOARD_HEIGHT 22
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
