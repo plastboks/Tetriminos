@@ -44,3 +44,20 @@ void empty_stack()
         }
     }
 }
+
+/**
+ * Push to stack, takes a brick as argument
+ */
+int push_stack(int pos_x, int pos_y, char brick[4][4])
+{
+    return 1;
+}
+
+
+/**
+ * Shift stack
+ */
+int shift_stack(int lines)
+{
+    return 1;
+}
