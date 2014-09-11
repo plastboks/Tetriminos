@@ -29,3 +29,8 @@
  * along with Tetriminos.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#include "config.h"
+
+char stack[BOARD_HEIGHT-2][BOARD_WIDTH-2];
+void empty_stack();

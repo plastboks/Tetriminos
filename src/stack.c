@@ -31,3 +31,16 @@
  */
 
 #include "stack.h"
+
+
+/**
+ * Function to completely empty stacks with zeros.
+ */
+void empty_stack()
+{
+    for (int y=0; y<BOARD_HEIGHT; y++) {
+        for (int x=0; x<BOARD_WIDTH; x++) {
+            stack[y][x] = 0;
+        }
+    }
+}
