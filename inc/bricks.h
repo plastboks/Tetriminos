@@ -32,6 +32,11 @@
 
 #include <stdbool.h>
 #include <stdlib.h> 
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
 
 void brick_rotate(char brick[4][4], bool dir);
 void brick_gravity(char brick[4][4], char gravity_index[2]);

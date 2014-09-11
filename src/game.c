@@ -31,6 +31,8 @@
  */
 
 #include "game.h"
+#include "colors.h"
+#include "bricks.h"
 #include "config.h"
 
 struct {
@@ -114,21 +116,89 @@ void empty_window(WINDOW *w, int x, int y)
             mvwprintw(w, r, c, "%s", " ");
         }
     }
+    wrefresh(w);
 }
+
+
+/**
+ * Get a new brick, picked random.
+ */
+int get_new_brick(char brick[4][4])
+{
+    srand(time(NULL));
+    int r = rand() % 7;
+    memcpy(brick, brick_digit[r], sizeof(char)*4*4);
+    return r;
+}
+
+/**
+ * Brick drawer, this function should not live here.
+ */
+void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
+{
+    int color;
+    switch(brick_type) {
+        case 1:
+            color = COLOR_RED_BG;
+            break;
+        case 2:
+            color = COLOR_YELLOW_BG;
+            break;
+        case 3:
+            color = COLOR_BLUE_BG;
+            break;
+        case 4:
+            color = COLOR_GREEN_BG;
+            break;
+        case 5:
+            color = COLOR_MAGENTA_BG;
+            break;
+        case 6:
+            color = COLOR_WHITE_BG;
+            break;
+        case 7:
+            color = COLOR_CYAN_BG;
+            break;
+        default:
+            color = COLOR_RED_BG;
+            break;
+    }
+
+    empty_window(w, 8, 3);
+    wattron(w, COLOR_PAIR(color));
+
+    for (int y=0; y<3; y++) {
+        for (int x=0; x<4; x++) {
+            if (brick[y][x] > 0) {
+                mvwprintw(w, y+1, (x*2)+1, "%s", "  ");
+            }
+        }
+    }
+
+    wattroff(w, COLOR_PAIR(color));
+    wrefresh(w);
+}
+
 
 /**
  * Game play state.
  *
  * Break out of this function returns to game play state.
  */
-int game_play(WINDOW *w, int play_pause)
+int game_play(WINDOW **boxes, int play_pause)
 {
+    char play_brick[4][4];
+    char next_brick[4][4];
+    int play_type;
+    int next_type;
+
     /* empty game board and reset border */
-    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
+    empty_window(boxes[w.game_board], BOARD_WIDTH-2, BOARD_HEIGHT-2);
 
-    mvwprintw(w, 10, 2, "%s", "Running");
-    wrefresh(w);
+    next_type = get_new_brick(next_brick);
+    draw_next_brick(boxes[w.next_brick], next_type, next_brick);
 
+    play_type = get_new_brick(play_brick);
     while(1) {
         switch(wgetch(stdscr)) {
             case 'h':
@@ -173,7 +243,7 @@ int game_pause(int coords[])
         switch(wgetch(stdscr)) {
             case 'p':
                 /* enter game play state */
-                game_play(boxes[w.game_board], 1);
+                game_play(boxes, 1);
                 /* return from play state */
                 mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
                 wrefresh(boxes[w.game_board]);
