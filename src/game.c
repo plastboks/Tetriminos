@@ -124,7 +124,7 @@ void empty_window(WINDOW *w, int x, int y)
 int game_play(WINDOW *w, int play_pause)
 {
     /* empty game board and reset border */
-    empty_window(w, 18, 18);
+    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
 
     mvwprintw(w, 10, 2, "%s", "Running");
     wrefresh(w);
@@ -161,13 +161,12 @@ int game_play(WINDOW *w, int play_pause)
  */
 int game_pause(int coords[])
 {
-
+    /* draw and get game boxes */
     WINDOW **boxes = draw_game_boxes(coords);
 
-    /* Press to play banner */
+    /* Info texts */
     mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
     wrefresh(boxes[w.game_board]);
-
     mvprintw(coords[1] + BOARD_HEIGHT + 2, coords[0]+1, "Press h for help");
 
     while(1) {
@@ -184,6 +183,5 @@ int game_pause(int coords[])
         }
         usleep(5000);
     }
-
     return -1;
 }
