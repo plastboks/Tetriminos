@@ -132,37 +132,27 @@ int get_new_brick(char brick[4][4])
 }
 
 /**
+ * Return brick color based on type
+ */
+int get_brick_color(int brick_type) {
+    switch(brick_type) {
+        case 0: return  COLOR_RED_BG;
+        case 1: return COLOR_YELLOW_BG;
+        case 2: return COLOR_BLUE_BG;
+        case 3: return COLOR_GREEN_BG;
+        case 4: return COLOR_MAGENTA_BG;
+        case 5: return COLOR_WHITE_BG;
+        case 6: return COLOR_CYAN_BG;
+        default: return COLOR_RED_BG;
+    }
+}
+
+/**
  * Brick drawer, this function should not live here.
  */
 void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
 {
-    int color;
-    switch(brick_type) {
-        case 1:
-            color = COLOR_RED_BG;
-            break;
-        case 2:
-            color = COLOR_YELLOW_BG;
-            break;
-        case 3:
-            color = COLOR_BLUE_BG;
-            break;
-        case 4:
-            color = COLOR_GREEN_BG;
-            break;
-        case 5:
-            color = COLOR_MAGENTA_BG;
-            break;
-        case 6:
-            color = COLOR_WHITE_BG;
-            break;
-        case 7:
-            color = COLOR_CYAN_BG;
-            break;
-        default:
-            color = COLOR_RED_BG;
-            break;
-    }
+    int color = get_brick_color(brick_type);
 
     empty_window(w, 8, 3);
     wattron(w, COLOR_PAIR(color));
@@ -179,6 +169,27 @@ void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
     wrefresh(w);
 }
 
+void add_new_brick(WINDOW *w, int brick_type, char brick[4][4])
+{
+    int color = get_brick_color(brick_type);
+
+    /* empty game board and reset border */
+    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
+
+    wattron(w, COLOR_PAIR(color));
+
+    for (int y=0; y<3; y++) {
+        for (int x=0; x<4; x++) {
+            if (brick[y][x] > 0) {
+                /* args: window, column, row ...*/
+                mvwprintw(w, y+1, (x*2)+8, "%s", "  ");
+            }
+        }
+    }
+
+    wattroff(w, COLOR_PAIR(color));
+    wrefresh(w);
+}
 
 /**
  * Game play state.
@@ -192,13 +203,14 @@ int game_play(WINDOW **boxes, int play_pause)
     int play_type;
     int next_type;
 
-    /* empty game board and reset border */
-    empty_window(boxes[w.game_board], BOARD_WIDTH-2, BOARD_HEIGHT-2);
-
+    /* generate next brick type, and draw it in the next brick box */
     next_type = get_new_brick(next_brick);
     draw_next_brick(boxes[w.next_brick], next_type, next_brick);
 
+    /* generate a play brick, and draw it to the game board */
     play_type = get_new_brick(play_brick);
+    add_new_brick(boxes[w.game_board], play_type, play_brick);
+
     while(1) {
         switch(wgetch(stdscr)) {
             case 'h':
