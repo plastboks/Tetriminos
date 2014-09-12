@@ -147,6 +147,15 @@ int get_brick_color(int brick_type) {
     }
 }
 
+/**
+ * Set initial brick position.
+ */
+void reset_brick_pos(int play_brick_pos[])
+{
+    play_brick_pos[0] = 1;
+    play_brick_pos[1] = 8;
+}
+
 
 /*****************
  * BRICK DRAWERS *
@@ -215,6 +224,23 @@ void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
     wrefresh(w);
 }
 
+void draw_stack(WINDOW *w, char stack[][10])
+{
+    for (int y=0; y<20; y++) {
+        for (int x=0; x<10; x++) {
+            if (stack[y][x] > 0) {
+                /* args: window, column, row ...*/
+                int color = get_brick_color(1);
+                wattron(w, COLOR_PAIR(color));
+                mvwprintw(w, 20-y, (x*2)+x, "%s", "  ");
+                wattroff(w, COLOR_PAIR(color));
+            }
+        }
+    }
+
+    wrefresh(w);
+}
+
 
 /****************
  * BRICK MOVERS *
@@ -222,7 +248,7 @@ void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
 void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
 {
     /* play brick horizontal leftmost a point */
-    int a = 4;
+    int a = 3;
 
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
@@ -249,10 +275,24 @@ void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
     if (play_brick_pos[1]+b < BOARD_WIDTH-5) play_brick_pos[1]++;
 }
 
-void move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
+int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
 {
+    /* play brick vertical bottommost point */
+    int b = 3;
+
+    for (int y=0; y<4; y++) {
+        for (int x=0; x<4; x++) {
+            if ((play_brick[y][x] > 0) && x > b) b = x;
+        }
+    }
+
     /* do checking before this */
-    play_brick_pos[0]++;
+    if (play_brick_pos[0]+b < BOARD_HEIGHT-1) {
+        play_brick_pos[0]++;
+        return 1;
+    }
+
+    return -1;
 }
 
 
@@ -261,22 +301,26 @@ void move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
  ***********************/
 int game_play(WINDOW **boxes, int play_pause)
 {
-    /* stack */
-    //char stack[BOARD_HEIGHT-2][BOARD_WIDTH-2];
+    /* stack, static for now */
+    char stack[20][10];
 
     /* bricks */
     char play_brick[4][4];
     char next_brick[4][4];
-    int play_brick_pos[2] = {1,8};
+    int play_brick_pos[2];
     int play_type;
     int next_type;
 
     /* game data */
-    int level = 6;
+    int level = 15;
     int interval = 0;
+    int skip_beat = 0;
 
     /* empty stack if new game */
-    //empty_stack(stack);
+    empty_stack(stack);
+
+    /* set brick pos */
+    reset_brick_pos(play_brick_pos);
 
     /* generate next brick type, and draw it in the next brick box */
     next_type = get_new_brick(next_brick);
@@ -299,8 +343,7 @@ int game_play(WINDOW **boxes, int play_pause)
             case 's':
             case 'j':
             case KEY_DOWN:
-                move_brick_gravity(play_brick_pos, play_brick);
-                refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+                skip_beat = 1;
                 break;
             case 'a':
             case 'h':
@@ -319,15 +362,28 @@ int game_play(WINDOW **boxes, int play_pause)
                 /* pause game, return */
                 return -1;
         }
-        usleep(5000);
 
         /* do gravity until brick hits something */
         interval++;
-        if (interval > 100-(level*level)) {
-            interval = 0;
-            move_brick_gravity(play_brick_pos, play_brick);
-            refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+        if ((interval > 100-(level*level)) || (skip_beat > 0)) {
+            interval = skip_beat = 0;
+            /* check if possible to move, else setup new brick */
+            if (move_brick_gravity(play_brick_pos, play_brick) > 0) {
+                refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+            } else {
+                reset_brick_pos(play_brick_pos);
+                memcpy(play_brick, next_brick, sizeof(char)*4*4);
+                play_type = next_type;
+                add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+
+                /* get new next brick */
+                next_type = get_new_brick(next_brick);
+                draw_next_brick(boxes[w.next_brick], next_type, next_brick);
+            }
         }
+
+        /* let the CPU rest some, before next iteration */
+        usleep(5000);
     }
 
     /* Break out of this function returns to game play state. */

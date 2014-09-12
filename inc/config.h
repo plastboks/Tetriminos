@@ -39,6 +39,9 @@
  * Two characters make a horizontal brick.
  * Therefor width is (10*2) plus 2 for padding (border).
  * Height is standard 20 char height plus 2 for padding (border).
+ *
+ * BOARD SIZE CANNOT BE CHANGED AT THE MOMENT.
+ * THIS WILL CAUSE A STACK OVERFLOW.
  */
 #define BOARD_WIDTH 22
 #define BOARD_HEIGHT 22
