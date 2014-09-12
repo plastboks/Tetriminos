@@ -33,6 +33,7 @@
 #include "game.h"
 #include "colors.h"
 #include "bricks.h"
+#include "stack.h"
 #include "config.h"
 
 struct {
@@ -229,12 +230,13 @@ void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
         }
     }
 
+    /* move only if brick does not move outside board */
     if (play_brick_pos[1]+a > 1) play_brick_pos[1]--;
 }
 
 void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
 {
-    /* play brick horizontal leftmost a point */
+    /* play brick horizontal rightmost a point */
     int b = 0;
 
     for (int y=0; y<4; y++) {
@@ -243,6 +245,7 @@ void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
         }
     }
 
+    /* move only if brick does not move outside board */
     if (play_brick_pos[1]+b < BOARD_WIDTH-5) play_brick_pos[1]++;
 }
 
@@ -258,11 +261,18 @@ void move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
  ***********************/
 int game_play(WINDOW **boxes, int play_pause)
 {
+    /* stack */
+    //char stack[BOARD_HEIGHT-2][BOARD_WIDTH-2];
+
+    /* bricks */
     char play_brick[4][4];
     char next_brick[4][4];
     int play_brick_pos[2] = {1,8};
     int play_type;
     int next_type;
+
+    /* empty stack if new game */
+    //empty_stack(stack);
 
     /* generate next brick type, and draw it in the next brick box */
     next_type = get_new_brick(next_brick);

@@ -36,10 +36,10 @@
 /**
  * Function to completely empty stacks with zeros.
  */
-void empty_stack()
+void empty_stack(char stack[][10])
 {
-    for (int y=0; y<BOARD_HEIGHT; y++) {
-        for (int x=0; x<BOARD_WIDTH; x++) {
+    for (int y=0; y<BOARD_HEIGHT-2; y++) {
+        for (int x=0; x<BOARD_WIDTH-2; x++) {
             stack[y][x] = 0;
         }
     }

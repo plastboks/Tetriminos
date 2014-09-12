@@ -35,4 +35,4 @@
 char stack[BOARD_HEIGHT-2][BOARD_WIDTH-2];
 int shift_stack(int lines);
 int push_stack(int pos_x, int pos_y, char brick[4][4]);
-void empty_stack();
+void empty_stack(char stack[][10]);
