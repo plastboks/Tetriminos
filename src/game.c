@@ -218,19 +218,35 @@ void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
 /****************
  * BRICK MOVERS *
  ****************/
-void move_brick_left(int play_brick_pos[2])
+void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
 {
-    /* do checking before this */
-    play_brick_pos[1]--;
+    /* play brick horizontal leftmost a point */
+    int a = 4;
+
+    for (int y=0; y<4; y++) {
+        for (int x=0; x<4; x++) {
+            if ((play_brick[y][x] > 0) && x < a) a = x;
+        }
+    }
+
+    if (play_brick_pos[1]+a > 1) play_brick_pos[1]--;
 }
 
-void move_brick_right(int play_brick_pos[2])
+void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
 {
-    /* do checking before this */
-    play_brick_pos[1]++;
+    /* play brick horizontal leftmost a point */
+    int b = 0;
+
+    for (int y=0; y<4; y++) {
+        for (int x=0; x<4; x++) {
+            if ((play_brick[y][x] > 0) && x > b) b = x;
+        }
+    }
+
+    if (play_brick_pos[1]+b < 17) play_brick_pos[1]++;
 }
 
-void move_brick_gravity(int play_brick_pos[2])
+void move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
 {
     /* do checking before this */
     play_brick_pos[0]++;
@@ -266,17 +282,17 @@ int game_play(WINDOW **boxes, int play_pause)
                 break;
             case 'j':
             case KEY_DOWN:
-                move_brick_gravity(play_brick_pos);
+                move_brick_gravity(play_brick_pos, play_brick);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
             case 'h':
             case KEY_LEFT:
-                move_brick_left(play_brick_pos);
+                move_brick_left(play_brick_pos, play_brick);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
             case 'l':
             case KEY_RIGHT:
-                move_brick_right(play_brick_pos);
+                move_brick_right(play_brick_pos, play_brick);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
             case 'q':

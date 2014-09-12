@@ -55,6 +55,6 @@ int game_play(WINDOW **boxes, int play_pause);
 int game_pause(int coords[]);
 
 /* brick movers */
-void move_brick_left(int play_brick_pos[2]);
-void move_brick_right(int play_brick_pos[2]);
-void move_brick_gravity(int play_brick_pos[2]);
+void move_brick_left(int play_brick_pos[2], char play_brick[4][4]);
+void move_brick_right(int play_brick_pos[2], char play_brick[4][4]);
+void move_brick_gravity(int play_brick_pos[2], char play_brick[4][4]);
