@@ -36,9 +36,14 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <fcntl.h>
+#include <time.h>
 
 WINDOW **draw_game_boxes(int coords[]);
 
-int game_play(WINDOW *w, int play_pause);
+int game_play(WINDOW **boxes, int play_pause);
 int game_pause(int coords[]);
+int get_new_brick(char brick[4][4]);
+int get_brick_color();
+void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4]);
+void add_new_brick(WINDOW *w, int brick_type, char brick[4][4]);
 void empty_window(WINDOW *w, int x, int y);
