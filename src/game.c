@@ -243,7 +243,7 @@ void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
         }
     }
 
-    if (play_brick_pos[1]+b < 17) play_brick_pos[1]++;
+    if (play_brick_pos[1]+b < BOARD_WIDTH-5) play_brick_pos[1]++;
 }
 
 void move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
@@ -308,13 +308,6 @@ int game_play(WINDOW **boxes, int play_pause)
     return -1;
 }
 
-/**
- * Game paused state
- *
- * Break out of this function returns to menu.
- *
- * Returns int
- */
 int game_pause(int coords[])
 {
     /* draw and get game boxes */
@@ -339,5 +332,6 @@ int game_pause(int coords[])
         }
         usleep(5000);
     }
+    /* Break out of this function returns to menu. */
     return -1;
 }
