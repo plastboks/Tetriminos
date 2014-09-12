@@ -125,7 +125,6 @@ void empty_window(WINDOW *w, int x, int y)
  */
 int get_new_brick(char brick[4][4])
 {
-    srand(time(NULL));
     int r = rand() % 7;
     memcpy(brick, brick_digit[r], sizeof(char)*4*4);
     return r;
