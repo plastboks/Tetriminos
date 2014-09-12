@@ -119,7 +119,6 @@ void empty_window(WINDOW *w, int x, int y)
     wrefresh(w);
 }
 
-
 /**
  * Get a new brick, picked random.
  */
@@ -147,9 +146,55 @@ int get_brick_color(int brick_type) {
     }
 }
 
-/**
- * Brick drawer, this function should not live here.
- */
+
+/*****************
+ * BRICK DRAWERS *
+ *****************/
+void add_new_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[4][4])
+{
+    int color = get_brick_color(brick_type);
+
+    /* empty game board */
+    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
+
+    wattron(w, COLOR_PAIR(color));
+
+    for (int y=0; y<3; y++) {
+        for (int x=0; x<4; x++) {
+            if (brick[y][x] > 0) {
+                /* args: window, column, row ...*/
+                mvwprintw(w, y+play_brick_pos[0], (x*2)+play_brick_pos[1], "%s", "  ");
+            }
+        }
+    }
+
+    wattroff(w, COLOR_PAIR(color));
+    wrefresh(w);
+}
+
+void refresh_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[4][4])
+{
+    int color = get_brick_color(brick_type);
+
+    /* empty game board */
+    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
+    /* redraw stack to board here */
+
+    wattron(w, COLOR_PAIR(color));
+
+    for (int y=0; y<3; y++) {
+        for (int x=0; x<4; x++) {
+            if (brick[y][x] > 0) {
+                /* args: window, column, row ...*/
+                mvwprintw(w, y+play_brick_pos[0], (x*2)+play_brick_pos[1], "%s", "  ");
+            }
+        }
+    }
+
+    wattroff(w, COLOR_PAIR(color));
+    wrefresh(w);
+}
+
 void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
 {
     int color = get_brick_color(brick_type);
@@ -169,37 +214,37 @@ void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
     wrefresh(w);
 }
 
-void add_new_brick(WINDOW *w, int brick_type, char brick[4][4])
+
+/****************
+ * BRICK MOVERS *
+ ****************/
+void move_brick_left(int play_brick_pos[2])
 {
-    int color = get_brick_color(brick_type);
-
-    /* empty game board and reset border */
-    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
-
-    wattron(w, COLOR_PAIR(color));
-
-    for (int y=0; y<3; y++) {
-        for (int x=0; x<4; x++) {
-            if (brick[y][x] > 0) {
-                /* args: window, column, row ...*/
-                mvwprintw(w, y+1, (x*2)+8, "%s", "  ");
-            }
-        }
-    }
-
-    wattroff(w, COLOR_PAIR(color));
-    wrefresh(w);
+    /* do checking before this */
+    play_brick_pos[1]--;
 }
 
-/**
- * Game play state.
- *
- * Break out of this function returns to game play state.
- */
+void move_brick_right(int play_brick_pos[2])
+{
+    /* do checking before this */
+    play_brick_pos[1]++;
+}
+
+void move_brick_gravity(int play_brick_pos[2])
+{
+    /* do checking before this */
+    play_brick_pos[0]++;
+}
+
+
+/***********************
+ * GAME STATE HANDLERS *
+ ***********************/
 int game_play(WINDOW **boxes, int play_pause)
 {
     char play_brick[4][4];
     char next_brick[4][4];
+    int play_brick_pos[2] = {1,8};
     int play_type;
     int next_type;
 
@@ -209,21 +254,30 @@ int game_play(WINDOW **boxes, int play_pause)
 
     /* generate a play brick, and draw it to the game board */
     play_type = get_new_brick(play_brick);
-    add_new_brick(boxes[w.game_board], play_type, play_brick);
+    add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
 
     while(1) {
         switch(wgetch(stdscr)) {
-            case 'h':
-                /* move brick left */
-                break;
-            case 'l':
-                /* move brick right */
+            case 'k':
+            case KEY_UP:
+                /* rotate brick upwards / clockwise */
+                brick_rotate(play_brick, true);
+                refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
             case 'j':
-                /* rotate brick downwards / clockwise */
+            case KEY_DOWN:
+                move_brick_gravity(play_brick_pos);
+                refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
-            case 'k':
-                /* rotate brick upwards / counter clockwise */
+            case 'h':
+            case KEY_LEFT:
+                move_brick_left(play_brick_pos);
+                refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+                break;
+            case 'l':
+            case KEY_RIGHT:
+                move_brick_right(play_brick_pos);
+                refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
             case 'q':
             case 'p':
@@ -231,7 +285,10 @@ int game_play(WINDOW **boxes, int play_pause)
                 return -1;
         }
         usleep(5000);
+        /* do gravity until brick hits something */
+        //move_brick_gravity(play_brick_pos);
     }
+    /* Break out of this function returns to game play state. */
     return -1;
 }
 
