@@ -273,23 +273,28 @@ int game_play(WINDOW **boxes, int play_pause)
     add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
 
     while(1) {
+        /* switch getch(), supports vim mode, wasd mode and arrow keys */
         switch(wgetch(stdscr)) {
+            case 'w':
             case 'k':
             case KEY_UP:
                 /* rotate brick upwards / clockwise */
                 brick_rotate(play_brick, true);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
+            case 's':
             case 'j':
             case KEY_DOWN:
                 move_brick_gravity(play_brick_pos, play_brick);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
+            case 'a':
             case 'h':
             case KEY_LEFT:
                 move_brick_left(play_brick_pos, play_brick);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
+            case 'd':
             case 'l':
             case KEY_RIGHT:
                 move_brick_right(play_brick_pos, play_brick);
