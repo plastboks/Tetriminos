@@ -271,6 +271,10 @@ int game_play(WINDOW **boxes, int play_pause)
     int play_type;
     int next_type;
 
+    /* game data */
+    int level = 6;
+    int interval = 0;
+
     /* empty stack if new game */
     //empty_stack(stack);
 
@@ -316,9 +320,16 @@ int game_play(WINDOW **boxes, int play_pause)
                 return -1;
         }
         usleep(5000);
+
         /* do gravity until brick hits something */
-        //move_brick_gravity(play_brick_pos);
+        interval++;
+        if (interval > 100-(level*level)) {
+            interval = 0;
+            move_brick_gravity(play_brick_pos, play_brick);
+            refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+        }
     }
+
     /* Break out of this function returns to game play state. */
     return -1;
 }
