@@ -52,6 +52,7 @@ void draw_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
 void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
 void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
 void draw_stack(WINDOW *w, char stack[][10]);
+void empty_but_stack(WINDOW *w, char stack[][10]);
 
 /* game state handlers */
 int game_play(WINDOW **boxes, int play_pause);
