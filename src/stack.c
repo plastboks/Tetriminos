@@ -53,9 +53,9 @@ int push_brick(char play_type, int play_brick_pos[2], char brick[4][4], char sta
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
             if (brick[y][x] > 0) {
-                //int sx = play_brick_pos[0];
-                //int sy = play_brick_pos[1];
-                //stack[sy][sx] = play_type;
+                int sx = ((play_brick_pos[1]+1)/2)+x-1; /* horizontal */
+                int sy = (20-play_brick_pos[0])-y; /* vertical */
+                stack[sy][sx] = play_type;
             }
         }
     }
