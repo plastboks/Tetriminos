@@ -277,16 +277,16 @@ void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
 int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
 {
     /* play brick vertical bottommost point */
-    int b = 3;
+    int h = 0;
 
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
-            if ((play_brick[y][x] > 0) && x > b) b = x;
+            if ((play_brick[y][x] > 0) && y > h) h = y;
         }
     }
 
     /* do checking before this */
-    if (play_brick_pos[0]+b < BOARD_HEIGHT-1) {
+    if (play_brick_pos[0]+h < BOARD_HEIGHT-2) {
         play_brick_pos[0]++;
         return 1;
     }
