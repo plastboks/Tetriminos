@@ -152,7 +152,7 @@ int get_brick_color(int brick_type) {
 void reset_brick_pos(int play_brick_pos[])
 {
     play_brick_pos[0] = 1;
-    play_brick_pos[1] = 8;
+    play_brick_pos[1] = 7;
 }
 
 
@@ -228,10 +228,9 @@ void draw_stack(WINDOW *w, char stack[][10])
     for (int y=0; y<20; y++) {
         for (int x=0; x<10; x++) {
             if (stack[y][x] > 0) {
-                /* args: window, column, row ...*/
-                int color = get_brick_color(1);
+                int color = get_brick_color(4);
                 wattron(w, COLOR_PAIR(color));
-                mvwprintw(w, 20-y, (x*2)+x, "%s", "  ");
+                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
                 wattroff(w, COLOR_PAIR(color));
             }
         }
@@ -256,7 +255,7 @@ void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
     }
 
     /* move only if brick does not move outside board */
-    if (play_brick_pos[1]+a > 1) play_brick_pos[1]--;
+    if (play_brick_pos[1]+a > 1) play_brick_pos[1]-=2;
 }
 
 void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
@@ -271,7 +270,7 @@ void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
     }
 
     /* move only if brick does not move outside board */
-    if (play_brick_pos[1]+b < BOARD_WIDTH-5) play_brick_pos[1]++;
+    if (play_brick_pos[1]+b < BOARD_WIDTH-5) play_brick_pos[1]+=2;
 }
 
 int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
@@ -383,6 +382,8 @@ int game_play(WINDOW **boxes, int play_pause)
 
         /* let the CPU rest some, before next iteration */
         usleep(5000);
+
+        draw_stack(boxes[w.game_board], stack);
     }
 
     /* Break out of this function returns to game play state. */
