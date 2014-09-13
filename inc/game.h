@@ -41,15 +41,16 @@
 WINDOW **draw_game_boxes(int coords[]);
 
 /* helper functions */
-int get_new_brick(char brick[4][4]);
-int get_brick_color();
+char get_new_brick(char brick[4][4]);
+char brick_type_char(int brick_type);
+int get_brick_color(char brick_type);
 void empty_window(WINDOW *w, int x, int y);
 void reset_brick_pos(int play_brick_pos[]);
 
 /* brick drawers */
-void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4]);
-void add_new_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[4][4]);
-void refresh_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[4][4]);
+void draw_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
+void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
+void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
 void draw_stack(WINDOW *w, char stack[][10]);
 
 /* game state handlers */

@@ -123,26 +123,55 @@ void empty_window(WINDOW *w, int x, int y)
 /**
  * Get a new brick, picked random.
  */
-int get_new_brick(char brick[4][4])
+char get_new_brick(char brick[4][4])
 {
     int r = rand() % 7;
     memcpy(brick, brick_digit[r], sizeof(char)*4*4);
-    return r;
+    return brick_type_char(r);
+}
+
+/**
+ * Convert brick type integer to brick type char
+ */
+char brick_type_char(int brick_type)
+{
+    switch(brick_type) {
+        case 0:
+              return 'i';
+        case 1:
+              return 'j';
+        case 2:
+              return 'l';
+        case 3:
+              return 'o';
+        case 4:
+              return 's';
+        case 5:
+              return 't';
+        default:
+              return 'z';
+    }
 }
 
 /**
  * Return brick color based on type
  */
-int get_brick_color(int brick_type) {
+int get_brick_color(char brick_type) {
     switch(brick_type) {
-        case 0: return  COLOR_RED_BG;
-        case 1: return COLOR_YELLOW_BG;
-        case 2: return COLOR_BLUE_BG;
-        case 3: return COLOR_GREEN_BG;
-        case 4: return COLOR_MAGENTA_BG;
-        case 5: return COLOR_WHITE_BG;
-        case 6: return COLOR_CYAN_BG;
-        default: return COLOR_RED_BG;
+        case 'i': /* I */
+            return COLOR_CYAN_BG;
+        case 'j': /* J */
+            return  COLOR_BLUE_BG;
+        case 'l': /* L */
+            return COLOR_WHITE_BG;
+        case 'o': /* O */
+            return COLOR_YELLOW_BG;
+        case 's': /* S */
+            return COLOR_GREEN_BG;
+        case 't': /* T */
+            return COLOR_MAGENTA_BG;
+        default: /* Z */
+            return COLOR_RED_BG;
     }
 }
 
@@ -159,7 +188,7 @@ void reset_brick_pos(int play_brick_pos[])
 /*****************
  * BRICK DRAWERS *
  *****************/
-void add_new_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[4][4])
+void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4])
 {
     int color = get_brick_color(brick_type);
 
@@ -181,7 +210,7 @@ void add_new_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[
     wrefresh(w);
 }
 
-void refresh_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[4][4])
+void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4])
 {
     int color = get_brick_color(brick_type);
 
@@ -191,7 +220,7 @@ void refresh_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[
 
     wattron(w, COLOR_PAIR(color));
 
-    for (int y=0; y<3; y++) {
+    for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
             if (brick[y][x] > 0) {
                 /* args: window, column, row ...*/
@@ -204,7 +233,7 @@ void refresh_brick(WINDOW *w, int brick_type, int play_brick_pos[2], char brick[
     wrefresh(w);
 }
 
-void draw_next_brick(WINDOW *w, int brick_type, char brick[4][4])
+void draw_next_brick(WINDOW *w, char brick_type, char brick[4][4])
 {
     int color = get_brick_color(brick_type);
 
@@ -228,7 +257,7 @@ void draw_stack(WINDOW *w, char stack[][10])
     for (int y=0; y<20; y++) {
         for (int x=0; x<10; x++) {
             if (stack[y][x] > 0) {
-                int color = get_brick_color(4);
+                int color = get_brick_color(stack[y][x]);
                 wattron(w, COLOR_PAIR(color));
                 mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
                 wattroff(w, COLOR_PAIR(color));
@@ -245,7 +274,7 @@ void draw_stack(WINDOW *w, char stack[][10])
  ****************/
 void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
 {
-    /* play brick horizontal leftmost a point */
+    /* a = play brick horizontal leftmost a point */
     int a = 3;
 
     for (int y=0; y<4; y++) {
@@ -260,7 +289,7 @@ void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
 
 void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
 {
-    /* play brick horizontal rightmost a point */
+    /* b = play brick horizontal rightmost a point */
     int b = 0;
 
     for (int y=0; y<4; y++) {
@@ -275,7 +304,7 @@ void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
 
 int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
 {
-    /* play brick vertical bottommost point */
+    /* h = play brick vertical bottommost point */
     int h = 0;
 
     for (int y=0; y<4; y++) {
@@ -284,7 +313,6 @@ int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
         }
     }
 
-    /* do checking before this */
     if (play_brick_pos[0]+h < BOARD_HEIGHT-2) {
         play_brick_pos[0]++;
         return 1;
@@ -306,8 +334,8 @@ int game_play(WINDOW **boxes, int play_pause)
     char play_brick[4][4];
     char next_brick[4][4];
     int play_brick_pos[2];
-    int play_type;
-    int next_type;
+    char play_type;
+    char next_type;
 
     /* game data */
     int level = 15;
@@ -327,6 +355,11 @@ int game_play(WINDOW **boxes, int play_pause)
     /* generate a play brick, and draw it to the game board */
     play_type = get_new_brick(play_brick);
     add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+
+    stack[0][1] = 'i';
+    stack[1][1] = 'j';
+    stack[2][1] = 'l';
+    stack[3][1] = 's';
 
     while(1) {
         /* switch getch(), supports vim mode, wasd mode and arrow keys */
