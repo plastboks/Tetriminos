@@ -32,7 +32,6 @@
 
 #include "config.h"
 
-char stack[BOARD_HEIGHT-2][BOARD_WIDTH-2];
 int shift_stack(int lines);
-int push_stack(int pos_x, int pos_y, char brick[4][4]);
+int push_brick(char play_type, int play_brick_pos[2], char brick[4][4], char stack[][10]);
 void empty_stack(char stack[][10]);

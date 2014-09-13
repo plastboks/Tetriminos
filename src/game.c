@@ -420,6 +420,7 @@ int game_play(WINDOW **boxes, int play_pause)
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
             } else {
+                push_brick(play_type, play_brick_pos, play_brick, stack);
                 reset_brick_pos(play_brick_pos);
                 memcpy(play_brick, next_brick, sizeof(char)*4*4);
                 play_type = next_type;

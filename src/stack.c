@@ -46,13 +46,21 @@ void empty_stack(char stack[][10])
 }
 
 /**
- * Push to stack, takes a brick as argument
+ * Push brick to stack
  */
-int push_stack(int pos_x, int pos_y, char brick[4][4])
+int push_brick(char play_type, int play_brick_pos[2], char brick[4][4], char stack[][10])
 {
+    for (int y=0; y<4; y++) {
+        for (int x=0; x<4; x++) {
+            if (brick[y][x] > 0) {
+                //int sx = play_brick_pos[0];
+                //int sy = play_brick_pos[1];
+                //stack[sy][sx] = play_type;
+            }
+        }
+    }
     return 1;
 }
-
 
 /**
  * Shift stack
