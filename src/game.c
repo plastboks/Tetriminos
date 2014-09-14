@@ -131,57 +131,12 @@ char get_new_brick(char brick[4][4])
 }
 
 /**
- * Convert brick type integer to brick type char
- */
-char brick_type_char(int brick_type)
-{
-    switch(brick_type) {
-        case 0:
-              return 'i';
-        case 1:
-              return 'j';
-        case 2:
-              return 'l';
-        case 3:
-              return 'o';
-        case 4:
-              return 's';
-        case 5:
-              return 't';
-        default:
-              return 'z';
-    }
-}
-
-/**
- * Return brick color based on type
- */
-int get_brick_color(char brick_type) {
-    switch(brick_type) {
-        case 'i': /* I */
-            return COLOR_CYAN_BG;
-        case 'j': /* J */
-            return  COLOR_BLUE_BG;
-        case 'l': /* L */
-            return COLOR_WHITE_BG;
-        case 'o': /* O */
-            return COLOR_YELLOW_BG;
-        case 's': /* S */
-            return COLOR_GREEN_BG;
-        case 't': /* T */
-            return COLOR_MAGENTA_BG;
-        default: /* Z */
-            return COLOR_RED_BG;
-    }
-}
-
-/**
  * Set initial brick position.
  */
 void reset_brick_pos(int play_brick_pos[])
 {
     play_brick_pos[0] = 1;
-    play_brick_pos[1] = 7;
+    play_brick_pos[1] = 7; /* must be an odd number */
 }
 
 
@@ -200,7 +155,6 @@ void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick
     for (int y=0; y<3; y++) {
         for (int x=0; x<4; x++) {
             if (brick[y][x] > 0) {
-                /* args: window, column, row ...*/
                 mvwprintw(w, y+play_brick_pos[0], (x*2)+play_brick_pos[1], "%s", "  ");
             }
         }
@@ -219,7 +173,6 @@ void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
             if (brick[y][x] > 0) {
-                /* args: window, column, row ...*/
                 mvwprintw(w, y+play_brick_pos[0], (x*2)+play_brick_pos[1], "%s", "  ");
             }
         }

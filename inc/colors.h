@@ -53,3 +53,6 @@
 #define COLOR_YELLOW_BG 16
 
 #endif
+
+char brick_type_char(int brick_type);
+int get_brick_color(char brick_type);
