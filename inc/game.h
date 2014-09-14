@@ -46,18 +46,20 @@ void reset_brick_pos(int play_brick_pos[]);
 void empty_window(WINDOW *w, int x, int y);
 void empty_but_stack(WINDOW *w, char stack[][10]);
 
-/* drawers */
-void draw_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
+/* brick drawers */
 void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
 void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
 void draw_stack(WINDOW *w, char stack[][10]);
-void update_score_board(WINDOW *w, int lines, int bricks);
-
-/* game state handlers */
-int game_play(WINDOW **boxes, int play_pause);
-int game_pause(int coords[]);
 
 /* brick movers */
 int move_brick_left(int play_brick_pos[2], char play_brick[4][4], char stack[][10]);
 int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][10]);
 int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4], char stack[][10]);
+
+/* score board, and next brick */
+void update_score_board(WINDOW *w, int lines, int bricks);
+void update_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
+
+/* game state handlers */
+int game_play(WINDOW **boxes, int play_pause);
+int game_pause(int coords[]);

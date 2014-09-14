@@ -198,7 +198,23 @@ void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick
     wrefresh(w);
 }
 
-void draw_next_brick(WINDOW *w, char brick_type, char brick[4][4])
+void draw_stack(WINDOW *w, char stack[][10])
+{
+    for (int y=0; y<20; y++) {
+        for (int x=0; x<10; x++) {
+            if (stack[y][x] > 0) {
+                int color = get_brick_color(stack[y][x]);
+                wattron(w, COLOR_PAIR(color));
+                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
+                wattroff(w, COLOR_PAIR(color));
+            }
+        }
+    }
+
+    wrefresh(w);
+}
+
+void update_next_brick(WINDOW *w, char brick_type, char brick[4][4])
 {
     int color = get_brick_color(brick_type);
 
@@ -214,22 +230,6 @@ void draw_next_brick(WINDOW *w, char brick_type, char brick[4][4])
     }
 
     wattroff(w, COLOR_PAIR(color));
-    wrefresh(w);
-}
-
-void draw_stack(WINDOW *w, char stack[][10])
-{
-    for (int y=0; y<20; y++) {
-        for (int x=0; x<10; x++) {
-            if (stack[y][x] > 0) {
-                int color = get_brick_color(stack[y][x]);
-                wattron(w, COLOR_PAIR(color));
-                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
-                wattroff(w, COLOR_PAIR(color));
-            }
-        }
-    }
-
     wrefresh(w);
 }
 
@@ -350,8 +350,8 @@ int game_play(WINDOW **boxes, int play_pause)
 
     /* game data */
     int level = 1;
+    int bricks = 1;
     int lines = 0;
-    int bricks = 0;
     int interval = 0;
     int skip_beat = 0;
 
@@ -363,7 +363,7 @@ int game_play(WINDOW **boxes, int play_pause)
 
     /* generate next brick type, and draw it in the next brick box */
     next_type = get_new_brick(next_brick);
-    draw_next_brick(boxes[w.next_brick], next_type, next_brick);
+    update_next_brick(boxes[w.next_brick], next_type, next_brick);
 
     /* generate a play brick, and draw it to the game board */
     play_type = get_new_brick(play_brick);
@@ -418,9 +418,11 @@ int game_play(WINDOW **boxes, int play_pause)
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
             } else {
-                /* commit new brick (the next brick) */
+                /* commit play brick */
                 push_brick(play_type, play_brick_pos, play_brick, stack);
                 reset_brick_pos(play_brick_pos);
+
+                /* copy 'next brick' to 'play brick' */
                 memcpy(play_brick, next_brick, sizeof(char)*4*4);
                 play_type = next_type;
                 add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
@@ -428,7 +430,7 @@ int game_play(WINDOW **boxes, int play_pause)
                 /* get new next brick */
                 bricks++;
                 next_type = get_new_brick(next_brick);
-                draw_next_brick(boxes[w.next_brick], next_type, next_brick);
+                update_next_brick(boxes[w.next_brick], next_type, next_brick);
 
                 /* redraw stack */
                 lines += check_stack(stack);
