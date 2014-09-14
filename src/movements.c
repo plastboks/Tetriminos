@@ -117,7 +117,25 @@ int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][
  */
 int move_brick_rotate(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
-    /* check if rotate is possible here */
+    int sx, sy;
+
+    /* this is experimental at this stage */
+    for (int y=0; y<4; y++) {
+        for (int x=0; x<4; x++) {
+            if (play_brick[y][x] > 0) {
+                sx = ((play_brick_pos[1]+1)/2)+x-1;
+                sy = (20-play_brick_pos[0])-y;
+                /* other bricks in the stack */
+                if ((stack[sy][sx-1] > 0) || (stack[sy][sx+1] > 0))
+                    return -1;
+                /* the walls of the play board */
+                if ((play_brick_pos[1] < 1) || (play_brick_pos[1] > BOARD_WIDTH-7))
+                    return -1;
+            }
+        }
+    }
+
+    /* if the mess above has passed, we should be clear to rotate at this point... */
     brick_rotate(play_brick, true);
     return 1;
 }
