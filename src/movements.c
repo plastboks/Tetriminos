@@ -33,7 +33,13 @@
 #include "movements.h"
 
 /**
- * Move brick left if no obstacles is in the way.
+ * Move brick left if no obstacles are in the way.
+ *
+ * @param int   play_brick_pos: x,y coordinates of play_brick.
+ * @param char  play_brick: the current tetromino brick.
+ * @param char  stack: play_board stack
+ *
+ * Returns negative if movement is not possible, modifies play_brick_pos.
  */
 int move_brick_left(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
@@ -64,7 +70,13 @@ int move_brick_left(int play_brick_pos[2], char play_brick[4][4], char stack[][1
 }
 
 /**
- * Move brick right if no obstacles is in the way.
+ * Move brick right if no obstacles are in the way.
+ *
+ * @param int   play_brick_pos: x,y coordinates of play_brick.
+ * @param char  play_brick: the current tetromino brick.
+ * @param char  stack: play_board stack
+ 
+ * Returns negative if movement is not possible, modifies play_brick_pos.
  */
 int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
@@ -94,6 +106,15 @@ int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][
     return -1;
 }
 
+/**
+ * Rotate brick if no obstacles are in the way.
+ *
+ * @param int   play_brick_pos: x,y coordinates of play_brick.
+ * @param char  play_brick: the current tetromino brick.
+ * @param char  stack: play_board stack
+ *
+ * Returns negative if movement is not possible, modifies play_brick.
+ */
 int move_brick_rotate(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
     /* check if rotate is possible here */
@@ -102,7 +123,13 @@ int move_brick_rotate(int play_brick_pos[2], char play_brick[4][4], char stack[]
 }
 
 /**
- * Move brick down if no obstacles is in the way.
+ * Move brick down if no obstacles are in the way.
+ *
+ * @param int   play_brick_pos: x,y coordinates of play_brick.
+ * @param char  play_brick: the current tetromino brick.
+ * @param char  stack: play_board stack
+ *
+ * Returns negative if movement is not possible, modifies play_brick_pos.
  */
 int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
