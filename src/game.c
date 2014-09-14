@@ -281,44 +281,78 @@ void empty_but_stack(WINDOW *w, char stack[][10])
 /****************
  * BRICK MOVERS *
  ****************/
-void move_brick_left(int play_brick_pos[2], char play_brick[4][4])
+int move_brick_left(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
     /* a = play brick horizontal leftmost a point */
     int a = 3;
+    int sx, sy;
 
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
-            if ((play_brick[y][x] > 0) && x < a) a = x;
+            if (play_brick[y][x] > 0) {
+                if (x < a)
+                    a = x;
+                sx = ((play_brick_pos[1]+1)/2)+x-1;
+                sy = (20-play_brick_pos[0])-y;
+                if (stack[sy][sx-1] > 0)
+                    return -1;
+            }
         }
     }
 
     /* move only if brick does not move outside board */
-    if (play_brick_pos[1]+a > 1) play_brick_pos[1]-=2;
+    if (play_brick_pos[1]+a > 1) {
+        play_brick_pos[1]-=2;
+        return 1;
+    }
+
+    return -1;
 }
 
-void move_brick_right(int play_brick_pos[2], char play_brick[4][4])
+int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
     /* b = play brick horizontal rightmost a point */
     int b = 0;
+    int sx, sy;
 
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
-            if ((play_brick[y][x] > 0) && x > b) b = x;
+            if (play_brick[y][x] > 0) {
+                if (x > b)
+                    b = x;
+                sx = ((play_brick_pos[1]+1)/2)+x-1;
+                sy = (20-play_brick_pos[0])-y;
+                if (stack[sy][sx+1] > 0)
+                    return -1;
+            }
         }
     }
 
     /* move only if brick does not move outside board */
-    if (play_brick_pos[1]+b < BOARD_WIDTH-5) play_brick_pos[1]+=2;
+    if (play_brick_pos[1]+b < BOARD_WIDTH-5) {
+        play_brick_pos[1]+=2;
+        return 1;
+    }
+
+    return -1;
 }
 
-int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4])
+int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
 {
     /* h = play brick vertical bottommost point */
     int h = 0;
+    int sx, sy;
 
     for (int y=0; y<4; y++) {
         for (int x=0; x<4; x++) {
-            if ((play_brick[y][x] > 0) && y > h) h = y;
+            if (play_brick[y][x] > 0) {
+                if (y > h)
+                    h = y;
+                sx = ((play_brick_pos[1]+1)/2)+x-1;
+                sy = (20-play_brick_pos[0])-y;
+                if (stack[sy-1][sx] > 0)
+                    return -1;
+            }
         }
     }
 
@@ -347,7 +381,7 @@ int game_play(WINDOW **boxes, int play_pause)
     char next_type;
 
     /* game data */
-    int level = 15;
+    int level = 1;
     int interval = 0;
     int skip_beat = 0;
 
@@ -364,15 +398,6 @@ int game_play(WINDOW **boxes, int play_pause)
     /* generate a play brick, and draw it to the game board */
     play_type = get_new_brick(play_brick);
     add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
-
-    /* DEBUGGING
-    stack[0][1] = 'i';
-    stack[1][1] = 'j';
-    stack[2][1] = 'l';
-    stack[3][1] = 's';
-
-    draw_stack(boxes[w.game_board], stack);
-    */
 
     while(1) {
         /* switch getch(), supports vim mode, wasd mode and arrow keys */
@@ -393,14 +418,14 @@ int game_play(WINDOW **boxes, int play_pause)
             case 'a':
             case 'h':
             case KEY_LEFT:
-                move_brick_left(play_brick_pos, play_brick);
+                move_brick_left(play_brick_pos, play_brick, stack);
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
             case 'd':
             case 'l':
             case KEY_RIGHT:
-                move_brick_right(play_brick_pos, play_brick);
+                move_brick_right(play_brick_pos, play_brick, stack);
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;
@@ -416,7 +441,7 @@ int game_play(WINDOW **boxes, int play_pause)
             interval = skip_beat = 0;
 
             /* check if possible to move, else setup new brick */
-            if (move_brick_gravity(play_brick_pos, play_brick) > 0) {
+            if (move_brick_gravity(play_brick_pos, play_brick, stack) > 0) {
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
             } else {
