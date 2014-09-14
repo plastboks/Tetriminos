@@ -233,6 +233,18 @@ void draw_stack(WINDOW *w, char stack[][10])
     wrefresh(w);
 }
 
+void update_score_board(WINDOW *w, int lines, int bricks)
+{
+    empty_window(w, 8, 3);
+
+    wattron(w, COLOR_PAIR(COLOR_BLACK_BG));
+    mvwprintw(w, 1, 1, "b: %d", bricks);
+    mvwprintw(w, 2, 1, "l: %d", lines);
+    wattroff(w, COLOR_PAIR(COLOR_BLACK_BG));
+
+    wrefresh(w);
+}
+
 
 /****************
  * BRICK MOVERS *
@@ -338,6 +350,8 @@ int game_play(WINDOW **boxes, int play_pause)
 
     /* game data */
     int level = 1;
+    int lines = 0;
+    int bricks = 0;
     int interval = 0;
     int skip_beat = 0;
 
@@ -354,6 +368,9 @@ int game_play(WINDOW **boxes, int play_pause)
     /* generate a play brick, and draw it to the game board */
     play_type = get_new_brick(play_brick);
     add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
+
+    /* update score board */
+    update_score_board(boxes[w.score_board], lines, bricks);
 
     while(1) {
         /* switch getch(), supports vim mode, wasd mode and arrow keys */
@@ -401,6 +418,7 @@ int game_play(WINDOW **boxes, int play_pause)
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
             } else {
+                /* commit new brick (the next brick) */
                 push_brick(play_type, play_brick_pos, play_brick, stack);
                 reset_brick_pos(play_brick_pos);
                 memcpy(play_brick, next_brick, sizeof(char)*4*4);
@@ -408,11 +426,16 @@ int game_play(WINDOW **boxes, int play_pause)
                 add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
 
                 /* get new next brick */
+                bricks++;
                 next_type = get_new_brick(next_brick);
                 draw_next_brick(boxes[w.next_brick], next_type, next_brick);
 
                 /* redraw stack */
+                lines += check_stack(stack);
                 draw_stack(boxes[w.game_board], stack);
+
+                /* update score board */
+                update_score_board(boxes[w.score_board], lines, bricks);
             }
         }
 

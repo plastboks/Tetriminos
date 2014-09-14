@@ -65,7 +65,41 @@ int push_brick(char play_type, int play_brick_pos[2], char brick[4][4], char sta
 /**
  * Shift stack
  */
-int shift_stack(int lines)
+void shift_stack(int row, char stack[][10])
 {
-    return 1;
+    for (int y=row; y<(20-1); y++) {
+        for (int x=0; x<10; x++) {
+            stack[y][x] = stack[y+1][x];
+        }
+    }
+}
+
+/**
+ * Check stack for complete rows
+ *
+ * return number of lines removed from stack.
+ */
+int check_stack(char stack[][10])
+{
+    /* column and row count */
+    int cc = 0;
+    int rows = 0;
+
+    for (int y=0; y<20; y++) {
+        for (int x=0; x<10; x++) {
+            if (stack[y][x] > 0) cc++;
+        }
+        if (cc == 10) {
+            shift_stack(y, stack);
+            rows++;
+            y--;
+        }
+        cc = 0;
+    }
+
+    if (rows > 0) {
+        return rows;
+    }
+
+    return 0;
 }

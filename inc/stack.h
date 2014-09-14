@@ -32,6 +32,8 @@
 
 #include "config.h"
 
-int shift_stack(int lines);
 int push_brick(char play_type, int play_brick_pos[2], char brick[4][4], char stack[][10]);
+int check_stack(char stack[][10]);
+void shift_stack(int row, char stack[][10]);
+
 void empty_stack(char stack[][10]);
