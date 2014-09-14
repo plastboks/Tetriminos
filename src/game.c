@@ -432,7 +432,7 @@ int game_pause(int coords[])
     /* Info texts */
     mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
     wrefresh(boxes[w.game_board]);
-    mvprintw(coords[1] + BOARD_HEIGHT + 2, coords[0]+1, "Press h for help");
+    //mvprintw(coords[1] + BOARD_HEIGHT + 2, coords[0]+1, "Press h for help");
 
     while(1) {
         switch(wgetch(stdscr)) {
