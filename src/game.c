@@ -121,6 +121,22 @@ void empty_window(WINDOW *w, int x, int y)
 }
 
 /**
+ * Clean game board, but not stack
+ */
+void empty_but_stack(WINDOW *w, char stack[][10])
+{
+    for (int y=0; y<20; y++) {
+        for (int x=0; x<10; x++) {
+            if (stack[y][x] == 0) {
+                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
+            }
+        }
+    }
+
+    wrefresh(w);
+}
+
+/**
  * Get a new brick, picked random.
  */
 char get_new_brick(char brick[4][4])
@@ -210,19 +226,6 @@ void draw_stack(WINDOW *w, char stack[][10])
                 wattron(w, COLOR_PAIR(color));
                 mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
                 wattroff(w, COLOR_PAIR(color));
-            }
-        }
-    }
-
-    wrefresh(w);
-}
-
-void empty_but_stack(WINDOW *w, char stack[][10])
-{
-    for (int y=0; y<20; y++) {
-        for (int x=0; x<10; x++) {
-            if (stack[y][x] == 0) {
-                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
             }
         }
     }
