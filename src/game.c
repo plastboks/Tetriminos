@@ -33,6 +33,7 @@
 #include "game.h"
 #include "colors.h"
 #include "bricks.h"
+#include "movements.h"
 #include "stack.h"
 #include "config.h"
 
@@ -245,94 +246,6 @@ void update_score_board(WINDOW *w, int lines, int bricks)
     wrefresh(w);
 }
 
-
-/****************
- * BRICK MOVERS *
- ****************/
-int move_brick_left(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
-{
-    /* a = play brick horizontal leftmost a point */
-    int a = 3;
-    int sx, sy;
-
-    for (int y=0; y<4; y++) {
-        for (int x=0; x<4; x++) {
-            if (play_brick[y][x] > 0) {
-                if (x < a)
-                    a = x;
-                sx = ((play_brick_pos[1]+1)/2)+x-1;
-                sy = (20-play_brick_pos[0])-y;
-                if (stack[sy][sx-1] > 0)
-                    return -1;
-            }
-        }
-    }
-
-    /* move only if brick does not move outside board */
-    if (play_brick_pos[1]+a > 1) {
-        play_brick_pos[1]-=2;
-        return 1;
-    }
-
-    return -1;
-}
-
-int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
-{
-    /* b = play brick horizontal rightmost a point */
-    int b = 0;
-    int sx, sy;
-
-    for (int y=0; y<4; y++) {
-        for (int x=0; x<4; x++) {
-            if (play_brick[y][x] > 0) {
-                if (x > b)
-                    b = x;
-                sx = ((play_brick_pos[1]+1)/2)+x-1;
-                sy = (20-play_brick_pos[0])-y;
-                if (stack[sy][sx+1] > 0)
-                    return -1;
-            }
-        }
-    }
-
-    /* move only if brick does not move outside board */
-    if (play_brick_pos[1]+b < BOARD_WIDTH-5) {
-        play_brick_pos[1]+=2;
-        return 1;
-    }
-
-    return -1;
-}
-
-int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4], char stack[][10])
-{
-    /* h = play brick vertical bottommost point */
-    int h = 0;
-    int sx, sy;
-
-    for (int y=0; y<4; y++) {
-        for (int x=0; x<4; x++) {
-            if (play_brick[y][x] > 0) {
-                if (y > h)
-                    h = y;
-                sx = ((play_brick_pos[1]+1)/2)+x-1;
-                sy = (20-play_brick_pos[0])-y;
-                if (stack[sy-1][sx] > 0)
-                    return -1;
-            }
-        }
-    }
-
-    if (play_brick_pos[0]+h < BOARD_HEIGHT-2) {
-        play_brick_pos[0]++;
-        return 1;
-    }
-
-    return -1;
-}
-
-
 /***********************
  * GAME STATE HANDLERS *
  ***********************/
@@ -378,8 +291,7 @@ int game_play(WINDOW **boxes, int play_pause)
             case 'w':
             case 'k':
             case KEY_UP:
-                /* rotate brick upwards / clockwise */
-                brick_rotate(play_brick, true);
+                move_brick_rotate(play_brick_pos, play_brick, stack);
                 empty_but_stack(boxes[w.game_board], stack);
                 refresh_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
                 break;

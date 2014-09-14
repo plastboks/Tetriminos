@@ -51,11 +51,6 @@ void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick
 void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4]);
 void draw_stack(WINDOW *w, char stack[][10]);
 
-/* brick movers */
-int move_brick_left(int play_brick_pos[2], char play_brick[4][4], char stack[][10]);
-int move_brick_right(int play_brick_pos[2], char play_brick[4][4], char stack[][10]);
-int move_brick_gravity(int play_brick_pos[2], char play_brick[4][4], char stack[][10]);
-
 /* score board, and next brick */
 void update_score_board(WINDOW *w, int lines, int bricks);
 void update_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
