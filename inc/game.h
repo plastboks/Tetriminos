@@ -52,8 +52,9 @@ void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick
 void draw_stack(WINDOW *w, char stack[][10]);
 
 /* score board, and next brick */
-void update_score_board(WINDOW *w, int lines, int bricks);
+void update_score_board(WINDOW *w, int *lines, int *bricks, int *level);
 void update_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
+int level_up(int *lines);
 
 /* game state handlers */
 int game_play(WINDOW **boxes, int play_pause);

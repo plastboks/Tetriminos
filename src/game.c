@@ -234,17 +234,34 @@ void update_next_brick(WINDOW *w, char brick_type, char brick[4][4])
     wrefresh(w);
 }
 
-void update_score_board(WINDOW *w, int lines, int bricks)
+void update_score_board(WINDOW *w, int *lines, int *bricks, int *level)
 {
     empty_window(w, 8, 3);
 
     wattron(w, COLOR_PAIR(COLOR_BLACK_BG));
-    mvwprintw(w, 1, 1, "b: %d", bricks);
-    mvwprintw(w, 2, 1, "l: %d", lines);
+    mvwprintw(w, 1, 1, "br: %d", *bricks);
+    mvwprintw(w, 2, 1, "ln: %d", *lines);
+    mvwprintw(w, 3, 1, "lv: %d", *level);
     wattroff(w, COLOR_PAIR(COLOR_BLACK_BG));
 
     wrefresh(w);
 }
+
+int level_up(int *lines)
+{
+    if (*lines < 50 && *lines > 0) return 1;        /* 1 -> 49 */
+    if (*lines < 100 && *lines >= 50) return 2;     /* 50 -> 99 */
+    if (*lines < 150 && *lines >= 100) return 3;    /* 100 -> 149 */
+    if (*lines < 200 && *lines >= 150) return 4;    /* 150 -> 199 */
+    if (*lines < 250 && *lines >= 200) return 5;    /* 200 -> 249 */
+    if (*lines < 300 && *lines >= 250) return 6;    /* 250 -> 299 */
+    if (*lines < 350 && *lines >= 300) return 7;    /* 300 -> 349 */
+    if (*lines < 400 && *lines >= 350) return 8;    /* 350 -> 399 */
+    if (*lines > 400) return 9;                     /* 400 -> ... */
+
+    return 1;
+}
+
 
 /***********************
  * GAME STATE HANDLERS *
@@ -262,7 +279,7 @@ int game_play(WINDOW **boxes, int play_pause)
     char next_type;
 
     /* game data */
-    int level = 1;
+    int level = 1; /* MAX 9 */
     int bricks = 1;
     int lines = 0;
     int interval = 0;
@@ -283,7 +300,7 @@ int game_play(WINDOW **boxes, int play_pause)
     add_new_brick(boxes[w.game_board], play_type, play_brick_pos, play_brick);
 
     /* update score board */
-    update_score_board(boxes[w.score_board], lines, bricks);
+    update_score_board(boxes[w.score_board], &lines, &bricks, &level);
 
     while(1) {
         /* switch getch(), supports vim mode, wasd mode and arrow keys */
@@ -348,8 +365,11 @@ int game_play(WINDOW **boxes, int play_pause)
                 lines += check_stack(stack);
                 draw_stack(boxes[w.game_board], stack);
 
+                /* level up */
+                level = level_up(&lines);
+
                 /* update score board */
-                update_score_board(boxes[w.score_board], lines, bricks);
+                update_score_board(boxes[w.score_board], &lines, &bricks, &level);
             }
         }
 
