@@ -38,9 +38,23 @@
 #include <fcntl.h>
 #include <time.h>
 
+/* define game data */
+typedef struct {
+    char stack[20][10];
+    char play_brick[4][4];
+    char next_brick[4][4];
+    int play_brick_pos[2];
+    char play_type;
+    char next_type;
+    int level;
+    int bricks;
+    int lines;
+} game_data;
+
 WINDOW **draw_game_boxes(int coords[]);
 
 /* helper functions */
+void setup_gamedata(WINDOW **boxes, game_data *gd);
 char get_new_brick(char brick[4][4]);
 void reset_brick_pos(int play_brick_pos[]);
 void empty_window(WINDOW *w, int x, int y);
@@ -57,5 +71,5 @@ void update_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
 int level_up(int *lines);
 
 /* game state handlers */
-int game_play(WINDOW **boxes, int play_pause);
+int game_play(WINDOW **boxes, int new_game);
 int game_pause(int coords[]);
