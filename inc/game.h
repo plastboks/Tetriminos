@@ -71,5 +71,5 @@ void update_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
 int level_up(int *lines);
 
 /* game state handlers */
-int game_play(WINDOW **boxes, int play_pause);
+int game_play(WINDOW **boxes, int new_game);
 int game_pause(int coords[]);

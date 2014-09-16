@@ -46,6 +46,9 @@ struct {
     0, 1, 2, 3
 };
 
+/* globally defined game data */
+game_data gd;
+
 /**
  * Draw the game window and boxes
  *
@@ -295,11 +298,12 @@ int level_up(int *lines)
 /***********************
  * GAME STATE HANDLERS *
  ***********************/
-int game_play(WINDOW **boxes, int play_pause)
+int game_play(WINDOW **boxes, int new_game)
 {
     /* setup game data */
-    game_data gd;
-    setup_gamedata(boxes, &gd);
+    if (new_game > 0) {
+        setup_gamedata(boxes, &gd);
+    }
 
     /* game data */
     int interval = 0;
@@ -407,18 +411,20 @@ int game_pause(int coords[])
     /* draw and get game boxes */
     WINDOW **boxes = draw_game_boxes(coords);
 
+    int game_state = 1;
+
     /* Info texts */
     mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
     wrefresh(boxes[w.game_board]);
-    //mvprintw(coords[1] + BOARD_HEIGHT + 2, coords[0]+1, "Press h for help");
+    mvprintw(coords[1] + BOARD_HEIGHT + 2, coords[0]+1, "Press q to quit");
 
     while(1) {
         switch(wgetch(stdscr)) {
             case 'p':
                 /* enter game play state */
-                game_play(boxes, 1);
+                game_state = game_play(boxes, game_state);
                 /* return from play state */
-                mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
+                mvwprintw(boxes[w.game_board], 10, 6, "%s", "- PAUSE -");
                 wrefresh(boxes[w.game_board]);
                 break;
             case 'q':
