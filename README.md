@@ -1,7 +1,7 @@
 Tetriminos
 ==========
 Tetriminos is a small C and ncurses implementation of the Tetris game.
-
+![main_screenshot](screenshots/gameplay.2014-09-16.png)
 
 About
 =====
