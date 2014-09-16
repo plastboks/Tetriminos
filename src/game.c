@@ -281,10 +281,10 @@ void update_score_board(WINDOW *w, int *lines, int *bricks, int *level)
 
 int level_up(int *lines)
 {
-    if (*lines < 50 && *lines > 0) return 1;        /* 1 -> 49 */
-    if (*lines < 100 && *lines >= 50) return 2;     /* 50 -> 99 */
-    if (*lines < 150 && *lines >= 100) return 3;    /* 100 -> 149 */
-    if (*lines < 200 && *lines >= 150) return 4;    /* 150 -> 199 */
+    if (*lines < 20 && *lines > 0) return 1;        /* 1 -> 19 */
+    if (*lines < 60 && *lines >= 20) return 2;      /* 20 -> 59 */
+    if (*lines < 120 && *lines >= 60) return 3;     /* 60 -> 119 */
+    if (*lines < 200 && *lines >= 120) return 4;    /* 120 -> 199 */
     if (*lines < 250 && *lines >= 200) return 5;    /* 200 -> 249 */
     if (*lines < 300 && *lines >= 250) return 6;    /* 250 -> 299 */
     if (*lines < 350 && *lines >= 300) return 7;    /* 300 -> 349 */
