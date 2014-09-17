@@ -59,22 +59,24 @@ int main(int argc, char *argv[])
 
     do {
         switch(screen) {
+            case 0: /* new game */
+                screen_coord_update(c.game_box_size, coords, old_coords);
+                screen = game_pause(coords, 1);
+                break;
+            case 1: /* continue game */
+                screen_coord_update(c.game_box_size, coords, old_coords);
+                screen = game_pause(coords, -1);
+                break;
             case -1:
-            /* Temporarily catching all results as of now */
-            case 1:
-            case 2:
+            case 2: /* high scores */
                 screen_coord_update(c.menu_box_size, coords, old_coords);
                 screen = screen_menu(c.menu_box_size, coords);
                 break;
-            case 0:
-                screen_coord_update(c.game_box_size, coords, old_coords);
-                screen = game_pause(coords);
-                break;
-            case 3:
+            case 3: /* about */
                 screen_coord_update(c.about_box_size, coords, old_coords);
                 screen = screen_about(c.about_box_size, coords, texts.about);
                 break;
-            case 4:
+            case 4: /* quit */
                 life = 0;
                 break;
         }

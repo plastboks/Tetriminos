@@ -34,6 +34,7 @@
 #include "screens.h"
 #include "logos.h"
 #include "config.h"
+#include "game.h"
 
 /**
  * Create ncurses window.

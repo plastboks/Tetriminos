@@ -37,18 +37,6 @@
 #include "stack.h"
 #include "config.h"
 
-struct {
-    int main_window;
-    int game_board;
-    int next_brick;
-    int score_board;
-} w = {
-    0, 1, 2, 3
-};
-
-/* globally defined game data */
-game_data gd;
-
 /**
  * Draw the game window and boxes
  *
@@ -60,6 +48,11 @@ game_data gd;
 WINDOW **draw_game_boxes(int coords[])
 {
     WINDOW **items;
+
+    w.main_window = 0;
+    w.game_board = 1;
+    w.next_brick = 2;
+    w.score_board = 3;
 
     /* main window size */
     int mw_size[2] = {BOARD_HEIGHT + 2, BOARD_WIDTH + 14};
@@ -351,6 +344,7 @@ int game_play(WINDOW **boxes, int new_game)
                               gd.play_brick);
                 break;
             case 'q':
+                return -2;
             case 'p':
                 /* pause game, return */
                 return -1;
@@ -406,12 +400,10 @@ int game_play(WINDOW **boxes, int new_game)
     return -1;
 }
 
-int game_pause(int coords[])
+int game_pause(int coords[], int game_state)
 {
     /* draw and get game boxes */
     WINDOW **boxes = draw_game_boxes(coords);
-
-    int game_state = 1;
 
     /* Info texts */
     mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
@@ -423,6 +415,7 @@ int game_pause(int coords[])
             case 'p':
                 /* enter game play state */
                 game_state = game_play(boxes, game_state);
+                if (game_state == -2) return -1;
                 /* return from play state */
                 mvwprintw(boxes[w.game_board], 10, 6, "%s", "- PAUSE -");
                 wrefresh(boxes[w.game_board]);

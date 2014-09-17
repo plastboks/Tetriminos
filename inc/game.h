@@ -51,6 +51,16 @@ typedef struct {
     int lines;
 } game_data;
 
+struct {
+    int main_window;
+    int game_board;
+    int next_brick;
+    int score_board;
+} w;
+
+/* globally defined game data... */
+game_data gd;
+
 WINDOW **draw_game_boxes(int coords[]);
 
 /* helper functions */
@@ -72,4 +82,4 @@ int level_up(int *lines);
 
 /* game state handlers */
 int game_play(WINDOW **boxes, int new_game);
-int game_pause(int coords[]);
+int game_pause(int coords[], int game_state);
