@@ -29,7 +29,9 @@
  * along with Tetriminos.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#define _BSD_SOURCE
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif
 
 #include <unistd.h>
 #include <stdio.h>
