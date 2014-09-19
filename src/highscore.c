@@ -32,3 +32,36 @@
 
 #include "highscore.h"
 
+void get_highscore_file_path(char file[512])
+{
+    char path[512];
+    config_path(path);
+
+    snprintf(file, 512, "%s/highscore.dat", path);
+}
+
+int read_highscore(struct highscore_stack *stack)
+{
+	FILE *highscore_file;
+    char file_path[512];
+    get_highscore_file_path(file_path);
+
+	if((highscore_file = fopen(file_path, "r")) == NULL)
+        // do nothing for now...
+
+	fclose(highscore_file);
+	return 0;
+}
+
+int write_highscore(struct highscore_stack *stack)
+{
+	FILE *highscore_file;
+    char file_path[512];
+    get_highscore_file_path(file_path);
+
+	if((highscore_file = fopen(file_path, "w")) == NULL)
+        // do nothing for now...
+
+	fclose(highscore_file);
+	return 0;
+}
