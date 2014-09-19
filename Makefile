@@ -6,7 +6,7 @@ ODIR=obj
 
 # tetriminos app
 _OBJ = tetriminos.o config.o screens.o game.o bricks.o
-_OBJ += stack.o colors.o movements.o drawers.o
+_OBJ += stack.o colors.o movements.o drawers.o highscore.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 tetriminos: $(OBJ)

@@ -1,13 +1,13 @@
 /*
- * Tetriminos config source code file
+ * Tetriminos high score source file
  *
- * @filename: config.c
+ * @filename: highscore.c
  *
  * @version: 0.0.1
  *
- * @date: 2013-12-30
+ * @date: 2014-09-19
  *
- * @description: Tetriminos functions source code file
+ * @description: Tetriminos high score source file
  *
  * @author: Alexander Skjolden
  *
@@ -30,36 +30,5 @@
  *
  */
 
-#include "config.h"
+#include "highscore.h"
 
-/**
- * Setup Tetriminos. Create folders for database files and config files
- *
- * Returns nothing.
- */
-void config_setup()
-{
-    char path[512];
-
-    config_path(path);
-    config_create_dir(path);
-}
-
-void config_path(char path[512])
-{
-    char *homedir;
-
-    homedir = getenv("HOME");
-    sprintf(path, "%s/.tetriminos", homedir);
-}
-
-void config_create_dir(char path[512])
-{
-    struct stat st;
-    /**
-     * Check if directory exists, if not create it.
-     */
-    if (stat(path, &st) != 0) {
-        mkdir(path, 0755);
-    }
-}
