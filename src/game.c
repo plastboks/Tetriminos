@@ -34,75 +34,10 @@
 #include "colors.h"
 #include "bricks.h"
 #include "movements.h"
+#include "drawers.h"
 #include "stack.h"
 #include "config.h"
 
-/**
- * Draw the game window and boxes
- *
- * int coords defines the center of the screens, set by the
- * applications init functions.
- *
- * Returns WINDOW
- */
-WINDOW **draw_game_boxes(int coords[])
-{
-    WINDOW **items;
-
-    w.main_window = 0;
-    w.game_board = 1;
-    w.next_brick = 2;
-    w.score_board = 3;
-
-    /* main window size */
-    int mw_size[2] = {BOARD_HEIGHT + 2, BOARD_WIDTH + 14};
-    /* game board size */
-    int gb_size[2] = {BOARD_HEIGHT, BOARD_WIDTH};
-    /* next brick size */
-    int nb_size[2] = {5, 10};
-    /* high score size */
-    int hs_size[2] = {5, 10};
-
-    items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
-    erase();
-    refresh();
-
-    /* main window */
-    mvprintw(coords[1]-1, coords[0]+9, "- Tetriminos -");
-    items[w.main_window] = newwin(mw_size[0], mw_size[1], coords[1], coords[0]);
-    box(items[w.main_window], ACS_VLINE, ACS_HLINE);
-
-    /* game window */
-    items[w.game_board]=subwin(items[w.main_window],
-                               gb_size[0], gb_size[1],
-                               coords[1]+1, coords[0]+1);
-    box(items[w.game_board], ACS_VLINE, ACS_HLINE);
-
-    /* next brick */
-    mvprintw(coords[1]+2, coords[0] + BOARD_WIDTH + 2, "Next brick");
-    items[w.next_brick]=subwin(items[w.main_window],
-                               nb_size[0], nb_size[1],
-                               coords[1]+3, coords[0] + BOARD_WIDTH + 2);
-    box(items[w.next_brick], ACS_VLINE, ACS_HLINE);
-
-    /* scores */
-    mvprintw(coords[1]+10, coords[0] + BOARD_WIDTH + 2, "Score");
-    items[w.score_board]=subwin(items[w.main_window],
-                                      hs_size[0], hs_size[1],
-                                      coords[1]+11, coords[0] + BOARD_WIDTH + 2);
-    box(items[w.score_board], ACS_VLINE, ACS_HLINE);
-
-    /* colors */
-    wbkgd(items[w.main_window], COLOR_PAIR(BORDER_COLOR));
-    wbkgd(items[w.game_board], COLOR_PAIR(4));
-    wbkgd(items[w.next_brick], COLOR_PAIR(5));
-    wbkgd(items[w.score_board], COLOR_PAIR(6));
-
-    /* do one last refresh */
-    wrefresh(items[w.main_window]);
-
-    return items;
-}
 
 /**
  * Setup game data for a new game.
@@ -134,35 +69,6 @@ void setup_gamedata(WINDOW **boxes, game_data *gd)
 }
 
 /**
- * Empty game board with empty chars.
- */
-void empty_window(WINDOW *w, int x, int y)
-{
-    for (int r=1; r<=y; r++) {
-        for (int c=1; c<=x; c++) {
-            mvwprintw(w, r, c, "%s", " ");
-        }
-    }
-    wrefresh(w);
-}
-
-/**
- * Clean game board, but not stack
- */
-void empty_but_stack(WINDOW *w, char stack[][10])
-{
-    for (int y=0; y<20; y++) {
-        for (int x=0; x<10; x++) {
-            if (stack[y][x] == 0) {
-                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
-            }
-        }
-    }
-
-    wrefresh(w);
-}
-
-/**
  * Get a new brick, picked random.
  */
 char get_new_brick(char brick[4][4])
@@ -179,97 +85,6 @@ void reset_brick_pos(int play_brick_pos[])
 {
     play_brick_pos[0] = 1;
     play_brick_pos[1] = 7; /* must be an odd number */
-}
-
-
-/*****************
- * BRICK DRAWERS *
- *****************/
-void add_new_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4])
-{
-    int color = get_brick_color(brick_type);
-
-    /* empty game board */
-    empty_window(w, BOARD_WIDTH-2, BOARD_HEIGHT-2);
-
-    wattron(w, COLOR_PAIR(color));
-
-    for (int y=0; y<3; y++) {
-        for (int x=0; x<4; x++) {
-            if (brick[y][x] > 0) {
-                mvwprintw(w, y+play_brick_pos[0], (x*2)+play_brick_pos[1], "%s", "  ");
-            }
-        }
-    }
-
-    wattroff(w, COLOR_PAIR(color));
-    wrefresh(w);
-}
-
-void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick[4][4])
-{
-    int color = get_brick_color(brick_type);
-
-    wattron(w, COLOR_PAIR(color));
-
-    for (int y=0; y<4; y++) {
-        for (int x=0; x<4; x++) {
-            if (brick[y][x] > 0) {
-                mvwprintw(w, y+play_brick_pos[0], (x*2)+play_brick_pos[1], "%s", "  ");
-            }
-        }
-    }
-
-    wattroff(w, COLOR_PAIR(color));
-    wrefresh(w);
-}
-
-void draw_stack(WINDOW *w, char stack[][10])
-{
-    for (int y=0; y<20; y++) {
-        for (int x=0; x<10; x++) {
-            if (stack[y][x] > 0) {
-                int color = get_brick_color(stack[y][x]);
-                wattron(w, COLOR_PAIR(color));
-                mvwprintw(w, 20-y, (x*2)+1, "%s", "  ");
-                wattroff(w, COLOR_PAIR(color));
-            }
-        }
-    }
-
-    wrefresh(w);
-}
-
-void update_next_brick(WINDOW *w, char brick_type, char brick[4][4])
-{
-    int color = get_brick_color(brick_type);
-
-    empty_window(w, 8, 3);
-    wattron(w, COLOR_PAIR(color));
-
-    for (int y=0; y<3; y++) {
-        for (int x=0; x<4; x++) {
-            if (brick[y][x] > 0) {
-                mvwprintw(w, y+1, (x*2)+1, "%s", "  ");
-            }
-        }
-    }
-
-    wattroff(w, COLOR_PAIR(color));
-    wrefresh(w);
-}
-
-void update_score_board(WINDOW *w, int *lines, int *bricks, int *level)
-{
-    empty_window(w, 8, 3);
-
-    wattron(w, COLOR_PAIR(COLOR_BLACK_BG));
-    mvwprintw(w, 1, 1, "br: %d", *bricks);
-    mvwprintw(w, 2, 1, "ln: %d", *lines);
-    mvwprintw(w, 3, 1, "lv: %d", *level);
-    wattroff(w, COLOR_PAIR(COLOR_BLACK_BG));
-
-    wrefresh(w);
 }
 
 int level_up(int *lines)
@@ -291,7 +106,7 @@ int level_up(int *lines)
 /***********************
  * GAME STATE HANDLERS *
  ***********************/
-int game_play(WINDOW **boxes, int new_game)
+int game_play(WINDOW **boxes, game_data gd, int new_game)
 {
     /* setup game data */
     if (new_game > 0) {
@@ -413,6 +228,9 @@ int game_pause(int coords[], int game_state)
     /* draw and get game boxes */
     WINDOW **boxes = draw_game_boxes(coords);
 
+    /* globally defined game data... */
+    game_data gd;
+
     /* Info texts */
     mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
     wrefresh(boxes[w.game_board]);
@@ -422,7 +240,7 @@ int game_pause(int coords[], int game_state)
         switch(wgetch(stdscr)) {
             case 'p':
                 /* enter game play state */
-                game_state = game_play(boxes, game_state);
+                game_state = game_play(boxes, gd, game_state);
 
                 /* user has quited the ongoing game, push to menu */
                 if (game_state == -2) return -1;
