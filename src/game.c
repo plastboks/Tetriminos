@@ -300,7 +300,8 @@ int game_play(WINDOW **boxes, int new_game)
 
     /* game data */
     int interval = 0;
-    int skip_beat = 0;
+    short skip_beat = 0;
+    short gravity_moves = 0;
 
     /* update score board */
     update_score_board(boxes[w.score_board], &gd.lines, &gd.bricks, &gd.level);
@@ -357,12 +358,16 @@ int game_play(WINDOW **boxes, int new_game)
 
             /* check if possible to move, else setup new brick */
             if (move_brick_gravity(gd.play_brick_pos, gd.play_brick, gd.stack) > 0) {
+                gravity_moves++;
                 empty_but_stack(boxes[w.game_board], gd.stack);
                 refresh_brick(boxes[w.game_board],
                               gd.play_type,
                               gd.play_brick_pos,
                               gd.play_brick);
             } else {
+                /* if brick cannot move anymore */
+                if (gravity_moves == 0) return 1;
+
                 /* commit play brick */
                 push_brick(gd.play_type, gd.play_brick_pos, gd.play_brick, gd.stack);
                 reset_brick_pos(gd.play_brick_pos);
@@ -389,6 +394,9 @@ int game_play(WINDOW **boxes, int new_game)
 
                 /* update score board */
                 update_score_board(boxes[w.score_board], &gd.lines, &gd.bricks, &gd.level);
+
+                /* reset brick gravity_moves */
+                gravity_moves = 0;
             }
         }
 
@@ -415,8 +423,12 @@ int game_pause(int coords[], int game_state)
             case 'p':
                 /* enter game play state */
                 game_state = game_play(boxes, game_state);
+
+                /* user has quited the ongoing game, push to menu */
                 if (game_state == -2) return -1;
-                /* return from play state */
+                /* game has ended, do high score routine */
+                if (game_state == 1) return -1;
+                /* return from play state, aka pause mode */
                 mvwprintw(boxes[w.game_board], 10, 6, "%s", "- PAUSE -");
                 wrefresh(boxes[w.game_board]);
                 break;
