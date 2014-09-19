@@ -14,7 +14,7 @@ Features
 Part of this applications purpose is to teach the author some best practices in writing a C ncurses app. Therefor this app might have some unnecessary features just for the heck of it.
 A short list of features follows:
   * Fully configurable trough config files.
-  * High scores (saved in a SQL database (SQLite), or possibly other structure).
+  * High scores.
   * Pause and stop game, continue upon start.
 
 
@@ -51,8 +51,6 @@ Make sure you have the necessary dependencies as listed below.
 Dependencies
 ============
   * ncurses
-  * SQLite ? (or save data in a simple text file)
-  * libconfig ? (or make a custom parser)
 
 
 Branches
