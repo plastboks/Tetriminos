@@ -31,7 +31,6 @@
  */
 
 #ifndef _COLORS_H
-
 #define _COLORS_H
 
 #define COLOR_BLACK_FG 1
@@ -54,5 +53,11 @@
 
 #endif
 
+#include <ncurses.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void setup_colors();
 char brick_type_char(int brick_type);
 int get_brick_color(char brick_type);

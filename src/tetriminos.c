@@ -31,6 +31,7 @@
  */
 
 #include "config.h"
+#include "colors.h"
 #include "structs.h"
 #include "game.h"
 #include "screens.h"
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 
     /* setup screen and colors */
     screen_setup();
-    screen_colors();
+    setup_colors();
 
     if (SPLASH) {
         screen_coord_update(c.splash_box_size, coords, old_coords);

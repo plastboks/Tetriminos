@@ -30,8 +30,8 @@
  *
  */
 
-#include "colors.h"
 #include "screens.h"
+#include "colors.h"
 #include "logos.h"
 #include "config.h"
 #include "game.h"
@@ -215,50 +215,6 @@ void screen_setup()
     noecho();
     nodelay(stdscr, true);
     keypad(stdscr, true);
-}
-
-/**
- * ncurses color setup.
- *
- * Returns nothing.
- */
-void screen_colors()
-{
-    if (has_colors() == FALSE) {
-        endwin();
-        printf("Your terminal does not support colors\n");
-        exit(1);
-    }
-    start_color();
-
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_GREEN, COLOR_BLACK);
-    init_pair(3, COLOR_BLUE, COLOR_BLACK);
-    init_pair(4, COLOR_CYAN, COLOR_BLACK);
-    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
-    init_pair(6, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(15, COLOR_WHITE, COLOR_BLACK);
-    init_pair(16, COLOR_BLACK, COLOR_BLACK);
-    
-	init_pair(COLOR_BLACK_BG, COLOR_WHITE, COLOR_BLACK);
-	init_pair(COLOR_GREEN_BG, COLOR_WHITE, COLOR_GREEN);
-	init_pair(COLOR_WHITE_BG, COLOR_WHITE, COLOR_WHITE);
-	init_pair(COLOR_RED_BG, COLOR_WHITE, COLOR_RED);
-	init_pair(COLOR_CYAN_BG, COLOR_WHITE, COLOR_CYAN);
-	init_pair(COLOR_MAGENTA_BG, COLOR_WHITE, COLOR_MAGENTA);
-	init_pair(COLOR_BLUE_BG, COLOR_WHITE, COLOR_BLUE);
-	init_pair(COLOR_YELLOW_BG, COLOR_WHITE, COLOR_YELLOW);
-
-    /*
-	init_pair(COLOR_BLACK_FG, COLOR_BLACK, COLOR_BLACK);
-	init_pair(COLOR_GREEN_FG, COLOR_GREEN, COLOR_BLACK);
-	init_pair(COLOR_WHITE_FG, COLOR_WHITE, COLOR_BLACK);
-	init_pair(COLOR_RED_FG, COLOR_RED, COLOR_BLACK);
-	init_pair(COLOR_CYAN_FG, COLOR_CYAN, COLOR_BLACK);
-	init_pair(COLOR_MAGENTA_FG, COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(COLOR_BLUE_FG, COLOR_BLUE, COLOR_BLACK);
-	init_pair(COLOR_YELLOW_FG, COLOR_YELLOW, COLOR_BLACK);
-    */
 }
 
 /**

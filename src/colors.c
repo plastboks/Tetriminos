@@ -77,3 +77,35 @@ int get_brick_color(char brick_type) {
     }
 }
 
+/**
+ * ncurses color setup.
+ *
+ * Returns nothing.
+ */
+void setup_colors()
+{
+    if (has_colors() == FALSE) {
+        endwin();
+        printf("Your terminal does not support colors\n");
+        exit(1);
+    }
+    start_color();
+
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
+    init_pair(4, COLOR_CYAN, COLOR_BLACK);
+    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(6, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(15, COLOR_WHITE, COLOR_BLACK);
+    init_pair(16, COLOR_BLACK, COLOR_BLACK);
+
+    init_pair(COLOR_BLACK_BG, COLOR_WHITE, COLOR_BLACK);
+    init_pair(COLOR_GREEN_BG, COLOR_WHITE, COLOR_GREEN);
+    init_pair(COLOR_WHITE_BG, COLOR_WHITE, COLOR_WHITE);
+    init_pair(COLOR_RED_BG, COLOR_WHITE, COLOR_RED);
+    init_pair(COLOR_CYAN_BG, COLOR_WHITE, COLOR_CYAN);
+    init_pair(COLOR_MAGENTA_BG, COLOR_WHITE, COLOR_MAGENTA);
+    init_pair(COLOR_BLUE_BG, COLOR_WHITE, COLOR_BLUE);
+    init_pair(COLOR_YELLOW_BG, COLOR_WHITE, COLOR_YELLOW);
+}

@@ -30,7 +30,7 @@
  *
  */
 
-#define _BSD_SOURCE
+#define _DEFAULT_SOURCE
 #define VERSION 0.01
 
 #include <stdio.h>
