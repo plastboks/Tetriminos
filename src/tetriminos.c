@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
 {
     WINDOW *base_win;
     int life = 1;
-    int coords[2];
-    int old_coords[2];
     int screen = -1;
+
+    coordstmp c;
 
     /* run config */
     config_setup();
@@ -52,30 +52,30 @@ int main(int argc, char *argv[])
     setup_colors();
 
     if (SPLASH) {
-        screen_coord_update(c.splash_box_size, coords, old_coords);
-        base_win = screen_newwin(c.splash_box_size, coords);
-        screen_welcome(coords, true);
+        screen_coord_update(&c, s.splash_box_size);
+        base_win = screen_newwin(c, s.splash_box_size);
+        screen_welcome(c, true);
         sleep(1);
     }
 
     do {
         switch(screen) {
             case 0: /* new game */
-                screen_coord_update(c.game_box_size, coords, old_coords);
-                screen = game_pause(coords, 1);
+                screen_coord_update(&c, s.game_box_size);
+                screen = game_pause(c.cur.x, c.cur.y, 1);
                 break;
             case 1: /* continue game */
-                screen_coord_update(c.game_box_size, coords, old_coords);
-                screen = game_pause(coords, -1);
+                screen_coord_update(&c, s.game_box_size);
+                screen = game_pause(c.cur.x, c.cur.y, -1);
                 break;
             case -1:
             case 2: /* high scores */
-                screen_coord_update(c.menu_box_size, coords, old_coords);
-                screen = screen_menu(c.menu_box_size, coords);
+                screen_coord_update(&c, s.menu_box_size);
+                screen = screen_menu(c, s.menu_box_size);
                 break;
             case 3: /* about */
-                screen_coord_update(c.about_box_size, coords, old_coords);
-                screen = screen_about(c.about_box_size, coords, texts.about);
+                screen_coord_update(&c, s.about_box_size);
+                screen = screen_about(c, s.about_box_size, texts.about);
                 break;
             case 4: /* quit */
                 life = 0;

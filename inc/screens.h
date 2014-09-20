@@ -40,16 +40,25 @@
 #include <ncurses.h>
 #include <fcntl.h>
 
-WINDOW *screen_newwin(int box_size[], int coords[]);
-WINDOW **draw_menu(int coords[]);
+struct point {
+    int x;
+    int y;
+};
 
-int scroll_main_menu(WINDOW **items, int count);
-int screen_menu(int box_size[], int coords[]);
-int screen_about(int box_size[], int coords[], char text[][50]);
+typedef struct {
+    struct point cur;
+    struct point old;
+} coordstmp;
 
-void screen_destroy(WINDOW *local_win);
+WINDOW *screen_newwin(coordstmp c, int box_size[]);
+WINDOW **draw_main_menu(coordstmp c);
+
 void screen_setup();
-void screen_coord_update(int box_size[], int coords[], int old_coords[]);
+void screen_coord_update(coordstmp *c, int box_size[]);
+void screen_destroy(WINDOW *local_win);
 void screen_end();
 
-void screen_welcome(int coords[], bool effect);
+int scroll_main_menu(WINDOW **items, int count);
+int screen_menu(coordstmp c, int box_size[]);
+int screen_about(coordstmp c, int box_size[], char text[][50]);
+int screen_welcome(coordstmp c, bool effect);

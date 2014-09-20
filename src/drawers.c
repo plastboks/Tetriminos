@@ -40,7 +40,7 @@
  *
  * Returns WINDOW
  */
-WINDOW **draw_game_boxes(int coords[])
+WINDOW **draw_game_boxes(int x, int y)
 {
     WINDOW **items;
 
@@ -63,28 +63,28 @@ WINDOW **draw_game_boxes(int coords[])
     refresh();
 
     /* main window */
-    mvprintw(coords[1]-1, coords[0]+9, "- Tetriminos -");
-    items[w.main_window] = newwin(mw_size[0], mw_size[1], coords[1], coords[0]);
+    mvprintw(y-1, x+9, "- Tetriminos -");
+    items[w.main_window] = newwin(mw_size[0], mw_size[1], y, x);
     box(items[w.main_window], ACS_VLINE, ACS_HLINE);
 
     /* game window */
     items[w.game_board]=subwin(items[w.main_window],
                                gb_size[0], gb_size[1],
-                               coords[1]+1, coords[0]+1);
+                               y+1, x+1);
     box(items[w.game_board], ACS_VLINE, ACS_HLINE);
 
     /* next brick */
-    mvprintw(coords[1]+2, coords[0] + BOARD_WIDTH + 2, "Next brick");
+    mvprintw(y+2, x + BOARD_WIDTH + 2, "Next brick");
     items[w.next_brick]=subwin(items[w.main_window],
                                nb_size[0], nb_size[1],
-                               coords[1]+3, coords[0] + BOARD_WIDTH + 2);
+                               y+3, x + BOARD_WIDTH + 2);
     box(items[w.next_brick], ACS_VLINE, ACS_HLINE);
 
     /* scores */
-    mvprintw(coords[1]+10, coords[0] + BOARD_WIDTH + 2, "Score");
+    mvprintw(y+10, x + BOARD_WIDTH + 2, "Score");
     items[w.score_board]=subwin(items[w.main_window],
                                       hs_size[0], hs_size[1],
-                                      coords[1]+11, coords[0] + BOARD_WIDTH + 2);
+                                      y+11, x + BOARD_WIDTH + 2);
     box(items[w.score_board], ACS_VLINE, ACS_HLINE);
 
     /* colors */

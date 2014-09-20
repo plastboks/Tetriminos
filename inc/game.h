@@ -61,4 +61,4 @@ int level_up(int *lines);
 
 /* game state handlers */
 int game_play(WINDOW **boxes, game_data gd, int new_game);
-int game_pause(int coords[], int game_state);
+int game_pause(int x, int y, int game_state);

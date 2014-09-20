@@ -35,7 +35,7 @@ struct {
     int menu_box_size[2];       /* menu box dimensions */
     int about_box_size[2];      /* about box dimensions */
     int game_box_size[2];      /* about box dimensions */
-} c = {
+} s = {
     /* set value */
     {9, 54},    /* splash box */
     {14, 25},   /* menu box */

@@ -223,10 +223,10 @@ int game_play(WINDOW **boxes, game_data gd, int new_game)
     return -1;
 }
 
-int game_pause(int coords[], int game_state)
+int game_pause(int x, int y, int game_state)
 {
     /* draw and get game boxes */
-    WINDOW **boxes = draw_game_boxes(coords);
+    WINDOW **boxes = draw_game_boxes(x, y);
 
     /* globally defined game data... */
     game_data gd;
@@ -234,7 +234,7 @@ int game_pause(int coords[], int game_state)
     /* Info texts */
     mvwprintw(boxes[w.game_board], 10, 2, "%s", "Press p to play");
     wrefresh(boxes[w.game_board]);
-    mvprintw(coords[1] + BOARD_HEIGHT + 2, coords[0]+1, "Press q to quit");
+    mvprintw(y + BOARD_HEIGHT + 2, x+1, "Press q to quit");
 
     while(1) {
         switch(wgetch(stdscr)) {

@@ -46,7 +46,7 @@ struct {
 } w;
 
 /* setup game board and info boxes */
-WINDOW **draw_game_boxes(int coords[]);
+WINDOW **draw_game_boxes(int x, int y);
 
 /* window cleaners */
 void empty_window(WINDOW *w, int x, int y);
