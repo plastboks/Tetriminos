@@ -48,17 +48,17 @@ struct point {
 typedef struct {
     struct point cur;
     struct point old;
-} coordstmp;
+} coords;
 
-WINDOW *screen_newwin(coordstmp c, int box_size[]);
-WINDOW **draw_main_menu(coordstmp c);
+WINDOW *screen_newwin(coords c, int box_size[]);
+WINDOW **draw_main_menu(coords c);
 
 void screen_setup();
-void screen_coord_update(coordstmp *c, int box_size[]);
+void screen_coord_update(coords *c, int box_size[]);
 void screen_destroy(WINDOW *local_win);
 void screen_end();
 
 int scroll_main_menu(WINDOW **items, int count);
-int screen_menu(coordstmp c, int box_size[]);
-int screen_about(coordstmp c, int box_size[], char text[][50]);
-int screen_welcome(coordstmp c, bool effect);
+int screen_menu(coords c, int box_size[]);
+int screen_about(coords c, int box_size[], char text[][50]);
+int screen_welcome(coords c, bool effect);

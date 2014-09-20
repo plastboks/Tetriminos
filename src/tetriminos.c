@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     int life = 1;
     int screen = -1;
 
-    coordstmp c;
+    coords c;
 
     /* run config */
     config_setup();

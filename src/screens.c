@@ -45,7 +45,7 @@
  *
  * Returns WINDOW.
  */
-WINDOW *screen_newwin(coordstmp c, int box_size[])
+WINDOW *screen_newwin(coords c, int box_size[])
 {
     WINDOW *local_win;
 
@@ -72,7 +72,7 @@ WINDOW *screen_newwin(coordstmp c, int box_size[])
  *
  * Returns WINDOW
  */
-WINDOW **draw_main_menu(coordstmp c)
+WINDOW **draw_main_menu(coords c)
 {
     WINDOW **items;
     items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
@@ -131,7 +131,7 @@ void screen_setup()
  * 
  * Returns nothing.
  */
-void screen_coord_update(coordstmp *c, int box_size[])
+void screen_coord_update(coords *c, int box_size[])
 {
     c->cur.x = (COLS - box_size[1]) / 2;
     c->cur.y = (LINES - box_size[0]) / 2; 
@@ -173,7 +173,7 @@ void screen_destroy(WINDOW *local_win)
  *
  * Returns nothing
  */
-int screen_welcome(coordstmp c, bool effect)
+int screen_welcome(coords c, bool effect)
 {
     int main_color = 3;
     int effect_color = 2;
@@ -224,7 +224,7 @@ int screen_welcome(coordstmp c, bool effect)
  *
  * Returns nothing
  */
-int screen_menu(coordstmp c, int box_size[])
+int screen_menu(coords c, int box_size[])
 {
     WINDOW **menu;
     int selected_item;
@@ -294,7 +294,7 @@ int scroll_main_menu(WINDOW **items, int count)
  *
  * Returns -1 for main menu.
  */
-int screen_about(coordstmp c, int box_size[], char text[][50])
+int screen_about(coords c, int box_size[], char text[][50])
 {
     screen_newwin(c, box_size);
 
