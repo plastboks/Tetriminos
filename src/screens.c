@@ -39,10 +39,6 @@
 /**
  * Create ncurses window.
  *
- * @height      int height.
- * @width       int width.
- * @coords      int coords array
- *
  * Returns WINDOW.
  */
 WINDOW *screen_newwin(coords c, struct size s)
@@ -67,8 +63,6 @@ WINDOW *screen_newwin(coords c, struct size s)
 
 /**
  * Draw the main menu.
- *
- * @coords      int array coordinates.
  *
  * Returns WINDOW
  */
@@ -146,8 +140,6 @@ void screen_setup()
 /**
  * Update screen coords
  *
- * @cords       int array box coordinates.
- * 
  * Returns nothing.
  */
 void screen_coord_update(coords *c, struct size s)
@@ -173,8 +165,6 @@ void screen_end()
 
 /**
  * Destroy window.
- *
- * @local_win       pointer to WINDOW.
  *
  * Returns nothing.
  */
@@ -239,8 +229,6 @@ int screen_welcome(coords c, bool effect)
 /**
  * Welcome screen
  *
- * @coords          int array of coordinates.
- *
  * Returns nothing
  */
 int screen_menu(coords c, struct size s)
@@ -277,8 +265,9 @@ int scroll_main_menu(WINDOW **items, int count)
 
     while (1) {
         switch(wgetch(stdscr)) {
-            case KEY_DOWN:
+            case 's':
             case 'j':
+            case KEY_DOWN:
                 selected = (selected +1) % count;
                 wbkgd(items[selected], COLOR_PAIR(1));
                 wnoutrefresh(items[selected]);
@@ -286,8 +275,9 @@ int scroll_main_menu(WINDOW **items, int count)
                 wnoutrefresh(items[selected +1]);
                 doupdate();
                 break;
-            case KEY_UP:
+            case 'w':
             case 'k':
+            case KEY_UP:
                 wbkgd(items[selected+1], COLOR_PAIR(1));
                 wnoutrefresh(items[selected+1]);
                 selected = (selected + count -1) % count;
@@ -306,9 +296,6 @@ int scroll_main_menu(WINDOW **items, int count)
 
 /**
  * About screen
- *
- * @coords          int box placement coords.
- * @text            char text for about box.
  *
  * Returns -1 for main menu.
  */
