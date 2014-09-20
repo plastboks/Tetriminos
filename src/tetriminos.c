@@ -32,9 +32,9 @@
 
 #include "config.h"
 #include "colors.h"
-#include "structs.h"
 #include "game.h"
 #include "screens.h"
+#include "texts.h"
 
 int main(int argc, char *argv[]) 
 {
@@ -42,7 +42,11 @@ int main(int argc, char *argv[])
     int life = 1;
     int screen = -1;
 
+    /* coordinates center of screen */
     coords c;
+
+    /* various box sizes */
+    sizes s;
 
     /* run config */
     config_setup();
@@ -51,9 +55,12 @@ int main(int argc, char *argv[])
     screen_setup();
     setup_colors();
 
+    /* initialize box sizes */
+    screen_init_sizes(&s);
+
     if (SPLASH) {
-        screen_coord_update(&c, s.splash_box_size);
-        base_win = screen_newwin(c, s.splash_box_size);
+        screen_coord_update(&c, s.splash);
+        base_win = screen_newwin(c, s.splash);
         screen_welcome(c, true);
         sleep(1);
     }
@@ -61,36 +68,26 @@ int main(int argc, char *argv[])
     do {
         switch(screen) {
             case 0: /* new game */
-                screen_coord_update(&c, s.game_box_size);
+                screen_coord_update(&c, s.game);
                 screen = game_pause(c.cur.x, c.cur.y, 1);
                 break;
             case 1: /* continue game */
-                screen_coord_update(&c, s.game_box_size);
+                screen_coord_update(&c, s.game);
                 screen = game_pause(c.cur.x, c.cur.y, -1);
                 break;
             case -1:
             case 2: /* high scores */
-                screen_coord_update(&c, s.menu_box_size);
-                screen = screen_menu(c, s.menu_box_size);
+                screen_coord_update(&c, s.menu);
+                screen = screen_menu(c, s.menu);
                 break;
             case 3: /* about */
-                screen_coord_update(&c, s.about_box_size);
-                screen = screen_about(c, s.about_box_size, texts.about);
+                screen_coord_update(&c, s.about);
+                screen = screen_about(c, s.about, texts.about);
                 break;
             case 4: /* quit */
                 life = 0;
                 break;
         }
-        /**
-         * Redraw window if resized.
-         */
-        /* This causes some problems as of now, leave it out for later.
-        if ((old_coords[1] != LINES) || (old_coords[0] != COLS)) {
-            screen_coord_update(c.box_size, coords, old_coords);
-            screen_destroy(base_win);
-            base_win = screen_newwin(c.box_size, coords);
-        }
-        */
     } while (life == 1);
 
     screen_destroy(base_win);

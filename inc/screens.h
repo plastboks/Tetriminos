@@ -45,20 +45,33 @@ struct point {
     int y;
 };
 
+struct size {
+    int height;
+    int width;
+};
+
+typedef struct {
+    struct size splash;
+    struct size menu;
+    struct size about;
+    struct size game;
+} sizes;
+
 typedef struct {
     struct point cur;
     struct point old;
 } coords;
 
-WINDOW *screen_newwin(coords c, int box_size[]);
+WINDOW *screen_newwin(coords c, struct size s);
 WINDOW **draw_main_menu(coords c);
 
+void screen_init_sizes(sizes *s);
 void screen_setup();
-void screen_coord_update(coords *c, int box_size[]);
+void screen_coord_update(coords *c, struct size s);
 void screen_destroy(WINDOW *local_win);
 void screen_end();
 
 int scroll_main_menu(WINDOW **items, int count);
-int screen_menu(coords c, int box_size[]);
-int screen_about(coords c, int box_size[], char text[][50]);
+int screen_menu(coords c, struct size s);
+int screen_about(coords c, struct size s, char text[][50]);
 int screen_welcome(coords c, bool effect);

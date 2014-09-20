@@ -45,13 +45,13 @@
  *
  * Returns WINDOW.
  */
-WINDOW *screen_newwin(coords c, int box_size[])
+WINDOW *screen_newwin(coords c, struct size s)
 {
     WINDOW *local_win;
 
     erase();
     refresh();
-    local_win = newwin(box_size[0], box_size[1], c.cur.y, c.cur.x);
+    local_win = newwin(s.height, s.width, c.cur.y, c.cur.x);
    
     /**
      * Set color and draw box.
@@ -110,6 +110,25 @@ WINDOW **draw_main_menu(coords c)
 }
 
 /**
+ * Init box sizes
+ */
+void screen_init_sizes(sizes *s)
+{
+    /* splash box size */
+    s->splash.height = 9;
+    s->splash.width = 54;
+    /* menu box size */
+    s->menu.height = 14;
+    s->menu.width = 25;
+    /* about box size */
+    s->about.height = 20;
+    s->about.width = 44;
+    /* game box size */
+    s->game.height = 20;
+    s->game.width = 44;
+}
+
+/**
  * Setup function for ncurses.
  *
  * Returns nothing.
@@ -131,10 +150,10 @@ void screen_setup()
  * 
  * Returns nothing.
  */
-void screen_coord_update(coords *c, int box_size[])
+void screen_coord_update(coords *c, struct size s)
 {
-    c->cur.x = (COLS - box_size[1]) / 2;
-    c->cur.y = (LINES - box_size[0]) / 2; 
+    c->cur.x = (COLS - s.width) / 2;
+    c->cur.y = (LINES - s.height) / 2; 
     c->old.x = COLS;
     c->old.y = LINES;
 }
@@ -224,12 +243,12 @@ int screen_welcome(coords c, bool effect)
  *
  * Returns nothing
  */
-int screen_menu(coords c, int box_size[])
+int screen_menu(coords c, struct size s)
 {
     WINDOW **menu;
     int selected_item;
 
-    screen_newwin(c, box_size);
+    screen_newwin(c, s);
 
     attron(COLOR_PAIR(3));
     for (int i = 1; i <=3; i++) {
@@ -288,15 +307,14 @@ int scroll_main_menu(WINDOW **items, int count)
 /**
  * About screen
  *
- * @box_size        int box size array.
  * @coords          int box placement coords.
  * @text            char text for about box.
  *
  * Returns -1 for main menu.
  */
-int screen_about(coords c, int box_size[], char text[][50])
+int screen_about(coords c, struct size s, char text[][50])
 {
-    screen_newwin(c, box_size);
+    screen_newwin(c, s);
 
     for (int i = 1; i <= sizeof(text); i++) {
         mvprintw(c.cur.y+i, c.cur.x+2, text[i-1]);
