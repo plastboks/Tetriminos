@@ -116,7 +116,7 @@ void screen_init_sizes(sizes *s)
     s->menu.height = 14;
     s->menu.width = 25;
     /* about box size */
-    s->about.height = 20;
+    s->about.height = 10;
     s->about.width = 44;
     /* game box size */
     s->game.height = 20;
@@ -328,11 +328,13 @@ int screen_about(coords c, struct size s, char text[][50])
 {
     screen_newwin(c, s);
 
+    mvprintw(c.cur.y-1, c.cur.x+1, "- Tetriminos -");
+
     for (int i = 1; i <= sizeof(text); i++) {
         mvprintw(c.cur.y+i, c.cur.x+2, text[i-1]);
     }
 
-    mvprintw(c.cur.y+20, c.cur.x+1, "Press 'q' to go back");
+    mvprintw(c.cur.y+s.height, c.cur.x+1, "Press 'q' to go back");
     do {
         usleep(5000);
     } while (getch() != 'q');

@@ -34,13 +34,11 @@ struct {
     char about[10][50];
 } texts = {
     { /*about text */
-        {"Tetriminos."},
-        {""},
-        {"Tetriminos is a tetris clone made by"},
+        {"Tetriminos is a Tetris clone made by"},
         {"Plastboks."},
         {"Tetriminos source code can be viewed"},
         {"https://github.com/plastboks/Tetriminos"},
         {""},
-        {"Tetriminos is licensed under GPL v3."}
+        {"Tetriminos is licensed under GPL 2."}
     }
 };
