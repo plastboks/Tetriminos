@@ -40,14 +40,14 @@ void get_highscore_file_path(char file[512])
     snprintf(file, 512, "%s/highscore.dat", path);
 }
 
-int read_highscore(struct highscore_stack *stack)
+int read_highscores()
 {
 	FILE *highscore_file;
     char file_path[512];
     get_highscore_file_path(file_path);
 
 	if((highscore_file = fopen(file_path, "r")) == NULL)
-        // do nothing for now...
+        return -1;
 
 	fclose(highscore_file);
 	return 0;

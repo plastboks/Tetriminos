@@ -75,10 +75,9 @@ int main(int argc, char *argv[])
                 screen_coord_update(&c, s.game);
                 screen = game_pause(c.cur.x, c.cur.y, -1);
                 break;
-            case -1:
             case 2: /* high scores */
-                screen_coord_update(&c, s.menu);
-                screen = screen_menu(c, s.menu);
+                screen_coord_update(&c, s.highscores);
+                screen = screen_highscores(c, s.highscores);
                 break;
             case 3: /* about */
                 screen_coord_update(&c, s.about);
@@ -86,6 +85,10 @@ int main(int argc, char *argv[])
                 break;
             case 4: /* quit */
                 life = 0;
+                break;
+            default: /* default */
+                screen_coord_update(&c, s.menu);
+                screen = screen_menu(c, s.menu);
                 break;
         }
     } while (life == 1);

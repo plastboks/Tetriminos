@@ -35,6 +35,7 @@
 #include "logos.h"
 #include "config.h"
 #include "game.h"
+#include "highscore.h"
 
 /**
  * Create ncurses window.
@@ -120,6 +121,9 @@ void screen_init_sizes(sizes *s)
     /* game box size */
     s->game.height = 20;
     s->game.width = 44;
+    /* high scores box size */
+    s->highscores.height = 20;
+    s->highscores.width = 44;
 }
 
 /**
@@ -249,6 +253,27 @@ int screen_menu(coords c, struct size s)
     selected_item = scroll_main_menu(menu, 5);
 
     return selected_item;
+}
+
+/**
+ * High scores screen
+ */
+int screen_highscores(coords c, struct size s)
+{
+    screen_newwin(c, s);
+
+    mvprintw(c.cur.y-1, c.cur.x+1, "- Tetriminos -");
+
+    if (read_highscores() < 0)
+        mvprintw(c.cur.y+(s.height/2)-2, c.cur.x+5, "No saved high scores!");
+
+    mvprintw(c.cur.y+20, c.cur.x+1, "Press 'q' to go back");
+    do {
+        usleep(5000);
+    } while (getch() != 'q');
+
+    return -1;
+
 }
 
 /**

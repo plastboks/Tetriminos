@@ -41,5 +41,6 @@ struct highscore_stack {
     struct stack_entry stack[10]; /* only 10 last entries */
 };
 
-int read_highscore(struct highscore_stack *stack);
+int read_highscores();
+int load_highscore(struct highscore_stack *stack);
 int write_highscore(struct highscore_stack *stack);
