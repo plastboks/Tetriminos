@@ -38,7 +38,7 @@
  * Borrowed from Ctris http://www.hackl.dhs.org/ctris/
  *
  * 1: identifies the normal bricks.
- * 2: identifies the gravity brick(s).
+ * 2: identifies the bricks pressure point.
  */
 char brick_digit[7][4][4] =
 {
@@ -111,38 +111,38 @@ void brick_rotate(char brick[4][4], bool dir) {
         }
     }
 
-    /* get the old bricks gravity */
-    char old_gravity[2];
-    brick_gravity(brick, old_gravity);
+    /* get the old bricks pressure point */
+    pressure old_pressure;
+    find_brick_pressure(&old_pressure, brick);
 
     /* copy tmp_brick over to brick */
     memcpy(brick, tmp_brick, sizeof(char)*4*4);
 
     /**
      * This functions has now rotated the brick, but it has not
-     * taken account to the gravity point so the brick is now 
+     * taken account to the pressure point so the brick is now 
      * displaced.
      */
-    brick_shift_check(brick, old_gravity);
+    brick_shift_check(old_pressure, brick);
 }
 
 /**
- * Find gravity point of input brick. Place the coordinates in
- * the gravity_index array.
+ * Find pressure point of input brick. Place the coordinates in
+ * the y_index array.
  *
+ * @pressure        struct pressure x,y
  * @brick           int brick, pointer to the faulty brick.
- * @gravity_index   int, [x,y] array identifying gravity point.
  *
- * Returns nothing, modifies gravity_index;
+ * Returns nothing, modifies pressure struct.
  */
-void brick_gravity(char brick[4][4], char gravity_index[2])
+void find_brick_pressure(pressure *p, char brick[4][4])
 {
     unsigned char i,n;
     for(i = 0; i < 4; i++) {
         for(n = 0; n < 4 && brick[i][n] != 2; n++);
         if(n < 4) {
-            gravity_index[0] = n;
-            gravity_index[1] = i;
+            p->x = n;
+            p->y = i;
             return;
         }
     }
@@ -151,22 +151,20 @@ void brick_gravity(char brick[4][4], char gravity_index[2])
 /**
  * Shift the brick to fix the rotation error.
  *
+ * @pressure        struct pressure x,y
  * @brick           int brick, pointer to the faulty brick.
- * @old_gravity     int, [x,y] array identifying old gravity point.
  *
  * Returns nothing, modifies brick array.
  */
-void brick_shift_check(char brick[4][4], char old_gravity[2]) {
-    char new_gravity[2];
-    brick_gravity(brick, new_gravity);
+void brick_shift_check(pressure old_pressure, char brick[4][4])
+{
+    pressure new_pressure;
+    find_brick_pressure(&new_pressure, brick);
 
-    if (old_gravity[0] != new_gravity[0]) {
-        /* x axis */
-        brick_shift_right(brick, new_gravity[0]-old_gravity[0]);
-    } else if (old_gravity[1] != new_gravity[1]) {
-        /* y axis */
-        brick_shift_up(brick, new_gravity[1]-old_gravity[1]);
-    }
+    if (old_pressure.x != new_pressure.x)
+        brick_shift_right(brick, new_pressure.x - old_pressure.x);  /* x axis shift */
+    else if (old_pressure.y != new_pressure.y)
+        brick_shift_up(brick, new_pressure.y - old_pressure.y);     /* y axis shift */
 }
 
 /**

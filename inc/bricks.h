@@ -10,7 +10,7 @@
  * @description: Tetriminos main screen header file
  *
  * @author: Alexander Skjolden
- *
+ * 
  * @webpage: https://github.com/plastboks/Tetriminos
  *
  * This file is part of Tetriminos.
@@ -38,11 +38,21 @@
 #include <fcntl.h>
 #include <termios.h>
 
+#ifndef _PRESSURE
+#define _PRESSURE
+typedef struct {
+    int x;
+    int y;
+} pressure; 
+#endif
+
+char brick_digit[7][4][4];
+void find_brick_pressure(pressure *p, char brick[4][4]);
+
 void brick_rotate(char brick[4][4], bool dir);
-void brick_gravity(char brick[4][4], char gravity_index[2]);
-void brick_shift_check(char brick[4][4], char old_gravity[2]);
+
+void brick_shift_check(pressure old_pressure, char brick[4][4]);
 void brick_shift_up(char brick[4][4], int count);
 void brick_shift_right(char brick[4][4], int count);
 void brick_shift_left(char brick[4][4], int count);
 
-char brick_digit[7][4][4];
