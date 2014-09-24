@@ -170,7 +170,7 @@ void brick_shift_check(char brick[4][4], char old_gravity[2]) {
 }
 
 /**
- * Shift the brick array matrix up count number of times on the
+ * Shift the brick array matrix right count number of times on the
  * x axis
  *
  * @brick           int brick, pointer to the faulty brick.
@@ -189,6 +189,31 @@ void brick_shift_right(char brick[4][4], int count)
                 char tmp = brick[y][x];
                 brick[y][x] = brick[y][x+1];
                 brick[y][x+1] = tmp;
+            }
+        }
+    }
+}
+
+/**
+ * Shift the brick array matrix left count number of times on the
+ * x axis
+ *
+ * @brick           int brick, pointer to the faulty brick.
+ * @count           int count, number of shifts.
+ *
+ * Returns nothing, modifies brick array.
+ */
+void brick_shift_left(char brick[4][4], int count)
+{
+    /* number of iterations */
+    for (int n=0; n<count; n++) {
+        /* rows */
+        for (int y=0; y<4; y++) {
+            /* 3 replacements */
+            for (int x=3; x<0; x--) {
+                char tmp = brick[y][x];
+                brick[y][x] = brick[y][x-1];
+                brick[y][x-1] = tmp;
             }
         }
     }
