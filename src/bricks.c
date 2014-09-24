@@ -196,7 +196,9 @@ void brick_shift_right(char brick[4][4], int count)
 
 /**
  * Shift the brick array matrix left count number of times on the
- * x axis
+ * x axis. This also shifts the pressure point '2', so this needs
+ * to be corrected. The purpose of this function is to handle the
+ * 'Z' and 'S' bricks.
  *
  * @brick           int brick, pointer to the faulty brick.
  * @count           int count, number of shifts.
@@ -217,6 +219,7 @@ void brick_shift_left(char brick[4][4], int count)
             }
         }
     }
+    // shift back the pressure point '2' here ...
 }
 
 /**
