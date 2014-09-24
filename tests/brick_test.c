@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
                 break;
             case 'n':
                 printf("New brick\n");
-                memcpy(cur_brick, brick_digit[++brick_type % 6], sizeof(char)*4*4);
+                memcpy(cur_brick, brick_digit[++brick_type % 7], sizeof(char)*4*4);
                 brick_printer(cur_brick);
                 break;
         }

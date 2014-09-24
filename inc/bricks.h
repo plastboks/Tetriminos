@@ -54,5 +54,6 @@ void brick_rotate(char brick[4][4], bool dir);
 void brick_shift_check(pressure old_pressure, char brick[4][4]);
 void brick_shift_up(char brick[4][4], int count);
 void brick_shift_right(char brick[4][4], int count);
-void brick_shift_left(char brick[4][4], int count);
+void brick_check_and_shift_sz(pressure p, char brick[4][4]);
+void brick_shift_sz(char brick[4][4]);
 

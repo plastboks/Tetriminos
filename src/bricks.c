@@ -161,10 +161,12 @@ void brick_shift_check(pressure old_pressure, char brick[4][4])
     pressure new_pressure;
     find_brick_pressure(&new_pressure, brick);
 
-    if (old_pressure.x != new_pressure.x)
-        brick_shift_right(brick, new_pressure.x - old_pressure.x);  /* x axis shift */
-    else if (old_pressure.y != new_pressure.y)
-        brick_shift_up(brick, new_pressure.y - old_pressure.y);     /* y axis shift */
+    if (old_pressure.x != new_pressure.x) {
+        brick_shift_right(brick, new_pressure.x - old_pressure.x);  /* x axis shift  */
+        brick_check_and_shift_sz(old_pressure, brick);              /* s and z brick */
+    } else if (old_pressure.y != new_pressure.y) {
+        brick_shift_up(brick, new_pressure.y - old_pressure.y);     /* y axis shift  */
+    }
 }
 
 /**
@@ -201,23 +203,35 @@ void brick_shift_right(char brick[4][4], int count)
  * @brick           int brick, pointer to the faulty brick.
  * @count           int count, number of shifts.
  *
+ * Returns nothing, runs second function (side effect).
+ */
+void brick_check_and_shift_sz(pressure p, char brick[4][4])
+{
+    /* above and right */
+    if ((brick[p.y-1][p.x] == 0) && (brick[p.y][p.x+1] == 0))
+        brick_shift_sz(brick);
+    /* above and left and above-and-right */
+    if ((brick[p.y-1][p.x] == 0)
+        && (brick[p.y][p.x-1] == 0)
+        && (brick[p.y-1][p.x+1] == 0))
+        brick_shift_sz(brick);
+}
+
+/**
+ * Shift the 's' and 'z' back into place.
+ *
+ * @brick           int brick, pointer to the faulty brick.
  * Returns nothing, modifies brick array.
  */
-void brick_shift_left(char brick[4][4], int count)
+void brick_shift_sz(char brick[4][4])
 {
-    /* number of iterations */
-    for (int n=0; n<count; n++) {
-        /* rows */
-        for (int y=0; y<4; y++) {
-            /* 3 replacements */
-            for (int x=3; x<0; x--) {
-                char tmp = brick[y][x];
-                brick[y][x] = brick[y][x-1];
-                brick[y][x-1] = tmp;
-            }
-        }
-    }
-    // shift back the pressure point '2' here ...
+    pressure p;
+
+    brick_shift_up(brick, 1);
+    find_brick_pressure(&p, brick);
+
+    brick[p.y+1][p.x] = brick[p.y][p.x];
+    brick[p.y][p.x] = 1;
 }
 
 /**
