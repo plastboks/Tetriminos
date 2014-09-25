@@ -345,6 +345,11 @@ int screen_about(coords c, struct size s, char text[][50])
     return -1;
 }
 
+/**
+ * Game over screen
+ *
+ * Returns -1
+ */
 int screen_gameover(coords c, struct size s)
 {
     WINDOW *win = screen_newwin(c, s);
