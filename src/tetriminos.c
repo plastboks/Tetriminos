@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
             case 0: /* new game */
                 screen_coord_update(&c, s.game);
                 screen = game_pause(c.cur.x, c.cur.y, 1);
+                if (screen == -2)
+                    screen = screen_gameover(c, s.gameover);
                 break;
             case 1: /* continue game */
                 screen_coord_update(&c, s.game);

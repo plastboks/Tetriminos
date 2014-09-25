@@ -244,8 +244,8 @@ int game_pause(int x, int y, int game_state)
 
                 /* user has quited the ongoing game, push to menu */
                 if (game_state == -2) return -1;
-                /* game has ended, do high score routine */
-                if (game_state == 1) return -1;
+                /* game has ended, do */
+                if (game_state == 1) return -2;
                 /* return from play state, aka pause mode */
                 mvwprintw(boxes[w.game_board], 10, 6, "%s", "- PAUSE -");
                 wrefresh(boxes[w.game_board]);

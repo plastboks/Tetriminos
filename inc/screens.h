@@ -56,6 +56,7 @@ typedef struct {
     struct size about;
     struct size game;
     struct size highscores;
+    struct size gameover;
 } sizes;
 
 typedef struct {
@@ -76,4 +77,5 @@ int scroll_main_menu(WINDOW **items, int count);
 int screen_menu(coords c, struct size s);
 int screen_highscores(coords c, struct size s);
 int screen_about(coords c, struct size s, char text[][50]);
+int screen_gameover(coords c, struct size s);
 int screen_welcome(coords c, bool effect);

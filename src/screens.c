@@ -124,6 +124,9 @@ void screen_init_sizes(sizes *s)
     /* high scores box size */
     s->highscores.height = 20;
     s->highscores.width = 44;
+    /* game over screen */
+    s->gameover.height = 10;
+    s->gameover.width = 44;
 }
 
 /**
@@ -338,6 +341,20 @@ int screen_about(coords c, struct size s, char text[][50])
     do {
         usleep(5000);
     } while (getch() != 'q');
+
+    return -1;
+}
+
+int screen_gameover(coords c, struct size s)
+{
+    WINDOW *win = screen_newwin(c, s);
+
+    mvwprintw(win, s.height/2-1, 13, "G A M E   O V E R!");
+    wrefresh(win);
+
+    notimeout(win, TRUE);
+    wgetch(win);
+    notimeout(win, FALSE);
 
     return -1;
 }
