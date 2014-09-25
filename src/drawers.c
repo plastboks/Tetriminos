@@ -198,14 +198,14 @@ void update_next_brick(WINDOW *w, char brick_type, char brick[4][4])
 /**
  * Update and redraw score board
  */
-void update_score_board(WINDOW *w, int *lines, int *bricks, int *level)
+void update_score_board(WINDOW *w, int lines, int bricks, int level)
 {
     empty_window(w, 8, 3);
 
     wattron(w, COLOR_PAIR(COLOR_BLACK_BG));
-    mvwprintw(w, 1, 1, "br: %d", *bricks);
-    mvwprintw(w, 2, 1, "ln: %d", *lines);
-    mvwprintw(w, 3, 1, "lv: %d", *level);
+    mvwprintw(w, 1, 1, "br: %d", bricks);
+    mvwprintw(w, 2, 1, "ln: %d", lines);
+    mvwprintw(w, 3, 1, "lv: %d", level);
     wattroff(w, COLOR_PAIR(COLOR_BLACK_BG));
 
     wrefresh(w);

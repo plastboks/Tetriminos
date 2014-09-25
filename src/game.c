@@ -42,30 +42,30 @@
 /**
  * Setup game data for a new game.
  */
-void setup_gamedata(WINDOW **boxes, game_data *gd)
+void setup_gamedata(WINDOW **boxes, game_data **gd)
 {
     /* empty stack */
-    empty_stack(gd->stack);
+    empty_stack((*gd)->stack);
 
     /* reset play brick position */
-    reset_brick_pos(gd->play_brick_pos);
+    reset_brick_pos((*gd)->play_brick_pos);
 
     /* generate next brick type, and draw it in the next brick box */
-    gd->next_type = get_new_brick(gd->next_brick);
+    (*gd)->next_type = get_new_brick((*gd)->next_brick);
     update_next_brick(boxes[w.next_brick],
-                      gd->next_type,
-                      gd->next_brick);
+                      (*gd)->next_type,
+                      (*gd)->next_brick);
 
     /* generate a play brick, and draw it to the game board */
-    gd->play_type = get_new_brick(gd->play_brick);
+    (*gd)->play_type = get_new_brick((*gd)->play_brick);
     add_new_brick(boxes[w.game_board],
-                  gd->play_type,
-                  gd->play_brick_pos,
-                  gd->play_brick);
+                  (*gd)->play_type,
+                  (*gd)->play_brick_pos,
+                  (*gd)->play_brick);
 
-    gd->bricks = 1;
-    gd->lines = 0;
-    gd->level = 1;
+    (*gd)->bricks = 1;
+    (*gd)->lines = 0;
+    (*gd)->level = 1;
 }
 
 /**
@@ -106,7 +106,7 @@ int level_up(int *lines)
 /***********************
  * GAME STATE HANDLERS *
  ***********************/
-int game_play(WINDOW **boxes, game_data gd, int new_game)
+int game_play(WINDOW **boxes, game_data *gd, int new_game)
 {
     /* setup game data */
     if (new_game > 0) {
@@ -119,7 +119,7 @@ int game_play(WINDOW **boxes, game_data gd, int new_game)
     short gravity_moves = 0;
 
     /* update score board */
-    update_score_board(boxes[w.score_board], &gd.lines, &gd.bricks, &gd.level);
+    update_score_board(boxes[w.score_board], gd->lines, gd->bricks, gd->level);
 
     while(1) {
         /* switch getch(), supports vim mode, wasd mode and arrow keys */
@@ -127,12 +127,12 @@ int game_play(WINDOW **boxes, game_data gd, int new_game)
             case 'w':
             case 'k':
             case KEY_UP:
-                move_brick_rotate(gd.play_brick_pos, gd.play_brick, gd.stack);
-                empty_but_stack(boxes[w.game_board], gd.stack);
+                move_brick_rotate(gd->play_brick_pos, gd->play_brick, gd->stack);
+                empty_but_stack(boxes[w.game_board], gd->stack);
                 refresh_brick(boxes[w.game_board],
-                              gd.play_type,
-                              gd.play_brick_pos,
-                              gd.play_brick);
+                              gd->play_type,
+                              gd->play_brick_pos,
+                              gd->play_brick);
                 break;
             case 's':
             case 'j':
@@ -142,22 +142,22 @@ int game_play(WINDOW **boxes, game_data gd, int new_game)
             case 'a':
             case 'h':
             case KEY_LEFT:
-                move_brick_left(gd.play_brick_pos, gd.play_brick, gd.stack);
-                empty_but_stack(boxes[w.game_board], gd.stack);
+                move_brick_left(gd->play_brick_pos, gd->play_brick, gd->stack);
+                empty_but_stack(boxes[w.game_board], gd->stack);
                 refresh_brick(boxes[w.game_board],
-                              gd.play_type,
-                              gd.play_brick_pos,
-                              gd.play_brick);
+                              gd->play_type,
+                              gd->play_brick_pos,
+                              gd->play_brick);
                 break;
             case 'd':
             case 'l':
             case KEY_RIGHT:
-                move_brick_right(gd.play_brick_pos, gd.play_brick, gd.stack);
-                empty_but_stack(boxes[w.game_board], gd.stack);
+                move_brick_right(gd->play_brick_pos, gd->play_brick, gd->stack);
+                empty_but_stack(boxes[w.game_board], gd->stack);
                 refresh_brick(boxes[w.game_board],
-                              gd.play_type,
-                              gd.play_brick_pos,
-                              gd.play_brick);
+                              gd->play_type,
+                              gd->play_brick_pos,
+                              gd->play_brick);
                 break;
             case 'q':
                 return -2;
@@ -168,47 +168,47 @@ int game_play(WINDOW **boxes, game_data gd, int new_game)
 
         /* do gravity until brick hits something */
         interval++;
-        if ((interval > 100-(gd.level*gd.level)) || (skip_beat > 0)) {
+        if ((interval > 100-(gd->level*gd->level)) || (skip_beat > 0)) {
             interval = skip_beat = 0;
 
             /* check if possible to move, else setup new brick */
-            if (move_brick_gravity(gd.play_brick_pos, gd.play_brick, gd.stack) > 0) {
+            if (move_brick_gravity(gd->play_brick_pos, gd->play_brick, gd->stack) > 0) {
                 gravity_moves++;
-                empty_but_stack(boxes[w.game_board], gd.stack);
+                empty_but_stack(boxes[w.game_board], gd->stack);
                 refresh_brick(boxes[w.game_board],
-                              gd.play_type,
-                              gd.play_brick_pos,
-                              gd.play_brick);
+                              gd->play_type,
+                              gd->play_brick_pos,
+                              gd->play_brick);
             } else {
                 /* if brick cannot move anymore */
                 if (gravity_moves == 0) return 1;
 
                 /* commit play brick */
-                push_brick(gd.play_type, gd.play_brick_pos, gd.play_brick, gd.stack);
-                reset_brick_pos(gd.play_brick_pos);
+                push_brick(gd->play_type, gd->play_brick_pos, gd->play_brick, gd->stack);
+                reset_brick_pos(gd->play_brick_pos);
 
                 /* copy 'next brick' to 'play brick' */
-                memcpy(gd.play_brick, gd.next_brick, sizeof(char)*4*4);
-                gd.play_type = gd.next_type;
+                memcpy(gd->play_brick, gd->next_brick, sizeof(char)*4*4);
+                gd->play_type = gd->next_type;
                 add_new_brick(boxes[w.game_board],
-                              gd.play_type,
-                              gd.play_brick_pos,
-                              gd.play_brick);
+                              gd->play_type,
+                              gd->play_brick_pos,
+                              gd->play_brick);
 
                 /* get new next brick */
-                gd.bricks++;
-                gd.next_type = get_new_brick(gd.next_brick);
-                update_next_brick(boxes[w.next_brick], gd.next_type, gd.next_brick);
+                gd->bricks++;
+                gd->next_type = get_new_brick(gd->next_brick);
+                update_next_brick(boxes[w.next_brick], gd->next_type, gd->next_brick);
 
                 /* redraw stack */
-                gd.lines += check_stack(gd.stack);
-                draw_stack(boxes[w.game_board], gd.stack);
+                gd->lines += check_stack(gd->stack);
+                draw_stack(boxes[w.game_board], gd->stack);
 
                 /* level up */
-                gd.level = level_up(&gd.lines);
+                gd->level = level_up(&gd->lines);
 
                 /* update score board */
-                update_score_board(boxes[w.score_board], &gd.lines, &gd.bricks, &gd.level);
+                update_score_board(boxes[w.score_board], gd->lines, gd->bricks, gd->level);
 
                 /* reset brick gravity_moves */
                 gravity_moves = 0;
@@ -240,12 +240,13 @@ int game_pause(int x, int y, int game_state)
         switch(wgetch(stdscr)) {
             case 'p':
                 /* enter game play state */
-                game_state = game_play(boxes, gd, game_state);
+                game_state = game_play(boxes, &gd, game_state);
 
                 /* user has quited the ongoing game, push to menu */
                 if (game_state == -2) return -1;
-                /* game has ended, do */
+                /* game has ended, push to menu and game over procedure */
                 if (game_state == 1) return -2;
+
                 /* return from play state, aka pause mode */
                 mvwprintw(boxes[w.game_board], 10, 6, "%s", "- PAUSE -");
                 wrefresh(boxes[w.game_board]);

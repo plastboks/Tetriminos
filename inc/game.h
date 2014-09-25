@@ -53,12 +53,15 @@ typedef struct {
     int lines;
 } game_data;
 
+/* globally defined game data... */
+game_data gd;
+
 /* helper functions */
-void setup_gamedata(WINDOW **boxes, game_data *gd);
+void setup_gamedata(WINDOW **boxes, game_data **gd);
 char get_new_brick(char brick[4][4]);
 void reset_brick_pos(int play_brick_pos[]);
 int level_up(int *lines);
 
 /* game state handlers */
-int game_play(WINDOW **boxes, game_data gd, int new_game);
+int game_play(WINDOW **boxes, game_data *gd, int new_game);
 int game_pause(int x, int y, int game_state);

@@ -58,7 +58,7 @@ void refresh_brick(WINDOW *w, char brick_type, int play_brick_pos[2], char brick
 
 /* info box drawers */
 void update_next_brick(WINDOW *w, char brick_type, char brick[4][4]);
-void update_score_board(WINDOW *w, int *lines, int *bricks, int *level);
+void update_score_board(WINDOW *w, int lines, int bricks, int level);
 
 /* stack drawer */
 void draw_stack(WINDOW *w, char stack[][10]);
