@@ -205,7 +205,6 @@ int screen_welcome(coords c, bool effect)
     attroff(COLOR_PAIR(main_color));
     refresh();
 
-    
     /**
      * Do some fancy effect if true.
      */
@@ -263,7 +262,7 @@ int screen_menu(coords c, struct size s)
  */
 int screen_highscores(coords c, struct size s)
 {
-    screen_newwin(c, s);
+    WINDOW *win = screen_newwin(c, s);
 
     mvprintw(c.cur.y-1, c.cur.x+1, "- Tetriminos -");
 
@@ -275,8 +274,8 @@ int screen_highscores(coords c, struct size s)
         usleep(5000);
     } while (getch() != 'q');
 
+    delwin(win);
     return -1;
-
 }
 
 /**
@@ -329,7 +328,7 @@ int scroll_main_menu(WINDOW **items, int count)
  */
 int screen_about(coords c, struct size s, char text[][50])
 {
-    screen_newwin(c, s);
+    WINDOW *win = screen_newwin(c, s);
 
     mvprintw(c.cur.y-1, c.cur.x+1, "- Tetriminos -");
 
@@ -342,6 +341,7 @@ int screen_about(coords c, struct size s, char text[][50])
         usleep(5000);
     } while (getch() != 'q');
 
+    delwin(win);
     return -1;
 }
 
@@ -361,6 +361,7 @@ int screen_gameover(coords c, struct size s)
     wgetch(win);
     notimeout(win, FALSE);
 
+    delwin(win);
     return -1;
 }
 
