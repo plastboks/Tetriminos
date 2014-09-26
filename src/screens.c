@@ -363,3 +363,28 @@ int screen_gameover(coords c, struct size s)
 
     return -1;
 }
+
+
+/**
+ * Enter username screen
+ *
+ * Returns -1
+ */
+int screen_adduser(coords c, struct size s)
+{
+    WINDOW *win = screen_newwin(c, s);
+    char *username[32];
+
+    mvwprintw(win, 2, 5, "Enter name:");
+
+    echo();
+    curs_set(1);
+    mvwscanw(win, 4, 5, "%s", username);
+
+    wrefresh(win);
+    noecho();
+    curs_set(0);
+
+    delwin(win);
+    return -1;
+}

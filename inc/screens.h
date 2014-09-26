@@ -78,4 +78,5 @@ int screen_menu(coords c, struct size s);
 int screen_highscores(coords c, struct size s);
 int screen_about(coords c, struct size s, char text[][50]);
 int screen_gameover(coords c, struct size s);
+int screen_adduser(coords c, struct size s);
 int screen_welcome(coords c, bool effect);
