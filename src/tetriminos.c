@@ -70,9 +70,6 @@ int main(int argc, char *argv[])
             case 0: /* new game */
                 screen_coord_update(&c, s.game);
                 screen = game_pause(c.cur.x, c.cur.y, 1);
-                if (screen == -2)
-                    screen_gameover(c, s.gameover);
-                    screen_adduser(c, s.gameover);
                 break;
             case 1: /* continue game */
                 screen_coord_update(&c, s.game);
@@ -89,6 +86,10 @@ int main(int argc, char *argv[])
             case 4: /* quit */
                 life = 0;
                 break;
+            case 10: /* game over procedure */
+                screen_coord_update(&c, s.gameover);
+                screen_gameover(c, s.gameover);
+                screen_adduser(c, s.gameover);
             default: /* default */
                 screen_coord_update(&c, s.menu);
                 screen = screen_menu(c, s.menu);

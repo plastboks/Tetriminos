@@ -122,11 +122,11 @@ void screen_init_sizes(sizes *s)
     s->game.height = 20;
     s->game.width = 44;
     /* high scores box size */
-    s->highscores.height = 20;
-    s->highscores.width = 44;
+    s->highscores.height = 8;
+    s->highscores.width = 30;
     /* game over screen */
-    s->gameover.height = 10;
-    s->gameover.width = 44;
+    s->gameover.height = 8;
+    s->gameover.width = 30;
 }
 
 /**
@@ -354,7 +354,7 @@ int screen_gameover(coords c, struct size s)
 {
     WINDOW *win = screen_newwin(c, s);
 
-    mvwprintw(win, s.height/2-1, 13, "G A M E   O V E R!");
+    mvwprintw(win, s.height/2-1, 6, "G A M E   O V E R!");
     wrefresh(win);
 
     notimeout(win, TRUE);
