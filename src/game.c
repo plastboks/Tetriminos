@@ -136,6 +136,7 @@ int game_play(WINDOW **boxes, game_data *gd, int new_game)
                 break;
             case 's':
             case 'j':
+            case ' ':
             case KEY_DOWN:
                 skip_beat = 1;
                 break;
