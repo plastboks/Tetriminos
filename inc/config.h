@@ -30,9 +30,8 @@
  *
  */
 
-#define VERSION "0.0"
+#define VERSION 0.02
 #define SPLASH true
-#define BORDER_COLOR 2
 
 /**
  * Board dimensions is defined as follow:
@@ -45,6 +44,7 @@
  */
 #define BOARD_WIDTH 22
 #define BOARD_HEIGHT 22
+#define BORDER_COLOR 2
 
 #include <stdio.h>
 #include <stdlib.h>

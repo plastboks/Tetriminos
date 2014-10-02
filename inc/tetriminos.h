@@ -31,7 +31,6 @@
  */
 
 #define _DEFAULT_SOURCE
-#define VERSION 0.01
 
 #include <stdio.h>
 #include <stdlib.h>

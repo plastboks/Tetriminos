@@ -69,8 +69,7 @@ WINDOW *screen_newwin(coords c, struct size s)
  */
 WINDOW **draw_main_menu(coords c)
 {
-    WINDOW **items;
-    items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
+    WINDOW **items = (WINDOW **)malloc(9 * sizeof(WINDOW *));
 
     mvprintw(c.cur.y+5, c.cur.x+7, "-Main menu-");
 
@@ -79,23 +78,23 @@ WINDOW **draw_main_menu(coords c)
     box(items[0], ACS_VLINE, ACS_HLINE);
 
     /* first item */
-    items[1]=subwin(items[0], 1, 15, c.cur.y+7, c.cur.x+3);
+    items[1] = subwin(items[0], 1, 15, c.cur.y+7, c.cur.x+3);
     wprintw(items[1], "New game", 1);
 
     /* second item */
-    items[2]=subwin(items[0], 1, 15, c.cur.y+8, c.cur.x+3);
+    items[2] = subwin(items[0], 1, 15, c.cur.y+8, c.cur.x+3);
     wprintw(items[2], "Continue game", 1);
 
     /* third item */
-    items[3]=subwin(items[0], 1, 15, c.cur.y+9, c.cur.x+3);
+    items[3] = subwin(items[0], 1, 15, c.cur.y+9, c.cur.x+3);
     wprintw(items[3], "Highscores", 1);
 
     /* fourth item */
-    items[4]=subwin(items[0], 1, 15, c.cur.y+10, c.cur.x+3);
+    items[4] = subwin(items[0], 1, 15, c.cur.y+10, c.cur.x+3);
     wprintw(items[4], "About", 1);
 
     /* fifth item */
-    items[5]=subwin(items[0], 1, 15, c.cur.y+11, c.cur.x+3);
+    items[5] = subwin(items[0], 1, 15, c.cur.y+11, c.cur.x+3);
     wprintw(items[5], "Quit", 1);
 
     wbkgd(items[1],COLOR_PAIR(0));
@@ -195,8 +194,8 @@ int screen_welcome(coords c, bool effect)
     int effect_color = 2;
     int effect_sleep = 50000;
 
-    mvprintw(c.cur.y+9, c.cur.x+2, "A Tetris clone by Alexander Skjolden");
-    mvprintw(c.cur.y-1 ,c.cur.x+41, "Version: %s", VERSION);
+    mvprintw(c.cur.y+9, c.cur.x+2, "A Tetris clone by Plastboks");
+    mvprintw(c.cur.y-1 ,c.cur.x+41, "Version: %.02f", VERSION);
 
     attron(COLOR_PAIR(main_color));
     for (int i = 1; i <=7; i++) {
