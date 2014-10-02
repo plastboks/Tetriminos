@@ -331,7 +331,7 @@ int screen_about(coords c, struct size s, char text[][50])
 
     mvprintw(c.cur.y-1, c.cur.x+1, "- Tetriminos -");
 
-    for (int i = 1; i <= sizeof(text); i++) {
+    for (size_t i = 1; i <= sizeof(text); i++) {
         mvprintw(c.cur.y+i, c.cur.x+2, text[i-1]);
     }
 

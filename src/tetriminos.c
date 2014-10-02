@@ -36,7 +36,7 @@
 #include "screens.h"
 #include "texts.h"
 
-int main(int argc, char *argv[]) 
+int main() 
 {
     WINDOW *base_win;
     int life = 1;

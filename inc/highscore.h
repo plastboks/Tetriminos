@@ -43,4 +43,4 @@ struct highscore_stack {
 
 int read_highscores();
 int load_highscore(struct highscore_stack *stack);
-int write_highscore(struct highscore_stack *stack);
+int write_highscore(/*struct highscore_stack *stack*/);

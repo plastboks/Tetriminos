@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Iinc -std=c99
+CFLAGS=-Wall -Wextra -Iinc -std=c99
 LFLAGS=-lncurses
 
 ODIR=obj

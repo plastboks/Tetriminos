@@ -53,7 +53,7 @@ int read_highscores()
 	return 0;
 }
 
-int write_highscore(struct highscore_stack *stack)
+int write_highscore(/*struct highscore_stack *stack*/)
 {
 	FILE *highscore_file;
     char file_path[512];
