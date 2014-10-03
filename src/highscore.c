@@ -40,28 +40,39 @@ void get_highscore_file_path(char file[512])
     snprintf(file, 512, "%s/highscore.dat", path);
 }
 
+int init_highscores(struct highscore_stack *stack)
+{
+    unsigned char i;
+    for (i=0; i<10; i++)
+    {
+        stack->entry[i].score = 0;
+        stack->entry[i].name[0] = '\0';
+    }
+    return 0;
+}
+
 int read_highscores()
 {
-	FILE *highscore_file;
+    FILE *highscore_file;
     char file_path[512];
     get_highscore_file_path(file_path);
 
-	if((highscore_file = fopen(file_path, "r")) == NULL)
+    if((highscore_file = fopen(file_path, "r")) == NULL)
         return -1;
 
-	fclose(highscore_file);
-	return 0;
+    fclose(highscore_file);
+    return 0;
 }
 
 int write_highscore(/*struct highscore_stack *stack*/)
 {
-	FILE *highscore_file;
+    FILE *highscore_file;
     char file_path[512];
     get_highscore_file_path(file_path);
 
-	if((highscore_file = fopen(file_path, "w")) == NULL)
+    if((highscore_file = fopen(file_path, "w")) == NULL)
         // do nothing for now...
 
-	fclose(highscore_file);
-	return 0;
+    fclose(highscore_file);
+    return 0;
 }

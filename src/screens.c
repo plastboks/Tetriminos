@@ -198,7 +198,7 @@ int screen_welcome(coords c, bool effect)
     mvprintw(c.cur.y-1 ,c.cur.x+41, "Version: %.02f", VERSION);
 
     attron(COLOR_PAIR(main_color));
-    for (int i = 1; i <=7; i++) {
+    for (size_t i = 1; i <=7; i++) {
         mvprintw(c.cur.y+i, c.cur.x+2, tetriminos_logo_small[i-1]);
     }
     attroff(COLOR_PAIR(main_color));
@@ -210,7 +210,7 @@ int screen_welcome(coords c, bool effect)
     if (effect) {
         usleep(effect_sleep);
         /* Do the effect */
-        for (int i = 1; i <=7; i++) {
+        for (size_t i = 1; i <=7; i++) {
             attron(COLOR_PAIR(effect_color));
             mvprintw(c.cur.y+i, c.cur.x+2, tetriminos_logo_small[i-1]);
             attroff(COLOR_PAIR(effect_color));
@@ -219,7 +219,7 @@ int screen_welcome(coords c, bool effect)
             refresh();
         }
         /* Restore it to the original state */
-        for (int i = 1; i <=7; i++) {
+        for (size_t i = 1; i <=7; i++) {
             attron(COLOR_PAIR(main_color));
             mvprintw(c.cur.y+i, c.cur.x+2, tetriminos_logo_small[i-1]);
             attroff(COLOR_PAIR(main_color));
@@ -244,7 +244,7 @@ int screen_menu(coords c, struct size s)
     screen_newwin(c, s);
 
     attron(COLOR_PAIR(3));
-    for (int i = 1; i <=3; i++) {
+    for (size_t i = 1; i <=3; i++) {
         mvprintw(c.cur.y+i, c.cur.x+2, tetriminos_logo_tiny[i-1]);
     }
     attroff(COLOR_PAIR(3));
