@@ -39,6 +39,7 @@
 #include <ncurses.h>
 #include <fcntl.h>
 #include <time.h>
+#include <math.h>
 
 /* define game data */
 typedef struct {

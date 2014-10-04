@@ -73,7 +73,15 @@ void setup_gamedata(WINDOW **boxes, game_data **gd)
  */
 char get_new_brick(char brick[4][4])
 {
-    int r = rand() % 7;
+    double x = 0;
+    int i;
+    for (i = 0; i < 25; i++)
+        x += (double)rand() / RAND_MAX;
+    x -= 25 / 2;
+    x /= sqrt(25 / 12.0);
+    if (x < 0 ) x = -x;
+    int r = (unsigned int)(x * time(0)) % 7;
+
     memcpy(brick, brick_digit[r], sizeof(char)*4*4);
     return brick_type_char(r);
 }
