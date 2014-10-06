@@ -30,8 +30,7 @@
  *
  */
 
-#ifndef _COLORS_H
-#define _COLORS_H
+#pragma once
 
 #define COLOR_BLACK_FG 1
 #define COLOR_GREEN_FG 2
@@ -50,8 +49,6 @@
 #define COLOR_MAGENTA_BG 14
 #define COLOR_BLUE_BG 15
 #define COLOR_YELLOW_BG 16
-
-#endif
 
 #include <ncurses.h>
 #include <stdio.h>
